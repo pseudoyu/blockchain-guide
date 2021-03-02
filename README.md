@@ -1,7 +1,7 @@
 
 > `Blockchain Guide`：一个正在更新的区块链核心知识库
 
-推荐 [在线阅读](https://pseudoyu.gitee.io/blockchain-guide/)  (Github 访问速度比较慢可能会导致部分图片无法刷新出来) 
+推荐 [在线阅读](https://pseudoyu.gitee.io/blockchain-guide/)
 
 <br/>
 
