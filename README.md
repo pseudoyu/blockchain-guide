@@ -2,7 +2,9 @@
 > `Blockchain Guide`：一个正在更新的区块链核心知识库
 
 推荐 [在线阅读(GitHub Page)](https://www.pseudoyu.com/BlockchainGuide/)
+
 推荐 [在线阅读(Gitee Page)](https://pseudoyu.gitee.io/blockchain-guide/)
+
 <br/>
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
