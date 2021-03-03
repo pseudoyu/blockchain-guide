@@ -21,7 +21,7 @@
 	- [比特币](#比特币)
 	- [以太坊](#以太坊)
 	- [Fabric](#fabric)
-	- [HyoerLedger](#hyoerledger)
+	- [HyperLedger](#hyperledger)
 	- [R3 Corda](#r3-corda)
 - [热门技术](#热门技术)
 	- [跨链](#跨链)
@@ -50,9 +50,10 @@
 1. 什么是区块链？
 2. 为什么要使用区块链？
 3. 区块链应用场景
-4. 分布式点对点网络
-5. 共识机制
-6. DApp
+4. 区块链原理
+5. 区块链架构设计
+6. 分布式点对点网络
+7. 共识机制
 
 ### 区块链交易
 
@@ -75,13 +76,29 @@
 
 ### 以太坊
 
-1. 智能合约虚拟机
+1. 白皮书
+2. 设计原理
+3. 以太坊DApp
+4. 以太坊Gas
+5. 源码分析
+6. Merkle Tree学习
+7. 智能合约虚拟机
    1. EVM命令集
    2. WASM
+8. 智能合约审查
 
 ### Fabric
 
-### HyoerLedger
+1. 成员管理
+2. 分布式账本技术对比
+3. Hyperledger Fabric介绍
+4. 多通道和下一代账本设计
+5. DLT协作、Corda和GSL
+6. Fabric1.0账本设计
+7. Fabric1.0 Endorse背书策略
+8. 架构概览
+
+### HyperLedger
 
 ### R3 Corda
 
