@@ -10,7 +10,6 @@
 <!-- code_chunk_output -->
 
 - [基础知识](#基础知识)
-	- [密码学原理](#密码学原理)
 	- [区块链基础](#区块链基础)
 	- [区块链交易](#区块链交易)
 - [一致性算法](#一致性算法)
@@ -39,21 +38,12 @@
 
 ## 基础知识
 
-### 密码学原理
-
-1. 哈希算法
-2. 公钥密码算法
-3. 数字签名
-
 ### 区块链基础
 
-1. 什么是区块链？
-2. 为什么要使用区块链？
-3. 区块链应用场景
-4. 区块链原理
-5. 区块链架构设计
-6. 分布式点对点网络
-7. 共识机制
+1. **[密码学原理](docs/blockchain/cryptography_basic.md)**
+2. **[什么是区块链？](docs/blockchain/what_is_blockchain.md)**
+3. **[区块链架构设计](docs/blockchain/blockchain_framework.md)**
+4. 共识机制
 
 ### 区块链交易
 
@@ -73,6 +63,10 @@
 ## 常见框架及系统
 
 ### 比特币
+
+1. **[比特币基础](docs/bitcoin/bitcoin_basic.md)**
+2. **[比特币数据模型](docs/bitcoin/bitcoin_data_model.md)**
+3. **[Bitcoin Core客户端](docs/bitcoin/bitcoin_core.md)**
 
 ### 以太坊
 
