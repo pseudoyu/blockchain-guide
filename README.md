@@ -11,7 +11,6 @@
 
 - [基础知识](#基础知识)
 	- [区块链基础](#区块链基础)
-	- [区块链交易](#区块链交易)
 - [一致性算法](#一致性算法)
 	- [BFT协议](#bft协议)
 	- [Paxos协议](#paxos协议)
@@ -41,16 +40,9 @@
 ### 区块链基础
 
 1. **[密码学原理](docs/blockchain/cryptography_basic.md)**
-2. **[什么是区块链？](docs/blockchain/what_is_blockchain.md)**
+2. **[区块链基础](docs/blockchain/what_is_blockchain.md)**
 3. **[区块链架构设计](docs/blockchain/blockchain_framework.md)**
-4. 共识机制
-
-### 区块链交易
-
-1. 身份
-2. Token
-3. 钱包
-4. 挖矿
+4. **[区块链安全与隐私](docs/blockchain/security_privacy.md)**
 
 ## 一致性算法
 
