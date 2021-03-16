@@ -40,7 +40,7 @@
 ### 区块链基础
 
 1. **[密码学原理](docs/blockchain/cryptography_basic.md)**
-2. **[区块链基础](docs/blockchain/what_is_blockchain.md)**
+2. **[区块链是什么？](docs/blockchain/what_is_blockchain.md)**
 3. **[区块链架构设计](docs/blockchain/blockchain_framework.md)**
 4. **[区块链安全与隐私](docs/blockchain/security_privacy.md)**
 
