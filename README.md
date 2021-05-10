@@ -53,7 +53,8 @@
 1. [Hyperledger Fabric系统架构详解](docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure.md)
 2. [Hyperledger Fabric网络与安全体系浅析](docs/hyperledger_fabric/blockchain_hyperledger_fabric_network.md)
 3. [官网](https://www.hyperledger.org/use/fabric)
-4. [源码](https://github.com/hyperledger/fabric#releases)
+4. [文档](https://hyperledger-fabric.readthedocs.io/en/release-2.2/)
+5. [源码](https://github.com/hyperledger/fabric#releases)
 
 ## 热门技术
 
