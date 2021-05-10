@@ -16,7 +16,6 @@
 	- [Hyperledger Fabric](#hyperledger-fabric)
 - [热门技术](#热门技术)
 	- [IPFS](#ipfs)
-	- [跨链](#跨链)
 - [开发实战](#开发实战)
 	- [编程语言](#编程语言)
 	- [开发工具](#开发工具)
@@ -66,8 +65,6 @@
 4. [白皮书](https://ipfs.io/ipfs/QmR7GSQM93Cx5eAg6a6yRzNde1FQv7uL6X1o4k7zrJa3LX/ipfs.draft3.pdf)
 5. [文档](https://docs.ipfs.io)
 6. [源码](https://github.com/ipfs/ipfs)
-
-### 跨链
 
 ## 开发实战
 
