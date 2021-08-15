@@ -91,7 +91,7 @@
 
 ### 联系我
 
-<img src="https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/wechat_qr.jpeg" style="zoom:67%;" />
+<img src="https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/wechat_qr.jpeg" style="zoom:67%;" />
 
 ### 关于我
 

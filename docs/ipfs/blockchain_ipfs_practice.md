@@ -50,7 +50,7 @@ ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -o ipfsTest.png
 ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -Cao ipfsTest.png
 ```
 
-![ipfs_init_readme](https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/ipfs_init_readme.png)
+![ipfs_init_readme](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ipfs_init_readme.png)
 
 ### 开启/加入服务
 
@@ -67,7 +67,7 @@ ipfs daemon
 
 API服务，默认在5001端口，可以通过 http://localhost:5001/webui 进行访问
 
-![ipfs_webui](https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/ipfs_webui.png)
+![ipfs_webui](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ipfs_webui.png)
 
 网关服务，默认在8080端口，在浏览器里访问文件需要借助于IPFS提供的网关服务，由浏览器先访问到网关，网关去获取IPFS网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到ipfs的文件
 

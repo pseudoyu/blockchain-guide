@@ -8,7 +8,7 @@
 
 2014年1月，俄罗斯开发者Vitalik Buterin发布了以太坊白皮书并成立团队，旨在创造一个集成更通用的脚本语言的区块链平台。其中一位成员Dr. Gavin Wood发布了一份黄皮书，涉及`Ethereum Virtual Machin(EVM)`以太坊虚拟的相关技术，这就是`Ethereum`的诞生。
 
-![ethereum_overview](https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/ethereum_overview.png)
+![ethereum_overview](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ethereum_overview.png)
 
 简单来说，`Ethereum`是一个开源的去中心化系统，使用区块链来存储系统状态变化，因此也被称为“世界计算机”；它支持开发者在区块链上部署运行不可变的程序，称为智能合约，因此可以支持广泛的应用场景；它使用数字货币`Ether`来衡量系统资源消耗，激励更多人参与`Ethereum`系统建设。
 
@@ -16,7 +16,7 @@
 
 狭义来说，DApp其实就是一个集成了用户界面、支持智能合约、运行于以太坊区块链上的应用。
 
-![ethereum_architecture](https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/ethereum_architecture.png)
+![ethereum_architecture](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ethereum_architecture.png)
 
 如上图所示，`Ethereum`应用实例部署在区块链网络上（智能合约运行于区块链虚拟机中），而Web程序只需要通过`Web3.js`对区块链网络进行`RPC`远程调用，这样用户就可以通过浏览器（DApp浏览器或MetaMask等插件工具）访问去中心化服务应用了。
 
@@ -92,13 +92,13 @@
 
 ### 架构
 
-![ethereum_architecture_simple](https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/ethereum_architecture_simple.png)
+![ethereum_architecture_simple](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ethereum_architecture_simple.png)
 
 `Ethereum`采用的是一种`Order - Execute - Validate - Update State`的系统架构。在这种架构下，当产生一笔新的交易，矿工会进行`PoW`工作量证明机制的运算；验证完成后，将区块通过`gossip`协议广播至网络中；网络中的其他节点接收到新区块后，也会对区块进行验证；最终，提交至区块链，更新状态。
 
 具体来看，`Ethereum`系统有共识层、数据层、应用层等核心组件，其交互逻辑如下：
 
-![ethereum_architecture_concrete](https://raw.githubusercontent.com/pseudoyu/image_hosting/master/hugo_images/ethereum_architecture_concrete.png)
+![ethereum_architecture_concrete](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ethereum_architecture_concrete.png)
 
 如上图所示，`Ethereum`数据由`Transaction Root`和`State Root`组成。`Transaction Root`是所有交易组成的树，包含`From`、`To`、`Data`、`Value`、`Gas Limit`和`Gas Price`；而`State Root`则是所有账户组成的树，包含`Address`、`Code`、`Storage`、`Balance`和`Nonce`。
 
