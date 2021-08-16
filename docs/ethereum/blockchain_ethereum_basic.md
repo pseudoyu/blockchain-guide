@@ -1,24 +1,24 @@
-# Ethereum核心技术解读
+# Ethereum 核心技术解读
 
 ## 前言
 
-比特币作为一种去中心化的数字货币，是极其成功的，但受限于比特币脚本（非图灵完备，只能处理一些简单的逻辑），并不能处理很复杂的业务。而`Ethereum`引入了智能合约，使去中心化的概念能够应用于更丰富的应用场景，因此也被称为区块链2.0。本文将对以太坊核心技术进行解读，如有错漏，欢迎交流指正。
+比特币作为一种去中心化的数字货币，是极其成功的，但受限于比特币脚本（非图灵完备，只能处理一些简单的逻辑），并不能处理很复杂的业务。而`Ethereum`引入了智能合约，使去中心化的概念能够应用于更丰富的应用场景，因此也被称为区块链 2.0。本文将对以太坊核心技术进行解读，如有错漏，欢迎交流指正。
 
-## Ethereum系统
+## Ethereum 系统
 
-2014年1月，俄罗斯开发者Vitalik Buterin发布了以太坊白皮书并成立团队，旨在创造一个集成更通用的脚本语言的区块链平台。其中一位成员Dr. Gavin Wood发布了一份黄皮书，涉及`Ethereum Virtual Machin(EVM)`以太坊虚拟的相关技术，这就是`Ethereum`的诞生。
+2014 年 1 月，俄罗斯开发者 Vitalik Buterin 发布了以太坊白皮书并成立团队，旨在创造一个集成更通用的脚本语言的区块链平台。其中一位成员 Dr. Gavin Wood 发布了一份黄皮书，涉及`Ethereum Virtual Machin(EVM)`以太坊虚拟的相关技术，这就是`Ethereum`的诞生。
 
 ![ethereum_overview](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ethereum_overview.png)
 
 简单来说，`Ethereum`是一个开源的去中心化系统，使用区块链来存储系统状态变化，因此也被称为“世界计算机”；它支持开发者在区块链上部署运行不可变的程序，称为智能合约，因此可以支持广泛的应用场景；它使用数字货币`Ether`来衡量系统资源消耗，激励更多人参与`Ethereum`系统建设。
 
-### 去中心化应用DApp
+### 去中心化应用 DApp
 
-狭义来说，DApp其实就是一个集成了用户界面、支持智能合约、运行于以太坊区块链上的应用。
+狭义来说，DApp 其实就是一个集成了用户界面、支持智能合约、运行于以太坊区块链上的应用。
 
 ![ethereum_architecture](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ethereum_architecture.png)
 
-如上图所示，`Ethereum`应用实例部署在区块链网络上（智能合约运行于区块链虚拟机中），而Web程序只需要通过`Web3.js`对区块链网络进行`RPC`远程调用，这样用户就可以通过浏览器（DApp浏览器或MetaMask等插件工具）访问去中心化服务应用了。
+如上图所示，`Ethereum`应用实例部署在区块链网络上（智能合约运行于区块链虚拟机中），而 Web 程序只需要通过`Web3.js`对区块链网络进行`RPC`远程调用，这样用户就可以通过浏览器（DApp 浏览器或 MetaMask 等插件工具）访问去中心化服务应用了。
 
 ### 账本
 
@@ -32,7 +32,7 @@
 
 1. 首先生成一个仅有自己知道的私钥，假设为`sk`，采用`ECDSA(Elliptic Curve Digital Signature Algorithm)`椭圆曲线算法生成对应的公钥`pk`
 2. 采用`keccak256`算法对公钥`pk`求哈希值
-3. 截取后160位作为以太坊的地址
+3. 截取后 160 位作为以太坊的地址
 
 用户的私钥和地址一起组成了以太坊的账户，可以存储余额、发起交易等（比特币的余额是通过计算所有的`UTXO`得到的，而不是像以太坊一样存储在账户中）。
 
@@ -50,12 +50,14 @@
 
 每个交易都可以设置相应的`Gas`量和`Gas`的价格，设置较高的`Gas`费则往往矿工会更快处理你的交易，但为了预防交易多次执行消耗大量`Gas`费，可以通过`Gas Limit`来设置限制。`Gas`相关信息可以通过 [Ethereum Gas Tracker](https://etherscan.io/gastracker) 工具进行查询。
 
-	If START_GAS * GAS_PRICE > caller.balance, halt
-	Deduct START_GAS * GAS_PRICE from caller.balance
-	Set GAS = START_GAS
-	Run code, deducting from GAS
-	For negative values, add to GAS_REFUND
-	After termination, add GAS_REFUND to caller.balance
+```sh
+If START_GAS * GAS_PRICE > caller.balance, halt
+Deduct START_GAS * GAS_PRICE from caller.balance
+Set GAS = START_GAS
+Run code, deducting from GAS
+For negative values, add to GAS_REFUND
+After termination, add GAS_REFUND to caller.balance
+```
 
 ### 智能合约
 
@@ -65,12 +67,13 @@
 
 #### 智能合约示例：众筹
 
-让我们想象一个更复杂的场景，假设我要众筹10000元开发一个新产品，通过现有众筹平台需要支付不菲的手续费，而且很难解决信任问题，于是，可以通过一个众筹的DApp来解决这个问题。
+让我们想象一个更复杂的场景，假设我要众筹 10000 元开发一个新产品，通过现有众筹平台需要支付不菲的手续费，而且很难解决信任问题，于是，可以通过一个众筹的 DApp 来解决这个问题。
 
-先为众筹设置一些规则：
-1. 每个想参与众筹的人可以捐款10-10000元的金额
+先为众筹设置一些规则
+
+1. 每个想参与众筹的人可以捐款 10-10000 元的金额
 2. 如果目标金额达成了，金额会通过智能合约发送给我（即众筹发起人）
-3. 如果目标在一定时间内（如1个月）没有达成，众筹的资金会原路返回至众筹用户
+3. 如果目标在一定时间内（如 1 个月）没有达成，众筹的资金会原路返回至众筹用户
 4. 也可以设置一些规则，比如一周后，如果目标金额没有达成，用户可以申请退款
 
 因为这些众筹条款是通过智能合约实现并部署在公开的区块链上的，即使是发起者也不能篡改条款，且任何人都可以查看，解决了信任问题。
@@ -82,8 +85,8 @@
 在`Ethereum`中，一个典型的交易是怎么样的呢？
 
 1. 开发者部署智能合约至区块链
-2. DApp实例化合约、传入相应值以执行合约
-3. DApp对交易进行数字签名
+2. DApp 实例化合约、传入相应值以执行合约
+3. DApp 对交易进行数字签名
 4. 本地对交易进行验证
 5. 广播交易至网络中
 6. 矿工节点接收交易并进行验证

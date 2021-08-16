@@ -1,10 +1,10 @@
-# IPFS本地节点搭建（命令行）
+# IPFS 本地节点搭建（命令行）
 
 ## 前言
 
-上一篇《[IPFS分布式文件存储原理](https://www.pseudoyu.com/zh/2021/03/25/blockchain_ipfs_structure/)》对于IPFS系统的设计理念、功能、工作原理及IPNS做了详细的介绍，那么，如何在本地搭建一个IPFS节点呢？
+上一篇《[IPFS 分布式文件存储原理](https://www.pseudoyu.com/zh/2021/03/25/blockchain_ipfs_structure/)》对于 IPFS 系统的设计理念、功能、工作原理及 IPNS 做了详细的介绍，那么，如何在本地搭建一个 IPFS 节点呢？
 
-本文在`macOS 11.2.3`系统上搭建了一个IPFS节点（命令行版本），并对文件上传、下载、网络同步、`pin`、`GC`、`IPNS`等进行了实际操作，以加深对IPFS工作原理的理解。
+本文在`macOS 11.2.3`系统上搭建了一个 IPFS 节点（命令行版本），并对文件上传、下载、网络同步、`pin`、`GC`、`IPNS`等进行了实际操作，以加深对 IPFS 工作原理的理解。
 
 ## 代码实践
 
@@ -65,11 +65,11 @@ ipfs config show
 ipfs daemon
 ```
 
-API服务，默认在5001端口，可以通过 http://localhost:5001/webui 进行访问
+API 服务，默认在 5001 端口，可以通过 http://localhost:5001/webui 进行访问
 
 ![ipfs_webui](https://cdn.jsdelivr.net/gh/pseudoyu/image_hosting@master/hugo_images/ipfs_webui.png)
 
-网关服务，默认在8080端口，在浏览器里访问文件需要借助于IPFS提供的网关服务，由浏览器先访问到网关，网关去获取IPFS网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到ipfs的文件
+网关服务，默认在 8080 端口，在浏览器里访问文件需要借助于 IPFS 提供的网关服务，由浏览器先访问到网关，网关去获取 IPFS 网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到 IPFS 的文件
 
 ### 文件操作
 
@@ -96,7 +96,7 @@ ipfs files stat
 ipfs files read
 ```
 
-### 使用IPNS来解决文件更新问题
+### 使用 IPNS 来解决文件更新问题
 
 ```sh
 # 使用IPNS发布内容以自动更新
@@ -112,7 +112,7 @@ ipfs name publish --key=mykey  [File Hash]
 
 ### Pinning
 
-当我们向IPFS网络请求文件时，IPFS会把内容先同步的本地提供服务，使用Cache机制处理文件以防止存储空间不断增长，如果文件一段时间未被使用则会被“回收”，Pining的作用就是确保文件在本地不被“回收”。
+当我们向 IPFS 网络请求文件时，IPFS 会把内容先同步的本地提供服务，使用 Cache 机制处理文件以防止存储空间不断增长，如果文件一段时间未被使用则会被“回收”，Pining 的作用就是确保文件在本地不被“回收”。
 
 ```sh
 # pin一个文件
@@ -130,8 +130,8 @@ ipfs repo gc
 
 ## 总结
 
-本文主要在本地部署了IPFS文件系统并对基本操作进行了尝试，基于`macOS 11.2.3`和`go-ipfs_v0.8.0_darwin-amd64`版本，不同系统操作可能会因版本或依赖问题不一样，如有错漏，欢迎交流指正。
+本文主要在本地部署了 IPFS 文件系统并对基本操作进行了尝试，基于`macOS 11.2.3`和`go-ipfs_v0.8.0_darwin-amd64`版本，不同系统操作可能会因版本或依赖问题不一样，如有错漏，欢迎交流指正。
 
 ## 参考资料
 
-> 1. [IPFS官网](https://ipfs.io)
+> 1. [IPFS 官网](https://ipfs.io)
