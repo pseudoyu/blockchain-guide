@@ -1,5 +1,4 @@
 # Research on Cloud Computing Processing and Optimization of Distributed Computer
-
 ## 前言
 
 经过在 HKU 一年区块链相关的学习，对分布式存储这一领域产生了兴趣，毕业项目也和 IPFS 相关，详见「[Uright - 区块链音乐版权管理ÐApp](https://www.pseudoyu.com/zh/2021/05/10/uright_case_study/)」，回内地后恰有机会和 CNFS Protocol Lab 的孙野院长合作撰写了本篇「Research on Cloud Computing Processing and Optimization of Distributed Computer（基于 CNFS 区块链的网络存储与优化）」，对分布式网络存储、计算有了更深的理解，特此记录。
