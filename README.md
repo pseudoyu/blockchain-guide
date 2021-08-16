@@ -62,10 +62,11 @@
 
 1. [IPFS 分布式存储协议分析与思考](docs/ipfs/blockchain_ipfs_structure.md)
 2. [IPFS 本地节点搭建（命令行）](docs/ipfs/blockchain_ipfs_practice.md)
-3. [官网](https://ipfs.io)
-4. [白皮书](https://ipfs.io/ipfs/QmR7GSQM93Cx5eAg6a6yRzNde1FQv7uL6X1o4k7zrJa3LX/ipfs.draft3.pdf)
-5. [文档](https://docs.ipfs.io)
-6. [源码](https://github.com/ipfs/ipfs)
+3. [基于 CNFS 的区块链网络存储与优化](docs/ipfs/blockchain_paper_cnfs.md)
+4. [官网](https://ipfs.io)
+5. [白皮书](https://ipfs.io/ipfs/QmR7GSQM93Cx5eAg6a6yRzNde1FQv7uL6X1o4k7zrJa3LX/ipfs.draft3.pdf)
+6. [文档](https://docs.ipfs.io)
+7. [源码](https://github.com/ipfs/ipfs)
 
 ## 开发实战
 
