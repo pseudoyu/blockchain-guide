@@ -34,39 +34,39 @@
 
 ### 比特币
 
-1. [比特币核心技术解读](docs/bitcoin/blockchain_bitcoin_basic.md)
-2. [官网](https://bitcoin.org/en/)
-3. [白皮书](https://bitcoin.org/bitcoin.pdf) ([中译](https://bitcoin.org/files/bitcoin-paper/bitcoin_zh_cn.pdf))
-4. [源码](https://github.com/bitcoin/bitcoin)
+1. [官网](https://bitcoin.org/en/)
+2. [白皮书](https://bitcoin.org/bitcoin.pdf) ([中译](https://bitcoin.org/files/bitcoin-paper/bitcoin_zh_cn.pdf))
+3. [源码](https://github.com/bitcoin/bitcoin)
+4. [比特币核心技术解读](docs/bitcoin/blockchain_bitcoin_basic.md)
 
 ### 以太坊
 
-1. [Ethereum 核心技术解读](docs/ethereum/blockchain_ethereum_basic.md)
-2. [Ethereum MPT(Merkle Patricia Tries) 详解](docs/ethereum/blockchain_ethereum_mpt.md)
-3. [官网](https://ethereum.org/en/)
-4. [白皮书](https://ethereum.org/en/whitepaper/)
-5. [文档](https://ethereum.org/en/developers/docs/)
-6. [源码](https://github.com/ethereum/go-ethereum)
+1. [官网](https://ethereum.org/en/)
+2. [白皮书](https://ethereum.org/en/whitepaper/)
+3. [文档](https://ethereum.org/en/developers/docs/)
+4. [源码](https://github.com/ethereum/go-ethereum)
+5. [Ethereum 核心技术解读](docs/ethereum/blockchain_ethereum_basic.md)
+6. [Ethereum MPT(Merkle Patricia Tries) 详解](docs/ethereum/blockchain_ethereum_mpt.md)
 
 ### Hyperledger Fabric
 
-1. [Hyperledger Fabric 系统架构详解](docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure.md)
-2. [Hyperledger Fabric 网络与安全体系浅析](docs/hyperledger_fabric/blockchain_hyperledger_fabric_network.md)
-3. [官网](https://www.hyperledger.org/use/fabric)
-4. [文档](https://hyperledger-fabric.readthedocs.io/en/release-2.2/)
-5. [源码](https://github.com/hyperledger/fabric#releases)
+1. [官网](https://www.hyperledger.org/use/fabric)
+2. [文档](https://hyperledger-fabric.readthedocs.io/en/release-2.2/)
+3. [源码](https://github.com/hyperledger/fabric#releases)
+4. [Hyperledger Fabric 系统架构详解](docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure.md)
+5. [Hyperledger Fabric 网络与安全体系浅析](docs/hyperledger_fabric/blockchain_hyperledger_fabric_network.md)
 
 ## 热门技术
 
 ### IPFS
 
-1. [IPFS 分布式存储协议分析与思考](docs/ipfs/blockchain_ipfs_structure.md)
-2. [IPFS 本地节点搭建（命令行）](docs/ipfs/blockchain_ipfs_practice.md)
-3. [基于 CNFS 的区块链网络存储与优化](docs/ipfs/blockchain_paper_cnfs.md)
-4. [官网](https://ipfs.io)
-5. [白皮书](https://ipfs.io/ipfs/QmR7GSQM93Cx5eAg6a6yRzNde1FQv7uL6X1o4k7zrJa3LX/ipfs.draft3.pdf)
-6. [文档](https://docs.ipfs.io)
-7. [源码](https://github.com/ipfs/ipfs)
+1. [官网](https://ipfs.io)
+2. [白皮书](https://ipfs.io/ipfs/QmR7GSQM93Cx5eAg6a6yRzNde1FQv7uL6X1o4k7zrJa3LX/ipfs.draft3.pdf)
+3. [文档](https://docs.ipfs.io)
+4. [源码](https://github.com/ipfs/ipfs)
+5. [IPFS 分布式存储协议分析与思考](docs/ipfs/blockchain_ipfs_structure.md)
+6. [IPFS 本地节点搭建（命令行）](docs/ipfs/blockchain_ipfs_practice.md)
+7. [基于 CNFS 的区块链网络存储与优化](docs/ipfs/blockchain_paper_cnfs.md)
 
 ## 开发实战
 
