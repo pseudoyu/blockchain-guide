@@ -1,7 +1,7 @@
 
 > `BlockchainGuide`：一个不断更新的区块链核心知识库
 
-👍🏻推荐 [在线阅读](https://www.pseudoyu.com/BlockchainGuide/)
+👍🏻推荐 [在线阅读](https://yu-leetcode.vercel.app)
 
 <br/>
 
