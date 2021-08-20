@@ -85,7 +85,7 @@
 
 ### 个人项目
 
-1. [x] Uright ([文档](https://www.pseudoyu.com/zh/2021/05/10/uright_case_study/) | [GitHub](https://github.com/pseudoyu/Uright)) - 一款基于以太坊区块链的音乐版权管理应用（ÐApp）
+1. [x] Uright ([文档](https://www.pseudoyu.com/zh/2021/05/10/uright_case_study/) | [GitHub](https://github.com/pseudoyu/uright)) - 一款基于以太坊区块链的音乐版权管理应用（ÐApp）
 
 ---
 
