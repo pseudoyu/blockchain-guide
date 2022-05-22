@@ -1,0 +1,45 @@
+# hugo server --themesDir ...
+
+baseURL: http://localhost:1313/
+title: 区块链入门指南
+theme: hugo-book
+
+# language setting
+defaultContentLanguage: zh
+defaultContentLanguageInSubdir: true
+
+PygmentsCodeFences: true
+
+languages:
+  zh:
+    languageCode: zh
+    languageName: 中文
+    contentDir: content/zh
+    weight: 1
+
+  # en:
+  #   languageCode: en-US
+  #   languageName: English
+  #   contentDir: content/en
+  #   weight: 2
+
+# Book configuration
+disablePathToLower: true
+
+params:
+  Description: 带你探索区块链
+
+  # show or hide table of contents for page
+  BookShowToC: true
+
+  # Set bundle to render side menu
+  # if not specified file structure and weights will be used
+  BookMenuBundle: /menu
+
+  # specify section of content to render as menu
+  # if bookMenuBundle is not set, 'docs' is value by default
+  BookSection: docs
+
+  # Enable "Edit this page" links for 'doc' page type.
+  # Disabled by default. Uncomment to enable.
+  BookEditURL: https://github.com/pseudoyu/blockchain-guide/edit/master/content/zh/
