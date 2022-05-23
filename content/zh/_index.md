@@ -15,7 +15,7 @@ type: docs
 
 ## 参与
 
-[《区块链、Web3 入门指南与核心知识库》](https://github.com/pseudoyu/blockchain-guide)采用 [Hugo](https://gohugo.io) 发布。欢迎大家通过 [issue](https://github.com/pseudoyu/blockchain-guide/issues) 提供建议，也可以通过 [pull requests](https://github.com/pseudoyu/blockchain-guide/pulls) 来共同参与贡献。
+[《区块链入门指南》](https://github.com/pseudoyu/blockchain-guide)采用 [Hugo](https://gohugo.io) 发布。欢迎大家通过 [issue](https://github.com/pseudoyu/blockchain-guide/issues) 提供建议，也可以通过 [pull requests](https://github.com/pseudoyu/blockchain-guide/pulls) 来共同参与贡献。
 
 安装完 `hugo` 之后，可在根目录执行以下指令来测试网站：
 
