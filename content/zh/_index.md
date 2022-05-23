@@ -25,4 +25,4 @@ type: docs
 
 ## 授权
 
-The articles in 《区块链、Web3 入门指南与核心知识库》 are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+The articles in 《区块链入门指南》 are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
