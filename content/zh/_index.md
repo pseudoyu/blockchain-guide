@@ -11,7 +11,7 @@ type: docs
 
 [📖 在线阅读地址](https://www.pseudoyu.com/blockchain-guide/)
 
-[📊 阅读数据分析](https://yu-analysis.vercel.app/share/KRyiGeuT/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97)
+[#️⃣ 阅读数据分析](https://yu-analysis.vercel.app/share/KRyiGeuT/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97)
 
 ## 参与
 
