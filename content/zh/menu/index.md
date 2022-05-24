@@ -10,6 +10,7 @@ headless: true
   - [比特币核心技术解读]({{< relref "/docs/bitcoin/blockchain_bitcoin_basic.md" >}})
   - [Ethereum 核心技术解读]({{< relref "/docs/ethereum/blockchain_ethereum_basic.md" >}})
   - [Ethereum MPT 详解]({{< relref "/docs/ethereum/blockchain_ethereum_mpt.md" >}})
+  - [以太坊智能合约开发（Solidity） - 基础]({{< relref "/docs/solidity/learn_solidity_from_scratch_basic.md" >}})
   - [Fabric 系统架构详解]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure.md" >}})
   - [Fabric 网络与安全体系浅析]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network.md" >}})
   - [Fabric Go SDK 事件分析]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event.md" >}})
