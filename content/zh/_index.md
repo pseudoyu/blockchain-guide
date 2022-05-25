@@ -17,11 +17,19 @@ type: docs
 
 [《区块链入门指南》](https://github.com/pseudoyu/blockchain-guide)采用 [Hugo](https://gohugo.io) 发布。欢迎大家通过 [issue](https://github.com/pseudoyu/blockchain-guide/issues) 提供建议，也可以通过 [pull requests](https://github.com/pseudoyu/blockchain-guide/pulls) 来共同参与贡献。
 
-安装完 `hugo` 之后，可在根目录执行以下指令来测试网站：
+安装完 `hugo` 之后，需要先同步主题文件
 
-  ```bash
-  hugo server
-  ```
+```bash
+git submodule update --init --recursive
+```
+
+同步完成后，可在根目录执行以下指令来测试网站：
+
+```bash
+hugo server
+```
+
+文档在 `content/zh/docs` 目录下，修改后可以通过 pull requests 提交。
 
 ## 授权
 
