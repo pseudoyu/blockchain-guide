@@ -4,7 +4,7 @@ aliases:
   - /docs/solidity/learn_solidity_from_scratch_basic.html
 ---
 
-# 以太坊智能合约开发（Solidity） - 基础
+# Solidity 合约开发 - 基础
 
 ## 前言
 
