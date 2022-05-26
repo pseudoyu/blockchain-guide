@@ -1,5 +1,5 @@
 ---
-title: 以太坊智能合约开发（Solidity） - 基础
+title: Solidity 合约开发 - 基础
 aliases:
   - /docs/solidity/learn_solidity_from_scratch_basic.html
 ---
