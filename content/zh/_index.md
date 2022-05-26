@@ -11,8 +11,6 @@ type: docs
 
 [📖 在线阅读地址](https://www.pseudoyu.com/blockchain-guide/)
 
-[#️⃣ 阅读数据分析](https://data.pseudoyu.com/share/KRyiGeuT/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97)
-
 ## 参与
 
 [《区块链入门指南》](https://github.com/pseudoyu/blockchain-guide)采用 [Hugo](https://gohugo.io) 发布。欢迎大家通过 [issue](https://github.com/pseudoyu/blockchain-guide/issues) 提供建议，也可以通过 [pull requests](https://github.com/pseudoyu/blockchain-guide/pulls) 来共同参与贡献。
