@@ -278,8 +278,7 @@ tx_receipt = w3.eth.wait_for_transaction_receipt(send_store_tx)
 
 ## 总结
 
-以上就是我们通过 Web3.py 库与本地 Ganache 测试网络进行交互的步骤，在真正的生产项目开发中我们一般不会直接使用 Web3.py 这样的库，而是会使用 Truffle、HardHat 等进一步封装的库，但了解 Web3.py 或 Web3.js 等库的使用方法也非常重要。后续我还会对 Trffule 框架的使用作进一步讲解。
-
+以上就是我们通过 Web3.py 库与本地 Ganache 测试网络进行交互的步骤，在真正的生产项目开发中我们一般不会直接使用 Web3.py 这样的库，而是会使用 Brownie、HardHat 等进一步封装的库，但了解 Web3.py 或 Web3.js 等库的使用方法也非常重要。
 ## 参考资料
 
 > 1. [Ethereum 智能合约开发（Solidity） - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)

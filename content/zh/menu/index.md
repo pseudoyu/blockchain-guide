@@ -12,6 +12,7 @@ headless: true
   - [Ethereum MPT 详解]({{< relref "/docs/ethereum/blockchain_ethereum_mpt.md" >}})
   - [Solidity 合约开发 - 基础]({{< relref "/docs/solidity/learn_solidity_from_scratch_basic.md" >}})
   - [Solidity 合约开发 - 玩转 Web3.py]({{< relref "/docs/solidity/learn_solidity_from_scratch_web3py.md" >}})
+  - [Solidity 合约开发 - 玩转 ethers.js]({{< relref "/docs/solidity/learn_solidity_from_scratch_ethersjs.md" >}})
   - [Fabric 系统架构详解]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure.md" >}})
   - [Fabric 网络与安全体系浅析]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network.md" >}})
   - [Fabric Go SDK 事件分析]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event.md" >}})
