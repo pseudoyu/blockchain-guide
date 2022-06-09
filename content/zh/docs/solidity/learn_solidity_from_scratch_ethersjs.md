@@ -4,15 +4,17 @@ aliases:
   - /docs/solidity/learn_solidity_from_scratch_ethersjs.html
 ---
 
-# Solidity 合约开发 - 玩转 ethers.js
+# Solidity 智能合约开发 - 玩转 ethers.js
 
 ## 前言
 
-在之前的《[Ethereum 智能合约开发（Solidity） - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)》中，我们学习了 Solidity 的基本语法，并且了解了可以通过 [Brownie](https://github.com/eth-brownie/brownie) 与 [HardHat](https://github.com/NomicFoundation/hardhat) 等框架进行调试。而另一篇《[Ethereum 智能合约开发（Solidity） - 玩转 Web3.py](https://www.pseudoyu.com/zh/2022/05/30/learn_solidity_from_scratch_web3py/)》中我们也通过 Web3.py 直接与我们本地的 Ganache 节点进行交互了。
+在之前的《[Solidity 智能合约开发 - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)》中，我们学习了 Solidity 的基本语法，并且了解了可以通过 [Brownie](https://github.com/eth-brownie/brownie) 与 [HardHat](https://github.com/NomicFoundation/hardhat) 等框架进行调试。而另一篇《[Solidity 智能合约开发 - 玩转 Web3.py](https://www.pseudoyu.com/zh/2022/05/30/learn_solidity_from_scratch_web3py/)》中我们也通过 Web3.py 直接与我们本地的 Ganache 节点进行交互了。
 
 原本因为之前比较熟悉 Python 的使用，所以想使用 Brownie 框架进行后续开发。然而经过了一番调研，业界还是使用 HardHat 框架居多，也有更多拓展，且我关注的 Solidity 教程也更新了 [Javascript 版本](https://www.youtube.com/watch?v=gyMwXuJrbJQ)，于是还是打算学习一下。
 
 为了更好了解其原理，也为我们后续更好使用框架打好基础，我们这次通过 [ethers.js](https://github.com/ethers-io/ethers.js/) 来与我们部署在 [Alchemy](https://dashboard.alchemyapi.io) 平台上的 Rinkeby 测试网络进行交互。实现了基础的合约编译、部署至 Rinkeby 网络、与合约交互等功能。
+
+可以点击[这里](https://github.com/pseudoyu/learn-solidity/tree/master/ethers_simple_storage)访问本测试 Demo 代码仓库。
 
 ## ethers.js
 
@@ -258,8 +260,8 @@ await sentTxResponse.wait(1);
 
 ## 参考资料
 
-> 1. [Ethereum 智能合约开发（Solidity） - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)
-> 2. [Ethereum 智能合约开发（Solidity） - 玩转 Web3.py](https://www.pseudoyu.com/zh/2022/05/30/learn_solidity_from_scratch_web3py/)
+> 1. [Solidity 智能合约开发 - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)
+> 2. [Solidity 智能合约开发 - 玩转 Web3.py](https://www.pseudoyu.com/zh/2022/05/30/learn_solidity_from_scratch_web3py/)
 > 3. [Solidity, Blockchain, and Smart Contract - Javascript 版本](https://www.youtube.com/watch?v=gyMwXuJrbJQ)
 > 4. [ethers.js 项目仓库](https://github.com/ethers-io/ethers.js/)
 > 5. [ethers.js 官方文档](https://docs.ethers.io/)

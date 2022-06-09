@@ -1,10 +1,10 @@
 ---
-title: Solidity 合约开发 - 基础
+title: Solidity 智能合约开发 - 基础
 aliases:
   - /docs/solidity/learn_solidity_from_scratch_basic.html
 ---
 
-# Solidity 合约开发 - 基础
+# Solidity 智能合约开发 - 基础
 
 ## 前言
 

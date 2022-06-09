@@ -1,16 +1,18 @@
 ---
-title: Solidity 合约开发 - 玩转 Web3.py
+title: Solidity 智能合约开发 - 玩转 Web3.py
 aliases:
   - /docs/solidity/learn_solidity_from_scratch_web3py.html
 ---
 
-# Solidity 合约开发 - 玩转 Web3.py
+# Solidity 智能合约开发 - 玩转 Web3.py
 
 ## 前言
 
-在前文《[Ethereum 智能合约开发（Solidity） - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)》中，我们学习了 Solidity 的基本语法，并且了解了可以通过 [Brownie](https://github.com/eth-brownie/brownie) 与 [HardHat](https://github.com/NomicFoundation/hardhat) 等框架进行调试。但在使用这些封装好的框架之前，我们可以通过 Web3.py 直接与我们本地的 Ganache 节点进行交互，以便更好了解其原理，也为我们后续更好使用框架打好基础。
+在前文《[Solidity 智能合约开发 - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)》中，我们学习了 Solidity 的基本语法，并且了解了可以通过 [Brownie](https://github.com/eth-brownie/brownie) 与 [HardHat](https://github.com/NomicFoundation/hardhat) 等框架进行调试。但在使用这些封装好的框架之前，我们可以通过 Web3.py 直接与我们本地的 Ganache 节点进行交互，以便更好了解其原理，也为我们后续更好使用框架打好基础。
 
 本文以 Web3.py 为例，实现了基础的合约编译、部署至本地 Ganache 网络、与合约交互等功能。
+
+可以点击[这里](https://github.com/pseudoyu/learn-solidity/tree/master/web3_py_simple_storage)访问本测试 Demo 代码仓库。
 
 ## Web3.py
 
@@ -281,6 +283,6 @@ tx_receipt = w3.eth.wait_for_transaction_receipt(send_store_tx)
 以上就是我们通过 Web3.py 库与本地 Ganache 测试网络进行交互的步骤，在真正的生产项目开发中我们一般不会直接使用 Web3.py 这样的库，而是会使用 Brownie、HardHat 等进一步封装的库，但了解 Web3.py 或 Web3.js 等库的使用方法也非常重要。
 ## 参考资料
 
-> 1. [Ethereum 智能合约开发（Solidity） - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)
+> 1. [Solidity 智能合约开发 - 基础](https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/)
 > 2. [ethereum/web3.py](https://github.com/ethereum/web3.py)
 > 3. [Solidity, Blockchain, and Smart Contract - Beginner to Expert Full Course | Python Edition](https://github.com/smartcontractkit/full-blockchain-solidity-course-py)
