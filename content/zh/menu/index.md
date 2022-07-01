@@ -14,6 +14,7 @@ headless: true
   - [Solidity 智能合约开发 - 玩转 Web3.py]({{< relref "/docs/solidity/learn_solidity_from_scratch_web3py.md" >}})
   - [Solidity 智能合约开发 - 玩转 ethers.js]({{< relref "/docs/solidity/learn_solidity_from_scratch_ethersjs.md" >}})
   - [Solidity 智能合约开发 - Hardhat 框架使用]({{< relref "/docs/solidity/learn_solidity_from_scratch_hardhat.md" >}})
+  - [通过状态锁在 Solidity 智能合约中实现两阶段提交]({{< relref "/docs/solidity/two_phase_commit_contract_practice_in_solidity.md" >}})
   - [Fabric 系统架构详解]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure.md" >}})
   - [Fabric 网络与安全体系浅析]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network.md" >}})
   - [Fabric Go SDK 事件分析]({{< relref "/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event.md" >}})
