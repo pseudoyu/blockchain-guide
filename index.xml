@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>区块链入门指南</title><link>https://www.pseudoyu.com/blockchain-guide/</link><description>Recent content on 区块链入门指南</description><generator>Hugo -- gohugo.io</generator><language>zh</language><atom:link href="https://www.pseudoyu.com/blockchain-guide/index.xml" rel="self" type="application/rss+xml"/><item><title>Ethereum MPT(Merkle Patricia Tries) 详解</title><link>https://www.pseudoyu.com/blockchain-guide/docs/ethereum/blockchain_ethereum_mpt/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/ethereum/blockchain_ethereum_mpt/</guid><description>Ethereum MPT(Merkle Patricia Tries) 详解 # 前言 # 最近接到了一个工作任务，将项目智能合约状态树中的数据结构从红黑树改为字典树，并对比一下两个数据结构的性能，Trie 主要参照的是 Ethereum 官方的 Java 实现 ethereum/ethereumj，而红黑树则是自己实现，本文则是对两个数据结构的理论和实际表现对比的记录。
+数据结构 # Red-Black Tree - 红黑树 # 红黑树是一种近似平衡的二叉查找树，含有红黑结点，能够确保任何一个结点的左右子树高度差小于两倍。
+性质 # 必须满足以下五个性质：
+结点为红色或黑色 根结点为黑色 叶子结点（NIL）为黑色 每个红色节点的两个子结点为黑色 任意一个结点到每个叶子结点的路径都包含相同数量的黑色结点 红黑树并不是完美平衡的，但是左子树和右子树的层数是相等的，因此，也成为黑色完美平衡。因为是近似平衡的，所以旋转的频次会降低，维护成本下降，时间复杂度维持在 LogN。
+操作 # 红黑树主要通过三种操作来保持自平衡：
+左旋 右旋 变色 与 AVL 的对比 # AVL 提供了更快的查找操作（因为完美平衡） 红黑树提供了更快的插入和删除操作 AVL 存储的结点信息更多（平衡因子与高度），因此占存储空间更大 读操作多、写操作少的时候用 AVL 更合适，多用于数据库；当写操作较多时一般使用红黑树，简洁好实现，多用于各类高级语言的库中，如 map、set 等 代码实现 # 因为红黑树较为复杂，实现代码上传至 GitHub 供学习查看。
+pseudoyu/Red_Black_Tree_Java - GitHub
+Trie - 字典树 # Trie 被称为字典树，又称单词查找树或键树，常用于统计和排序大量的字符串，如搜索引擎的文本磁盘统计等。
+它能够最大限度减少无谓的字符串比较，查询效率较高。
+性质 # 结点不存完整单词 从根结点到某一结点，路径上经过的字符连接起来为该结点对应的字符串 每个结点的所有子结点路径代表的字符都不相同 结点可以存储额外信息，如词频等 结点内部实现 # 字典树的高度较低，但占用的存储空间较大，核心思想是空间换时间。</description></item><item><title>Ethereum 核心技术解读</title><link>https://www.pseudoyu.com/blockchain-guide/docs/ethereum/blockchain_ethereum_basic/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/ethereum/blockchain_ethereum_basic/</guid><description>Ethereum 核心技术解读 # 前言 # 比特币作为一种去中心化的数字货币，是极其成功的，但受限于比特币脚本（非图灵完备，只能处理一些简单的逻辑），并不能处理很复杂的业务。而Ethereum引入了智能合约，使去中心化的概念能够应用于更丰富的应用场景，因此也被称为区块链 2.0。本文将对以太坊核心技术进行解读，如有错漏，欢迎交流指正。
+Ethereum 系统 # 2014 年 1 月，俄罗斯开发者 Vitalik Buterin 发布了以太坊白皮书并成立团队，旨在创造一个集成更通用的脚本语言的区块链平台。其中一位成员 Dr. Gavin Wood 发布了一份黄皮书，涉及Ethereum Virtual Machin(EVM)以太坊虚拟的相关技术，这就是Ethereum的诞生。
+简单来说，Ethereum是一个开源的去中心化系统，使用区块链来存储系统状态变化，因此也被称为“世界计算机”；它支持开发者在区块链上部署运行不可变的程序，称为智能合约，因此可以支持广泛的应用场景；它使用数字货币Ether来衡量系统资源消耗，激励更多人参与Ethereum系统建设。
+去中心化应用 DApp # 狭义来说，DApp 其实就是一个集成了用户界面、支持智能合约、运行于以太坊区块链上的应用。
+如上图所示，Ethereum应用实例部署在区块链网络上（智能合约运行于区块链虚拟机中），而 Web 程序只需要通过Web3.js对区块链网络进行RPC远程调用，这样用户就可以通过浏览器（DApp 浏览器或 MetaMask 等插件工具）访问去中心化服务应用了。
+账本 # Ethereum区块链是一个去中心化的账本（数据库），网络中的所有交易都会存储在区块链中，所有节点都要本地保存一份数据，并且确保每一笔交易的可信度；所有的交易都是公开且不可篡改的，网络中的所有节点都可以查看和验证。
+账户 # 当我们需要登录一个网站或系统（比如邮箱）时，往往需要一个帐号和一个密码，密码通过加密算法以暗文的形式存储在中心化的数据库中。然而，以太坊是一个去中心化的系统，那是怎么生成账户的呢？
+和比特币系统原理类似
+首先生成一个仅有自己知道的私钥，假设为sk，采用ECDSA(Elliptic Curve Digital Signature Algorithm)椭圆曲线算法生成对应的公钥pk 采用keccak256算法对公钥pk求哈希值 截取后 160 位作为以太坊的地址 用户的私钥和地址一起组成了以太坊的账户，可以存储余额、发起交易等（比特币的余额是通过计算所有的UTXO得到的，而不是像以太坊一样存储在账户中）。
+其实Ethereum账户分为两种类型，上述方式生成的叫Externally Owned Accounts(EOA)，外部账户，也就是常规用户拥有的账户，主要是用来发送/接收Ether代币或者向智能合约发送交易（即调用智能合约）。
+而另一种则是Contract Accounts，合约账户，不同于外部账户，这种账户是没有对应的私钥的，而是在部署合约的时候生成的，存储智能合约代码。值得注意的是，合约账户必须要被外部账户或者其他合约调用才能够发送或接收Ether，而不能自己主动执行交易。
+钱包 # 存储和管理Ethereum账户的软件/插件称为钱包，提供了诸如交易签名、余额管理等功能。钱包生成主要有两种方式，非确定性随机生成或根据随机种子生成。
+Gas # Ethereum网络上的操作也需要“手续费”，称为Gas，在区块链上部署智能合约以及转账都需要消耗一定单位的Gas，这也是鼓励矿工参与Ethereum网络建设的激励机制，从而使整个网络更加安全、可靠。
+每个交易都可以设置相应的Gas量和Gas的价格，设置较高的Gas费则往往矿工会更快处理你的交易，但为了预防交易多次执行消耗大量Gas费，可以通过Gas Limit来设置限制。Gas相关信息可以通过 Ethereum Gas Tracker 工具进行查询。</description></item><item><title>Hyperledger Fabric Go SDK 事件分析</title><link>https://www.pseudoyu.com/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event/</guid><description>Hyperledger Fabric Go SDK 事件分析 # 前言 # 最近在做跨链适配器，需要在一条本地链上利用 Go SDK 来连接 fabric 网络，并监听事件，所以对 fabric 所支持的事件与 SDK 所提供的监听方法做一下汇总。
+Fabric 事件 # 事件类型 # 事件是客户端与 Fabric 网络进行交互的一种方式，如上图所示，事件主要由 Ledger 和存有链码合约的容器触发。Fabric 共支持四种事件形式：
+BlockEvent 监控新增到 fabric 上的块时使用 ChaincodeEvent 监控链码中发布的事件时使用，也就是用户自定义事件 TxStatusEvent 监控节点上的交易完成时使用 FilteredBlockEvent 监控简要的区块信息 在 Fabric Go SDK 中则通过以下几种事件监听器进行操作
+func (c *Client) RegisterBlockEvent(filter ...fab.BlockFilter) (fab.Registration, &amp;lt;-chan *fab.BlockEvent, error) func (c *Client) RegisterChaincodeEvent(ccID, eventFilter string) (fab.Registration, &amp;lt;-chan *fab.CCEvent, error) func (c *Client) RegisterFilteredBlockEvent() (fab.Registration, &amp;lt;-chan *fab.</description></item><item><title>Hyperledger Fabric 网络与安全体系浅析</title><link>https://www.pseudoyu.com/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network/</guid><description>Hyperledger Fabric 网络与安全体系浅析 # 前言 # 上一篇文章《Hyperledger Fabric 架构详解》对Fabric的架构和工作原理进行了详细的解读与分析，那作为一个企业级的区块链系统，它是如何根据复杂的业务需求搭建网络，在运行过程中存在哪些安全问题，以及Fabric是如何从机制上进行预防的呢？
+本文将通过实例阐释一个简化版的企业Fabric网络是如何构建的，并对其网络与安全体系进行分析，如有错漏，欢迎交流指正。
+Hyperledger Fabric 网络 # Hyperledger Fabric 应用场景实例 # 业务角色 # 假设有一个采用Fabric系统的应用场景里。
+有 4 个组织R1, R2, R3和R4，R4是网络启动者，R1和R4共同担任网络管理员角色。
+系统设置了 2 个通道，分别为C1和C2。R1和R2使用C1通道，R2和R3使用C2通道。
+应用A1属于组织R1，于C1通道运行；应用A2属于组织R2，同时于C1通道和C2通道运行；应用A3属于组织R3，于C2通道运行。
+P1、P2和P3分别是组织R1、R2和R3的节点。
+排序节点由O4提供，属于组织R4.
+搭建过程 # 与真正的商业应用场景相比，角色和商业和逻辑都很简化，但很适合用来理解不同节点和角色之间的功能和交互。接下来，我将一步一步说明网络的搭建过程。
+创建网络并添加网络管理员
+每一个组织需要通过MSP中的 CA 机构颁发的证书才能加入网络，因此，每个节点都需要有相应的 CA。
+R4作为网络启动者，需要先配置网络并设立O4排序节点！网络创建后，添加R1作为网络管理员，因此，R1和R4可以对网络进行配置（NC4）。
+定义联盟并创建通道
+R1和R2将通过C1进行业务交互，因此需要在网络中定义联盟，因为现在R1和R4都可以对网络进行配置，因此都可以定义联盟。
+接着为这个联盟创建通道C1（连接至排序服务O4）。
+加入节点、部署智能合约与应用
+P1节点加入已经建立的通道C1，维护着一个账本L1。
+这时候就可以在节点上安装和实例化智能合约了。Fabric的智能合约是链码，把链码存储在节点的文件系统上称为安装智能合约，安装后还需要在特定的通道上启动和实例化链码，至此，应用可以发送交易 proposal 至背书节点了（需要遵守链码设置的背书策略）。
+如下图所示，P1节点安装链码S5并在通道C1实例化后，就可以响应来自应用A1的链码调用了;P2节点安装链码S5并在通道C1实例化后，就可以响应来自应用A2的链码调用了。
+通道中的每一个节点都是提交节点，可以接收新区块（来自排序节点）进行验证，并提交至账本；而部署了链码的一些节点则可以成为背书节点。
+定义新联盟、创建新通道
+在网络中定义新联盟并加入C2通道。
+加入新节点并部署智能合约与应用
+值得注意的是，有些节点会同时加入多个通道，在不同的业务中扮演不同的角色，其他流程同上。
+网络搭建完成
+Fabric采用权限管理、通道等机制，并通过对不同节点功能分工，提升了系统的运行效率，并保障了复杂业务场景中的安全和隐私；强大的链码和可自定义的背书策略等也保障了系统的拓展性，可以处理复杂的业务逻辑。
+Hyperledger Fabric 安全分析 # Fabric 安全机制 # Fabric设计了很多机制来保障系统的安全性。
+系统配置与成员管理 # 区别于比特币、以太坊等公链，加入Fabric网络需要进行权限验证，Fabric CA为成员管理使用X.509证书机制以保障其权限，避免潜在Spoofing攻击等。</description></item><item><title>Hyperledger Fabric 系统架构详解</title><link>https://www.pseudoyu.com/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure/</guid><description>Hyperledger Fabric 系统架构详解 # 前言 # 因为毕业 Case Study 的项目主要是基于Ethereum公链，也没有面向企业的应用场景，所以之前对Hyperledger Fabric的了解大多只是停留在它的权限管理机制、通道、灵活的智能合约编写等几个特色的概念，对它的架构、各个节点的角色、运行机制等都是一知半解。最近在上 HKU 的&amp;lt;FITE3011 Distributed Ledger and Blockchain&amp;gt;课程，教授对Hyperledger Fabric的工作原理、网络搭建及链码相关的知识做了很详细的讲解，受益匪浅，通过本文来梳理一下，如有错漏，欢迎交流指正。
+Hyperledger 概述 # 要学习Hyperledger Fabric，先来看看它的母项目Hyperledger是什么。
+企业级应用有较复杂的业务逻辑和参与者角色划分，对于业务执行效率、安全性要求很高，并且针对常见的如支付、数据/信息交易等场景，隐私保护也是重中之重，因此，常见的比特币、以太坊等公链并不符合大部分企业应用需求。但是区块链的分布式、不可篡改的历史账本等特性在溯源、跨境电商等场景中又能够避免因各个国家/地区法律法规、货币等造成的复杂操作流程，大大提高效率。因此，针对企业的联盟链也在不断发展。
+联盟链严格意义上并不是真正的“去中心化”，它通过引入了权限管理机制（结合企业在现实业务中的角色）来弱化对节点作恶的预防机制，从而能提高效率、应对复杂的业务逻辑。
+其中，Hyperledger是由 Linux 基金会维护的一组专注于跨行业分布式技术的开源项目，旨在创建企业级、开源、分布式的分类框架和代码库来支持业务用例，提供中立、开放和社区驱动的基础设施；建立技术社区并推广，开发区块链和共享账本概念验证、使用案例、试验和部署；建立行业标准，鼓励更多企业参与到分布式账本技术的建设和应用中来，形成一个开放的生态体系；教育公众关于区块链科技的市场机会。
+设计理念 # Hyperledger有如下几个核心设计理念：
+它针对企业具体的业务场景提升效率，并且对溯源等场景有着独特优势，每个企业都可以针对自己的场景维护独立的Hyperledger项目，因此，它不需要像公链一样通过数字货币来激励用户参与区块链系统。 企业的应用场景较为复杂，往往 Hyperledger 只是在其中参与了某个或某些环节，因此与其他现有系统的交互必不可少，因此 Hyperledger 在设计上注重配备完整的 API 以供其他系统调用与交互。 Hyperledger的框架结构是模块化、可拓展，企业可以根据具体的业务需求选择不同的模块，避免复杂的业务逻辑和臃肿的系统。 企业应用的安全性是重中之重，尤其是许多应用场景牵扯到高价值交易或敏感数据，因此提供了很多机制来保障安全性（如Fabric的通道机制等） 除了与现有的系统交互外，企业未来的区块链应用中还可能会和很多不同的区块链网络进行交互，因此大部分智能合约/应用应该具备跨区块链网络的可移植性，以形成更复杂和强大的网络。 框架 # Hyperledger下有如下几个项目，其中Fabric目前应用最为广泛，本文也将主要介绍Fabric区块链网络
+Burrow Fabric Grid Indy Iroha Sawtooth 工具 # Hyperledger Cello。主要用于更方便地搭建和管理区块链服务，降低项目框架部署、维护的复杂度；可以用来搭建区块链 BaaS 平台；可以通过 Dashboard 来创建和管理区块链，技术人员可以更方便地进行开发和部署；可以将 SaaS 部署模型引入区块链系统，帮助企业进一步开发框架。 Hyperledger Explorer。是一个可视化区块链的操作工具，可以用于创建对用户友好的 Web 应用程序；是首个Hyperledger的区块链浏览器，用户可以查看/调用/部署/查询交易、网络、智能合约、存储等信息。 Hyperledger Fabric # 我们着重来讲讲其中应用最广泛的Fabric项目，它是由 Linux 基金会维护的一个模块化、可拓展的区块链联盟链项目，不依赖任何加密货币，它对有着共同目标（业务需求）但彼此不完全信息的实体之间的业务提供了保护，例如跨境电商、资金交易、溯源等。</description></item><item><title>IPFS 本地节点搭建（命令行）</title><link>https://www.pseudoyu.com/blockchain-guide/docs/ipfs/blockchain_ipfs_practice/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/ipfs/blockchain_ipfs_practice/</guid><description>IPFS 本地节点搭建（命令行） # 前言 # 上一篇《IPFS 分布式文件存储原理》对于 IPFS 系统的设计理念、功能、工作原理及 IPNS 做了详细的介绍，那么，如何在本地搭建一个 IPFS 节点呢？
+本文在macOS 11.2.3系统上搭建了一个 IPFS 节点（命令行版本），并对文件上传、下载、网络同步、pin、GC、IPNS等进行了实际操作，以加深对 IPFS 工作原理的理解。
+代码实践 # 安装 # wget https://dist.ipfs.io/go-ipfs/v0.8.0/go-ipfs_v0.8.0_darwin-amd64.tar.gz tar -xvzf go-ipfs_v0.8.0_darwin-amd64.tar.gz cd go-ipfs ./install.sh ipfs --version 启动 # # 启动节点 ipfs init # 上传文件 ipfs add ipfs_init_readme.png # 上传文件并且只输出哈希值 ipfs add -q ipfs_init_readme.png # 上传目录 ipfs add -r [Dir] # 查看文件 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/quick-start # 查看自己上传的文件 ipfs cat QmaP3QS6ZfBoEaUJZ3ZfRKoBm3GGuhQSnUWtkVCNc8ZLTj # 查看图片并输出到文件 ipfs cat QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH &amp;gt; ipfsTest.</description></item><item><title>IPFS 分布式存储协议分析与思考</title><link>https://www.pseudoyu.com/blockchain-guide/docs/ipfs/blockchain_ipfs_structure/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/ipfs/blockchain_ipfs_structure/</guid><description>IPFS 分布式存储协议分析与思考 # 前言 # 最近在做学校的 Case Study 项目，是一个基于Ethereum平台的音乐版权管理项目，其中对于音乐作品、版权证明文件等上传用到了 IPFS 分布式文件存储技术，主要是利用其去重的特性来检测侵权行为。对 IPFS 这个系统产生了兴趣，阅读了QTech 平台上的IPFS 系列文章，也查询了一些相关资料，通过本文梳理一下，如有错漏，欢迎交流指正。
+概述 # 我们日常使用网盘或其他服务时大多都是访问文件所在的特定的服务器（IP 地址），请求文件并下载到本地，通过的是 HTTP 协议，本质上是基于位置寻址的，访问 URL 来得到一层层找到具体的文件，这种方式固然便捷，但是存在一些问题。文件依托于特定的服务器，因此一旦中心化的服务器宕机或者文件被删除了，内容将永久丢失，并且如果离服务器很远/同时访问文件的人很多的话访问速度也会比较慢；而且同样一份文件可能重复存储在不同的服务器中，造成资源的浪费；此外就是存在严重的安全隐患，DDoS、XSS、CSRF 等攻击都可能对文件安全性造成威胁。
+那有没有更好的解决方案呢？
+试想我们把文件存储在一个分布式网络里，每个节点都可以存储文件，用户可以通过访问一个类似目录索引的方式来向最近的节点互相请求文件。这就是 IPFS 星际文件系统的解决思路，它是一个点对点的超媒体文件存储、索引、交换协议，由 Juan Benet 在 2014 年 5 月发起。
+特点 # IPFS 想把全世界所有部署了相同文件系统的计算设备链接在一起，构建一个分布式网络来替代传统中心化的服务器模式，每个节点都可以存储文件，用户通过DHT(Distributed Hash Table)分布式哈希表来获取文件，速度更快、更安全，网络安全性更强。
+因为通过 IPFS 存储的文件内容是通过分块求 Hash 值存储为地址的，本质上是通过多重哈希来确定文件的地址，这是一种去中心化但是基于内容寻址的方式，通过对数据本身进行加密，生成独一无二的 Hash 以供查找，这种方式下，即使是微小的改变，也会造成 Hash 结果截然不同，因此很容易能够从 Hash 检测内容是否被篡改，甚至不用访问文件本身。
+不同于传统的服务器模式，IPFS 是一个统一的网络，因此已经上传的相同内容的文件不会重复存储（可以通过 Hash 值检验），极大地节约了整体网络资源，也更加高效。而且理论上只要节点达到一定规模，文件将永久保存，且同一个文件可以从多个（也更近）的节点下载，通讯效率也会更高。
+除此之外，因为是分布式网络进行存储，也可以天然地避免传统 DDoS 等攻击。
+功能 # 除了文件存储外，IPFS 还有 DHT 组网、Bitswap 文件交换等功能，之后也会单独写博文进行讲解。
+工作原理 # 作为一个文件存储系统，上传文件和下载文件是两个最基本的操作，我们分别讲一下原理。</description></item><item><title>Solidity 合约开发 - 玩转 ethers.js</title><link>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_ethersjs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_ethersjs/</guid><description>Solidity 智能合约开发 - 玩转 ethers.js # 前言 # 在之前的《Solidity 智能合约开发 - 基础》中，我们学习了 Solidity 的基本语法，并且了解了可以通过 Brownie 与 HardHat 等框架进行调试。而另一篇《Solidity 智能合约开发 - 玩转 Web3.py》中我们也通过 Web3.py 直接与我们本地的 Ganache 节点进行交互了。
+原本因为之前比较熟悉 Python 的使用，所以想使用 Brownie 框架进行后续开发。然而经过了一番调研，业界还是使用 HardHat 框架居多，也有更多拓展，且我关注的 Solidity 教程也更新了 Javascript 版本，于是还是打算学习一下。
+为了更好了解其原理，也为我们后续更好使用框架打好基础，我们这次通过 ethers.js 来与我们部署在 Alchemy 平台上的 Rinkeby 测试网络进行交互。实现了基础的合约编译、部署至 Rinkeby 网络、与合约交互等功能。
+可以点击这里访问本测试 Demo 代码仓库。
+ethers.js # ethers.js 是 Javascript 的一个开源库，可以与以太坊网络进行交互，其 GitHub 地址为 ethers.io/ethers.js，可以访问其官方文档进行使用。
+安装 # 我们可以通过 yarn 安装 ethers.js，如下：
+yarn add ethers 使用 # 使用 require 导入库即可使用</description></item><item><title>Solidity 智能合约开发 - Hardhat 框架使用</title><link>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_hardhat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_hardhat/</guid><description>Solidity 智能合约开发 - Hardhat 框架使用 # 前言 # 经过了前几篇对智能合约基础、Web3.py、ethers.js 的学习，我们已经掌握了通过程序与区块链网络直接交互的基础知识，不熟悉的同学可以回顾一下：
+Solidity 智能合约开发 - 基础 Solidity 智能合约开发 - 玩转 Web3.py Solidity 智能合约开发 - 玩转 ethers.js 但是在真正的复杂业务场景中，我们往往会使用一些进一步封装的框架，如 HardHat、Brownie、Truffle 等，HardHat 是其中应用最广泛、插件拓展最为强大的。本系列将从这篇开始专注于 Hardhat 框架的使用与最佳实践，而本篇则会通过一个简单的例子完成其安装、配置与使用。
+本文是对 Patrick Collins 的 『Learn Blockchain, Solidity, and Full Stack Web3 Development with JavaScript』 教程的学习整理，强烈建议看原教程视频了解更多细节。
+可以点击这里访问本测试 Demo 代码仓库。
+Hardhat 介绍 # Hardhat 是一个基于 JavaScript 的智能合约开发环境，可以用于灵活地编译、部署、测试和调试基于 EVM 的智能合约，并且提供了一系列工具链来整合代码与外部工具，还提供了丰富的插件生态，提升开发效率。此外，它还提供了模拟以太坊的本地 Hardhat 网络节点，提供强大的本地调试功能。
+其 GitHub 地址为 NomicFoundation/hardhat，可以访问其官方文档了解更多。
+Hardhat 使用 # 初始化项目 # 从零开始搭建一个 Hardhat 项目，我们需要预先安装好 node.</description></item><item><title>Solidity 智能合约开发 - 基础</title><link>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_basic/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_basic/</guid><description>Solidity 智能合约开发 - 基础 # 前言 # 去年读研的时候上的 HKU 的 &amp;lt;COMP7408 Distributed Ledger and Blockchain Technology&amp;gt;，课程中学习了以太坊智能合约的开发，做了一个简单的图书管理 ÐApp，然后毕业设计也选择了基于 Ethereum 做了一个音乐版权应用，详见 Uright - 区块链音乐版权管理ÐApp，对 Solidity 开发有一些基础了解。
+后来工作后主要做联盟链和业务开发这一块，很久没有碰过合约，对于语法和底层一些概念都已经一知半解，正好最近做的项目是基于 EVM 的一条链，涉及了一些基本的存证、回检和迁移相关合约的开发，调试起来有些吃力，于是打算系统学习一下，梳理一下笔记成文章，敦促自己好好思考总结。
+这系列文章也会收录在我的个人知识库项目 《区块链入门指南》中，希望在学习过程中不断完善。有兴趣的朋友也可以访问项目仓库参与贡献或提出建议。
+本文为系列第一篇，主要涉及 Solidity 基础知识。
+智能合约 与 Solidity 语言 # 智能合约是运行在链上的程序，合约开发者可以通过智能合约实现与链上资产/数据进行交互，用户可以通过自己的链上账户来调用合约，访问资产与数据。因为区块链保留区块历史记录的链式结构、去中心化、不可篡改等特征，智能合约相比传统应用来说能更公正、透明。
+然而，因为智能合约需要与链进行交互，部署、数据写入等操作都会消耗一定费用，数据存储与变更成本也比较高，因此在设计合约时需要着重考虑资源的消耗。此外，常规智能合约一经部署就无法进行修改，因此，合约设计时也需要多考虑其安全性、可升级性与拓展性。
+Solidity 是一门面向合约的、为实现智能合约而创建的高级编程语言，在 EVM 虚拟机上运行，语法整体类似于 Javascript，是目前最流行的智能合约语言，也是入门区块链与 Web3 所必须掌握的语言。针对上述的一些合约编写的问题，Solidity 也都有相对完善的解决方案支持，后续会详细讲解。
+开发/调试工具 # 与常规编程语言不同，Solidity 智能合约的开发往往无法直接通过一个 IDE 或本地环境进行方便的调试，而是需要与一个链上节点进行交互。开发调试往往也不会直接与主网（即真实资产、数据与业务所在的链）进行交互，否则需要承担高额手续费。目前开发调试主要有以下几种方式与框架：
+Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具进行调试，Remix 会提供完整的 IDE、编译工具、部署调试的测试节点环境、账户等，可以很方便地进行测试，这是我学习使用时用的最多的工具。Remix 还可以通过 MetaMask 插件与测试网、主网进行直接交互，部分生产环境也会使用它进行编译部署。 Truffle。Truffle 是一个非常流行的 Javascript 的 Solidity 合约开发框架，提供了完整的开发、测试、调试工具链，可以与本地或远程网络进行交互。 Brownie。Brownie 是一个基于 Python 的 Solidity 合约开发框架，以简洁的 Python 语法为调试和测试提供了便捷的工具链。 Hardhat。Hardhat 是另一个基于 Javascript 的开发框架，提供了非常丰富的插件系统，适合开发复杂的合约项目。 除了开发框架外，更好地进行 Solidity 还需要熟悉一些工具：</description></item><item><title>Solidity 智能合约开发 - 玩转 Web3.py</title><link>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_web3py/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_web3py/</guid><description>Solidity 智能合约开发 - 玩转 Web3.py # 前言 # 在前文《Solidity 智能合约开发 - 基础》中，我们学习了 Solidity 的基本语法，并且了解了可以通过 Brownie 与 HardHat 等框架进行调试。但在使用这些封装好的框架之前，我们可以通过 Web3.py 直接与我们本地的 Ganache 节点进行交互，以便更好了解其原理，也为我们后续更好使用框架打好基础。
+本文以 Web3.py 为例，实现了基础的合约编译、部署至本地 Ganache 网络、与合约交互等功能。
+可以点击这里访问本测试 Demo 代码仓库。
+Web3.py # Web3.py 是 Python 的一个开源库，它提供了一个简单的 API，可以让我们通过 Python 程序与以太坊网络进行交互。其 GitHub 地址为 ethereum/web3.py，可以访问其官方文档进行使用。
+安装 # 我们可以通过 Python 包管理工具 pip 安装 Web3.py，如下：
+pip3 install web3 使用 # 使用 import 导入所需方法即可使用
+from web3 import Web3 w3 = Web3(Web3.HTTPProvider(&amp;#34;HTTP://127.0.0.1:7545&amp;#34;)) Solidity 合约编译 # 合约源码 # // SPDX-License-Identifier: MIT pragma solidity ^0.</description></item><item><title>Solidity 智能合约开发 - 玩转 Web3.py</title><link>https://www.pseudoyu.com/blockchain-guide/docs/solidity/two_phase_commit_contract_practice_in_solidity/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/solidity/two_phase_commit_contract_practice_in_solidity/</guid><description>通过状态锁在 Solidity 智能合约中实现两阶段提交 # 前言 # 在一些牵扯到多个系统或合约交互的智能合约应用场景中，尤其是一些资产/数据准确性较为敏感的业务中，我们需要保证在整个业务流程中数据的原子性。因此，我们需要在合约层面实现类似多阶段提交的机制，即将合约中的状态更改过程分解为预提交和正式提交两个阶段。
+本文通过状态锁的机制实现了一个最小化的两阶段提交模型，完整合约代码参见 TwoPhaseCommit.sol，下文将对本合约核心逻辑进行讲解，并尽量遵循风格指南与最佳实践。
+注：本合约因初始场景主要考虑的是联盟链中的业务用途，未对 Gas fee 等进行特定优化，仅供学习参考。
+合约逻辑 # 合约结构 # 两阶段提交场景包含以下方法：
+set: 两阶段 - 预提交 commit: 两阶段 - 正式提交 rollback: 两阶段 - 回滚 因 Solidity 语言对于字符串长度判断/比较等有一些限制，为了提升合约代码的可读性，本合约提供了部分辅助方法，主要包含以下方法：
+isValidKey: 检查 key 是否合法 isValidValue: 检查 value 是否合法 isEqualString: 比较两个字符串是否相等 两阶段提交核心逻辑 # 在两阶段提交场景中，本合约提供了一套简易的 set, commit, rollback 方法实现，实现了将合约调用传入的 key-value 键值对存储到链上。我们通过状态锁的机制来实现跨链交易的原子性。我们定义了如下数据结构：
+enum State { UNLOCKED, LOCKED } struct Payload { State state; string value; string lockValue; } 其中，State 为枚举类型，记录了链上 key 值的锁定状态，而 Payload 结构则会对锁定状态、当前值与正在锁定的值进行存储，并通过如下 mapping 结构与 key 进行绑定：</description></item><item><title>比特币核心技术解读</title><link>https://www.pseudoyu.com/blockchain-guide/docs/bitcoin/blockchain_bitcoin_basic/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/bitcoin/blockchain_bitcoin_basic/</guid><description>比特币核心技术解读 # 前言 # 在上一篇文章《区块链基础知识与关键技术》里对区块链的基础知识和关键技术进行了梳理，而比特币是区块链最典型的应用，本文将对比特币核心技术进行解读，如有错漏，欢迎交流指正。
+比特币系统 # 比特币是在 2009 年由中本聪发明的一个数字货币，主要是为了反抗中心化的银行体系，因为其精巧的系统设计和安全性，价值也在迅速提升。同时，因为它并不与真实世界的身份绑定，具备强大的匿名性，也被用于非法交易、洗钱、勒索等恶意行为，引起了一些争议。
+作为一个去中心化的区块链系统，所有人都可以访问，也可以在本地维护一个节点参与到比特币网络中，下文也会应用Bitcoin Core客户端在本地维护一个节点。
+节点分为全节点和轻节点两种，早期所有的节点都是全节点，但随着数据量越来越大，运行在手机或平板等设备上的比特币客户端不需要存储整个区块链的信息，称为Simplified Payment Verification(SPV)节点，也叫轻节点。
+Bitcoin Core客户端就是一个全节点，下文也会具体讲述。全节点一直在线，维护着完整的区块链信息；因为其内存里维护着完整的UTXO集合，所以通过验证整个区块链的区块和交易信息（从创世区块到最新区块）来验证交易的合法性；也会决定哪些交易会被打包到区块中；验证交易即挖矿，可以决定沿着哪条链继续挖，在出现等长的分叉时，也会选择哪一个分叉；同时监听别的矿工挖出来的区块，验证合法性。
+轻节点不需要一直在线，也不需要保留整个区块链（数据量庞大），只需要保留每个区块的块头；且只需要保存与自己有关的区块，而不需要保存链上全部交易；因为并没有保存全部信息，无法验证大多数交易的合法性和网上发布的新区块的正确性，只能检验与自己有关的区块；可以通过Merkle Proof验证一笔交易存在，但不能确认一笔交易不存在；可以验证挖矿的难度，因为保存在块头中。
+下面通过一个示例来讲解一下全节点和轻节点的交易验证方式。
+假如要验证一个位于 block 300,000 的交易 T，全节点会查验全部 300,000 个区块（直到创世区块），建立一个完整UTXO的数据库来确保这个交易没有被花费；而轻节点则会通过Merkle Path来链接所有和交易 T 相关的区块，然后等待 300,001 至 300,006 个区块来进行确认，从而验证交易的合法性。
+区块链结构 # 区块链是由顺序链接起来的区块组成的一种数据结构，可以存于单文件或者数据库中，Bitcoin Client使用 Google 的LevelDB数据库存储数据。每一个区块都指向前一个区块，任何一个区块进行了修改的话，其所有后面的区块都会受到影响，所以想要篡改一个区块的话需要同时篡改之后的所有区块，这需要大量的算力，往往成本大于收益，因此极大地保障了安全性。
+区块链结构包含区块Block Size (4 bytes)、Block Header、Transaction Counter(1-9 bytes)和Transaction几个核心组成部分。
+区块链的块头大小为 80 bytes，存储着Version(4 bytes)、Previous Block Hash(32 bytes)、Merkle Tree Root(32 bytes)、Timestamp(4 bytes)、Difficulty Target(4 bytes)和Nonce(4 bytes)。
+每一个区块的哈希值通过对区块头进行两次哈希运算，即SHA256(SHA256(Block Header))，并不存在区块链结构中，而是由每个节点接收到区块后计算得到，是独一无二的；此外，Block Height也可以作为区块的标识符。
+Merkle Tree # Merkle Tree默克尔树是区块链中很重要的一个数据结构，主要通过哈希算法来验证较大数据集（也是通过双重哈希的方式SHA256(SHA256(Block Header))），结构如下图所示：</description></item><item><title>跨链技术原理与实战</title><link>https://www.pseudoyu.com/blockchain-guide/docs/crosschain/blockchain_crosschain/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/crosschain/blockchain_crosschain/</guid><description>跨链技术原理与实战 # 前言 # 目前区块链底层平台日渐多样，如老牌的 Hyperledger Fabric、Ethereum 等，以及国内的 Hyperchain、Z-ledger 等，而随着区块链应用生态越来越复杂，单链的性能有一定瓶颈，链与链之间的协同与交互（信息同步、共享、合约互操作等）也成为了链和应用生态发展的重要部分。
+本文是对跨链技术的概念与主流解决方案的梳理。
+跨链技术概览 # 因为底层链设计、共识算法、网络结构等组件的相似性，同构区块链之间的交互比较容易，但异构区块链则相对复杂，往往难以直接进行交互，而需要两条链之间有一些辅助平台/服务来进行数据格式转换等。
+跨链机制 # 目前跨链主要由以下几种解决方案：
+公证人机制 哈希锁定 分布式私钥控制 侧链/中继链 公证人机制 # 公证人机制是一种通过第三方中介协助不同链之间交互的机制，本质上是两方共同信任一个第三方，让其对跨链数据或跨链交互操作进行验证和转发。这种方式能很好地支持异构区块链，但是是一种中心化方式。
+很多数字货币交易所就是通过这样的方式进行不同数字货币之间的交易和转换，本质上是交易所在撮合交易，效率等都较高，但是存在一定安全风险，且只支持资产的交换。
+哈希锁定 # 哈希锁定最早出现在比特币的闪电网络，是通过哈希锁和时间锁保障跨链双方资产的一种方式。其中时间锁是将交易限制在一定时间内，超时则交易失效，从而避免损失，但这种方式同样只能实现资产的交换，而无法实现资产的转移。
+侧链 # 侧链是一种双向锚定的技术，最开始的侧链是相对于比特币主链而言的，如 BTC-Relay，在这条侧链上可以对比特币进行新特性的研发和测试，且当大量用户在比特币网络上进行交易时，使用侧链可以有效地拓展网络的吞吐量。例如，在 Ethereum 主链上进行资产交易和价值转移，而在 Ethereum 侧链上可以进行一些对 tps 要求较高的 DApp 运行等。
+而同一条主链的不同侧链也可以借助主链来进行一些交互，这就是借助测链进行跨链的基本原理。
+中继链 # 中继链则是上述侧链和公证人机制的一种综合应用，通过设定跨链交互机制（如 Cosmos 的 IBC）来实现异构链之间的信息共享与交互。需要进行跨链的各个平行链连接到一个中继链来辅助交易的验证和交互。
+跨链技术实践 # 开发实战 # 目前在做一个 BaaS 平台的跨链功能，其基础架构如下：
+子链主要是实现各类业务和应用的链，当子链要与其他链进行跨链业务交互时，它需要执行跨链合约，而我们提供了一个跨链网关来对这些跨链合约进行监听。针对异构区块链。如 Hyperledger Fabric、Ethereum，我们将提供不同的适配器来实现跨链 SDK 与跨链网关之间的交互，适配器提供跨链合约信息查询功能。当另一条业务链的 SDK 接收到跨链合约方法时，如果是合约互调用或数据传递，则直接调用对应的合约方法。
+我主要做的是跨链适配器接口这一部分，适配器作为针对不同链的插件嵌入跨链网关中从而适配不同的应用链，能够很好地协助跨链网关实现对交易的监听、同步与执行。
+而在具体实现中，如在 Fabric 网络中，则是通过子链调用跨链业务合约，而跨链业务合约统一调用一个适配器的合约，在这个适配器合约中，我们实现了交易信息传入，通过 Fabric 事件机制来进行监听（即在合约中实现 SetEvent 方法，而在适配器中对相应事件进行注册，从而实现对跨链合约的监听。</description></item><item><title>区块链服务平台 (BaaS) 简介及架构</title><link>https://www.pseudoyu.com/blockchain-guide/docs/baas/blockchain_baas_platform/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/baas/blockchain_baas_platform/</guid><description>区块链服务平台 (BaaS) 简介及架构 # 前言 # 目前工作中负责一个针对 Hyperledger Fabric 的区块链即服务 (Blockchain as a Service, BaaS) 平台的链码管理部分，对这 BaaS 平台的架构与实现很感兴趣，作为一个能为开发者提供一站式应用创建、管理和维护区块链的平台，其架构是怎么样的呢？
+本文是对 BaaS 平台架构的总结和梳理。
+BaaS 简介 # 区块链是一个复杂的分布式系统，尤其是像 Hyperledger Fabric 这样的企业联盟链平台，其部署和运维都非常复杂，作为应用开发者需要处理许多环境问题（如证书、docker 环境等），带来了许多挑战。
+因此，BaaS 平台应运而生，它是一种帮助用户创建、管理和维护企业级区块链的应用平台，用户能够通过友好的 Web 界面对区块链进行操作。通过 BaaS 平台，用户可以很灵活地搭建区块链网络、管理区块链业务和各个模块的功能、进行智能合约的研发和部署以及实时监控和运维。
+通过 BaaS 平台，开发者可以快速进行区块链业务的研发，综合成本大大降低，且有助于系统稳定性、安全性和易用性等的提升。
+平台架构 # BaaS 平台作为一个一站式应用服务，自下而上主要分为以下几层：
+资源层 监控运维层 区块链底层 区块链服务层 应用层 而根据每个系统的业务差异，各个层的架构与功能模块会有所差异，下面将会对几大主流平台层次结构做一些描述。
+Hyperledger Cello # Hyperledger Cello 作为 IBM Hyperledger 的顶级项目之一，是一个开源区块链管理平台，支持部署、运行时管理和数据分析等功能。
+Cello 目前支持 Hyperledger Fabric 区块链，可以有效管理 Fabric 链的生命周期，主要包含以下模块：
+除了高效地创建部署网络外，Cello 提供了一些对于区块链的管理功能：
+区块链生命周期管理 底层支持多种架构，如 Docker、Swarm、Kubernetes 等 支持多种底层区块链平台并可以自定义配置 支持运行时监控与运维 可插拔的框架设计，可以通过插件的形式拓展第三方功能，如资源调度、驱动代理等 趣链 BaaS # 根据官网介绍，BlocFace 是由趣链科技为企业及开发者全新推出的区块链服务平台，为用户提供一键部署联盟链、可视化监控运维和智能合约研发等一站式研发服务，其平台架构如下：</description></item><item><title>区块链基础知识与关键技术</title><link>https://www.pseudoyu.com/blockchain-guide/docs/blockchain/blockchain_basic/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/blockchain/blockchain_basic/</guid><description>区块链基础知识与关键技术 # 前言 # 最近对在上 HKU 的&amp;lt;COMP7408 Distributed Ledger and Blockchain Technology&amp;gt;课程，对区块链的基础概念有了更系统的认知，结合之前上过的北京大学肖臻老师《区块链技术与应用》公开课，深知区块链知识体系之庞大，打算更新系列文章对区块链、比特币、以太坊等进行系统的知识梳理，如有错漏，欢迎交流指正。
+区块链中的密码学原理 # 区块链和密码学紧密相关，如比特币采用的核心的公私钥加密技术、数字签名、哈希等，包括很多共识算法也是基于复杂的密码学概念，因此，在开始学习区块链之前，要先了解几个核心的密码学概念，从而能够更深入理解其在区块链体系中的应用。
+哈希函数 # 哈希函数是把一个任意长度的源数据经过一系列算法变成一个固定长度输出值的方法，概念很简单，但其具备的几个特性使它被各个领域广泛应用。
+可以访问这个 Demo 体验一下哈希函数的工作原理（以SHA256为例）！
+第一个特性是单向不可逆性。将一个输入 x 进行哈希运算得到值 H(x)，这一过程很容易，但是如果给定一个值 H(x)，几乎不可能逆推得到 x 的取值，这一特性很好地保护了源数据。
+第二个特性是抗碰撞性。给定一个值 x 和另一个值 y，如果 x 不等于 y，那 H(x) 几乎不可能等于 H(y)，并非完全不可能，但是几率非常低，因此，一个数据的 Hash 值几乎是唯一的，这可以很好地用于身份验证等场景。
+第三个特性是哈希计算不可预测。很难根据现有条件推导出哈希值，但是很容易检验是否正确，这一机制主要应用于PoW挖矿机制中。
+加密/解密 # 加密机制主要分为对称加密和非对称加密两类。
+对称加密机制是两方用同一个密钥来进行信息的加密和解密，很方便，效率也很高，但是密钥的分发存在很大的风险，如果通过网络等方式进行分发，很容易会出现密钥泄漏，从而导致信息泄漏。
+非对称加密机制主要指的是公私钥加密机制，每个人通过算法生成一对密钥，称为公钥和私钥，如果 A 想发送一个信息给 B，可以用 B 的公钥对文件进行加密，将加密后的信息发给 B，这个过程中，即使信息被截获或出现泄漏，也不会暴露源文件，所以可以用任何方式进行传播，当 B 收到加密文件后，用自己的私钥进行解密，从而获取文件内容。B 的私钥没有经过任何渠道进行传播，仅自己知道，所以具备极高的安全性。
+在现实应用中，对很大的文件进行非对称加密效率较低，所以一般采用一种组合机制：假设 A 想发送一个大文件 D 给 B，则先将文件 D 用一个密钥 K 进行对称加密，再用 B 的公钥对密钥 K 进行非对称加密。A 将加密后的密钥 K 和文件 D 发送给 B，期间即使被截获或泄漏，因为没有 B 的私钥，所以无法得到密钥 K，也就无法访问文件 D。B 收到加密后的文件和密钥后，则先用自己的私钥解密得到密钥 K，再用密钥 K 对文件 D 进行解密，从而获取文件内容。</description></item><item><title>学习路径</title><link>https://www.pseudoyu.com/blockchain-guide/docs/study_path/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.pseudoyu.com/blockchain-guide/docs/study_path/</guid><description> 学习路径 # 区块链涉及很多方面的知识，这是我所推荐的学习路径：
+区块链基础 比特币核心技术 以太坊核心技术 Hyperledger Fabric 等联盟链学习了解 Solidity 智能合约开发 Web3 技术学习与实践 IPFS、跨链等热门技术学习 核心项目源码解读 参与开源项目/项目实战</description></item></channel></rss>

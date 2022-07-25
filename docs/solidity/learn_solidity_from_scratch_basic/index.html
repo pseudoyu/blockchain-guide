@@ -1,0 +1,350 @@
+<!doctype html><html lang=zh dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Solidity 智能合约开发 - 基础 # 前言 # 去年读研的时候上的 HKU 的 <COMP7408 Distributed Ledger and Blockchain Technology>，课程中学习了以太坊智能合约的开发，做了一个简单的图书管理 ÐApp，然后毕业设计也选择了基于 Ethereum 做了一个音乐版权应用，详见 Uright - 区块链音乐版权管理ÐApp，对 Solidity 开发有一些基础了解。
+后来工作后主要做联盟链和业务开发这一块，很久没有碰过合约，对于语法和底层一些概念都已经一知半解，正好最近做的项目是基于 EVM 的一条链，涉及了一些基本的存证、回检和迁移相关合约的开发，调试起来有些吃力，于是打算系统学习一下，梳理一下笔记成文章，敦促自己好好思考总结。
+这系列文章也会收录在我的个人知识库项目 《区块链入门指南》中，希望在学习过程中不断完善。有兴趣的朋友也可以访问项目仓库参与贡献或提出建议。
+本文为系列第一篇，主要涉及 Solidity 基础知识。
+智能合约 与 Solidity 语言 # 智能合约是运行在链上的程序，合约开发者可以通过智能合约实现与链上资产/数据进行交互，用户可以通过自己的链上账户来调用合约，访问资产与数据。因为区块链保留区块历史记录的链式结构、去中心化、不可篡改等特征，智能合约相比传统应用来说能更公正、透明。
+然而，因为智能合约需要与链进行交互，部署、数据写入等操作都会消耗一定费用，数据存储与变更成本也比较高，因此在设计合约时需要着重考虑资源的消耗。此外，常规智能合约一经部署就无法进行修改，因此，合约设计时也需要多考虑其安全性、可升级性与拓展性。
+Solidity 是一门面向合约的、为实现智能合约而创建的高级编程语言，在 EVM 虚拟机上运行，语法整体类似于 Javascript，是目前最流行的智能合约语言，也是入门区块链与 Web3 所必须掌握的语言。针对上述的一些合约编写的问题，Solidity 也都有相对完善的解决方案支持，后续会详细讲解。
+开发/调试工具 # 与常规编程语言不同，Solidity 智能合约的开发往往无法直接通过一个 IDE 或本地环境进行方便的调试，而是需要与一个链上节点进行交互。开发调试往往也不会直接与主网（即真实资产、数据与业务所在的链）进行交互，否则需要承担高额手续费。目前开发调试主要有以下几种方式与框架：
+Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具进行调试，Remix 会提供完整的 IDE、编译工具、部署调试的测试节点环境、账户等，可以很方便地进行测试，这是我学习使用时用的最多的工具。Remix 还可以通过 MetaMask 插件与测试网、主网进行直接交互，部分生产环境也会使用它进行编译部署。 Truffle。Truffle 是一个非常流行的 Javascript 的 Solidity 合约开发框架，提供了完整的开发、测试、调试工具链，可以与本地或远程网络进行交互。 Brownie。Brownie 是一个基于 Python 的 Solidity 合约开发框架，以简洁的 Python 语法为调试和测试提供了便捷的工具链。 Hardhat。Hardhat 是另一个基于 Javascript 的开发框架，提供了非常丰富的插件系统，适合开发复杂的合约项目。 除了开发框架外，更好地进行 Solidity 还需要熟悉一些工具："><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="Solidity 智能合约开发 - 基础"><meta property="og:description" content="Solidity 智能合约开发 - 基础 # 前言 # 去年读研的时候上的 HKU 的 <COMP7408 Distributed Ledger and Blockchain Technology>，课程中学习了以太坊智能合约的开发，做了一个简单的图书管理 ÐApp，然后毕业设计也选择了基于 Ethereum 做了一个音乐版权应用，详见 Uright - 区块链音乐版权管理ÐApp，对 Solidity 开发有一些基础了解。
+后来工作后主要做联盟链和业务开发这一块，很久没有碰过合约，对于语法和底层一些概念都已经一知半解，正好最近做的项目是基于 EVM 的一条链，涉及了一些基本的存证、回检和迁移相关合约的开发，调试起来有些吃力，于是打算系统学习一下，梳理一下笔记成文章，敦促自己好好思考总结。
+这系列文章也会收录在我的个人知识库项目 《区块链入门指南》中，希望在学习过程中不断完善。有兴趣的朋友也可以访问项目仓库参与贡献或提出建议。
+本文为系列第一篇，主要涉及 Solidity 基础知识。
+智能合约 与 Solidity 语言 # 智能合约是运行在链上的程序，合约开发者可以通过智能合约实现与链上资产/数据进行交互，用户可以通过自己的链上账户来调用合约，访问资产与数据。因为区块链保留区块历史记录的链式结构、去中心化、不可篡改等特征，智能合约相比传统应用来说能更公正、透明。
+然而，因为智能合约需要与链进行交互，部署、数据写入等操作都会消耗一定费用，数据存储与变更成本也比较高，因此在设计合约时需要着重考虑资源的消耗。此外，常规智能合约一经部署就无法进行修改，因此，合约设计时也需要多考虑其安全性、可升级性与拓展性。
+Solidity 是一门面向合约的、为实现智能合约而创建的高级编程语言，在 EVM 虚拟机上运行，语法整体类似于 Javascript，是目前最流行的智能合约语言，也是入门区块链与 Web3 所必须掌握的语言。针对上述的一些合约编写的问题，Solidity 也都有相对完善的解决方案支持，后续会详细讲解。
+开发/调试工具 # 与常规编程语言不同，Solidity 智能合约的开发往往无法直接通过一个 IDE 或本地环境进行方便的调试，而是需要与一个链上节点进行交互。开发调试往往也不会直接与主网（即真实资产、数据与业务所在的链）进行交互，否则需要承担高额手续费。目前开发调试主要有以下几种方式与框架：
+Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具进行调试，Remix 会提供完整的 IDE、编译工具、部署调试的测试节点环境、账户等，可以很方便地进行测试，这是我学习使用时用的最多的工具。Remix 还可以通过 MetaMask 插件与测试网、主网进行直接交互，部分生产环境也会使用它进行编译部署。 Truffle。Truffle 是一个非常流行的 Javascript 的 Solidity 合约开发框架，提供了完整的开发、测试、调试工具链，可以与本地或远程网络进行交互。 Brownie。Brownie 是一个基于 Python 的 Solidity 合约开发框架，以简洁的 Python 语法为调试和测试提供了便捷的工具链。 Hardhat。Hardhat 是另一个基于 Javascript 的开发框架，提供了非常丰富的插件系统，适合开发复杂的合约项目。 除了开发框架外，更好地进行 Solidity 还需要熟悉一些工具："><meta property="og:type" content="article"><meta property="og:url" content="https://www.pseudoyu.com/blockchain-guide/docs/solidity/learn_solidity_from_scratch_basic/"><meta property="article:section" content="docs"><title>Solidity 智能合约开发 - 基础 | 区块链入门指南</title><link rel=manifest href=/blockchain-guide/manifest.json><link rel=icon href=/blockchain-guide/favicon.png type=image/x-icon><link rel=stylesheet href=/blockchain-guide/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css integrity="sha256-gsXb0jRHzuC0wqo+0Izglh+qQOH6Nw7uT4yfAuDUa18=" crossorigin=anonymous><script defer src=/blockchain-guide/flexsearch.min.js></script>
+<script defer src=/blockchain-guide/zh.search.min.7758dca3d778098e05561d00986b1d2e3d447aef3f51cc2a6b3b3248cebe3962.js integrity="sha256-d1jco9d4CY4FVh0AmGsdLj1Eeu8/UcwqazsySM6+OWI=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/blockchain-guide/><span>区块链入门指南</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=搜索 aria-label=搜索 maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><p><strong>开始学习</strong></p><ul><li><a href=/blockchain-guide/docs/study_path/>学习路径</a></li></ul></li><li><p><strong>基础知识</strong></p><ul><li><a href=/blockchain-guide/docs/blockchain/blockchain_basic/>区块链基础知识与关键技术</a></li><li><a href=/blockchain-guide/docs/bitcoin/blockchain_bitcoin_basic/>比特币核心技术解读</a></li><li><a href=/blockchain-guide/docs/ethereum/blockchain_ethereum_basic/>Ethereum 核心技术解读</a></li><li><a href=/blockchain-guide/docs/ethereum/blockchain_ethereum_mpt/>Ethereum MPT 详解</a></li><li><a href=/blockchain-guide/docs/solidity/learn_solidity_from_scratch_basic/ class=active>Solidity 智能合约开发 - 基础</a></li><li><a href=/blockchain-guide/docs/solidity/learn_solidity_from_scratch_web3py/>Solidity 智能合约开发 - 玩转 Web3.py</a></li><li><a href=/blockchain-guide/docs/solidity/learn_solidity_from_scratch_ethersjs/>Solidity 智能合约开发 - 玩转 ethers.js</a></li><li><a href=/blockchain-guide/docs/solidity/learn_solidity_from_scratch_hardhat/>Solidity 智能合约开发 - Hardhat 框架使用</a></li><li><a href=/blockchain-guide/docs/solidity/two_phase_commit_contract_practice_in_solidity/>通过状态锁在 Solidity 智能合约中实现两阶段提交</a></li><li><a href=/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure/>Fabric 系统架构详解</a></li><li><a href=/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network/>Fabric 网络与安全体系浅析</a></li><li><a href=/blockchain-guide/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event/>Fabric Go SDK 事件分析</a></li></ul></li><li><p><strong>热门技术</strong></p><ul><li><a href=/blockchain-guide/docs/ipfs/blockchain_ipfs_structure/>IPFS 技术分析与思考</a></li><li><a href=/blockchain-guide/docs/ipfs/blockchain_ipfs_practice/>IPFS 本地节点搭建</a></li><li><a href=/blockchain-guide/docs/crosschain/blockchain_crosschain/>跨链技术原理与实战</a></li><li><a href=/blockchain-guide/docs/baas/blockchain_baas_platform/>区块链服务平台 (BaaS) 简介</a></li></ul></li><li><p><strong>开发实战</strong></p></li><li><p><strong>附录：资源</strong></p></li><li><p><a href=https://github.com/pseudoyu/blockchain-guide><strong>Fork on Github</strong></a></p></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/blockchain-guide/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Solidity 智能合约开发 - 基础</strong>
+<label for=toc-control><img src=/blockchain-guide/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#智能合约-与-solidity-语言>智能合约 与 Solidity 语言</a></li><li><a href=#开发调试工具>开发/调试工具</a></li><li><a href=#合约编译部署>合约编译/部署</a></li><li><a href=#核心语法>核心语法</a><ul><li><a href=#数据类型>数据类型</a></li><li><a href=#变量常量immutable>变量/常量/<code>Immutable</code></a></li><li><a href=#函数>函数</a></li><li><a href=#条件循环结构>条件/循环结构</a></li><li><a href=#合约>合约</a></li><li><a href=#错误处理>错误处理</a></li><li><a href=#payable-关键字><code>payable</code> 关键字</a></li><li><a href=#与-ether-交互>与 <code>Ether</code> 交互</a></li><li><a href=#gas-费>Gas 费</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></aside></header><article class=markdown><h1 id=solidity-智能合约开发---基础>Solidity 智能合约开发 - 基础
+<a class=anchor href=#solidity-%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6%e5%bc%80%e5%8f%91---%e5%9f%ba%e7%a1%80>#</a></h1><h2 id=前言>前言
+<a class=anchor href=#%e5%89%8d%e8%a8%80>#</a></h2><p>去年读研的时候上的 HKU 的 <code>&lt;COMP7408 Distributed Ledger and Blockchain Technology></code>，课程中学习了以太坊智能合约的开发，做了一个简单的图书管理 ÐApp，然后毕业设计也选择了基于 Ethereum 做了一个音乐版权应用，详见 <a href=https://github.com/pseudoyu/uright>Uright - 区块链音乐版权管理ÐApp</a>，对 Solidity 开发有一些基础了解。</p><p>后来工作后主要做联盟链和业务开发这一块，很久没有碰过合约，对于语法和底层一些概念都已经一知半解，正好最近做的项目是基于 EVM 的一条链，涉及了一些基本的存证、回检和迁移相关合约的开发，调试起来有些吃力，于是打算系统学习一下，梳理一下笔记成文章，敦促自己好好思考总结。</p><p>这系列文章也会收录在我的个人知识库项目 《<a href=https://www.pseudoyu.com/blockchain-guide/>区块链入门指南</a>》中，希望在学习过程中不断完善。有兴趣的朋友也可以访问<a href=https://github.com/pseudoyu/blockchain-guide>项目仓库</a>参与贡献或提出建议。</p><p>本文为系列第一篇，主要涉及 Solidity 基础知识。</p><h2 id=智能合约-与-solidity-语言>智能合约 与 Solidity 语言
+<a class=anchor href=#%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6-%e4%b8%8e-solidity-%e8%af%ad%e8%a8%80>#</a></h2><p>智能合约是运行在链上的程序，合约开发者可以通过智能合约实现与链上资产/数据进行交互，用户可以通过自己的链上账户来调用合约，访问资产与数据。因为区块链保留区块历史记录的链式结构、去中心化、不可篡改等特征，智能合约相比传统应用来说能更公正、透明。</p><p>然而，因为智能合约需要与链进行交互，部署、数据写入等操作都会消耗一定费用，数据存储与变更成本也比较高，因此在设计合约时需要着重考虑资源的消耗。此外，常规智能合约一经部署就无法进行修改，因此，合约设计时也需要多考虑其安全性、可升级性与拓展性。</p><p>Solidity 是一门面向合约的、为实现智能合约而创建的高级编程语言，在 EVM 虚拟机上运行，语法整体类似于 Javascript，是目前最流行的智能合约语言，也是入门区块链与 Web3 所必须掌握的语言。针对上述的一些合约编写的问题，Solidity 也都有相对完善的解决方案支持，后续会详细讲解。</p><h2 id=开发调试工具>开发/调试工具
+<a class=anchor href=#%e5%bc%80%e5%8f%91%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7>#</a></h2><p>与常规编程语言不同，Solidity 智能合约的开发往往无法直接通过一个 IDE 或本地环境进行方便的调试，而是需要与一个链上节点进行交互。开发调试往往也不会直接与主网（即真实资产、数据与业务所在的链）进行交互，否则需要承担高额手续费。目前开发调试主要有以下几种方式与框架：</p><ol><li><a href=https://remix.ethereum.org>Remix IDE</a>。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具进行调试，Remix 会提供完整的 IDE、编译工具、部署调试的测试节点环境、账户等，可以很方便地进行测试，这是我学习使用时用的最多的工具。Remix 还可以通过 MetaMask 插件与测试网、主网进行直接交互，部分生产环境也会使用它进行编译部署。</li><li><a href=https://github.com/trufflesuite/truffle>Truffle</a>。Truffle 是一个非常流行的 Javascript 的 Solidity 合约开发框架，提供了完整的开发、测试、调试工具链，可以与本地或远程网络进行交互。</li><li><a href=https://github.com/eth-brownie/brownie>Brownie</a>。Brownie 是一个基于 Python 的 Solidity 合约开发框架，以简洁的 Python 语法为调试和测试提供了便捷的工具链。</li><li><a href=https://github.com/NomicFoundation/hardhat>Hardhat</a>。Hardhat 是另一个基于 Javascript 的开发框架，提供了非常丰富的插件系统，适合开发复杂的合约项目。</li></ol><p>除了开发框架外，更好地进行 Solidity 还需要熟悉一些工具：</p><ol><li>Remix IDE 对于语法提示等并不完善，因此，可以使用 <a href=https://code.visualstudio.com>Visual Studio Code</a> 配合 <a href="https://marketplace.visualstudio.com/items?itemName=juanblanco.solidity">Solidity</a> 进行编写，有更好的体验。</li><li><a href=https://metamask.io>MetaMask</a>。一个常用的钱包应用，开发过程中可以通过浏览器插件与测试网、主网进行交互，方便开发者进行调试。</li><li><a href=https://trufflesuite.com/ganache/>Ganache</a>。Ganache 是一个开源的虚拟本地节点，提供了一个虚拟链网络，可以通过各类 Web3.js、Remix 或一些框架工具与之交互，适合有一定规模的项目进行本地调试与测试。</li><li><a href=https://infura.io>Infura</a>。Infura 是一个 IaaS（Infrastructure as a Service）产品，我们可以申请自己的 Ethereum 节点，通过 Infura 提供的 API 进行交互，可以很方便地进行调试，也更接近生产环境。</li><li><a href=https://www.openzeppelin.com>OpenZeppelin</a>。OpenZeppelin 提供了非常多的合约开发库与应用，能兼顾安全、稳定的同时给予开发者更好的开发体验，降低合约开发成本。</li></ol><h2 id=合约编译部署>合约编译/部署
+<a class=anchor href=#%e5%90%88%e7%ba%a6%e7%bc%96%e8%af%91%e9%83%a8%e7%bd%b2>#</a></h2><p>Solidity 合约是以 <code>.sol</code> 为后缀的文件，无法直接执行，需要编译为 EVM（Ethereum Virtual Machine）可识别的字节码才能在链上运行。</p><p><img src=https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/compile_solidity.png alt=compile_solidity></p><p>编译完成后，由合约账户进行部署到链上，其他账户可通过钱包与合约进行交互，实现链上业务逻辑。</p><h2 id=核心语法>核心语法
+<a class=anchor href=#%e6%a0%b8%e5%bf%83%e8%af%ad%e6%b3%95>#</a></h2><p>经过上文，我们对 Solidity 的开发、调试与部署有了一定了解。接下来我们就具体学习一下 Solidity 的核心语法。</p><h3 id=数据类型>数据类型
+<a class=anchor href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b>#</a></h3><p>与我们常见的编程语言类似，Solidity 有一些内置数据类型。</p><h4 id=基本数据类型>基本数据类型
+<a class=anchor href=#%e5%9f%ba%e6%9c%ac%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b>#</a></h4><ul><li><code>boolean</code>，布尔类型有 <code>true</code> 和 <code>false</code> 两种类型，可以通过 <code>bool public boo = true;</code> 来定义，默认值为 <code>false</code></li><li><code>int</code>，整数类型，可以指定 <code>int8</code> 到 <code>int256</code>，默认为 <code>int256</code>，通过 <code>int public int = 0;</code> 来定义，默认值为 <code>0</code>，还可以通过 <code>type(int).min</code> 和 <code>type(int).max</code> 来查看类型最小和最大值</li><li><code>uint</code>，非负整数类型，可以指定 <code>uint8</code>、<code>uint16</code>、<code>uint256</code>，默认为 <code>uint256</code>，通过 <code>uint8 public u8 = 1;</code> 来定义，默认值为 <code>0</code></li><li><code>address</code>，地址类型，可以通过 <code>address public addr = 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c;</code> 来定义，默认值为 <code>0x0000000000000000000000000000000000000000</code></li><li><code>bytes</code>，<code>byte[]</code> 的缩写，分为固定大小数组和可变数组，通过 <code>bytes1 a = 0xb5;</code> 来定义</li></ul><p>还有一些相对复杂的数据类型，我们单独进行讲解。</p><h4 id=enum>Enum
+<a class=anchor href=#enum>#</a></h4><p><code>Enum</code> 是枚举类型，可以通过以下语法来定义</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>enum</span> <span style=color:#a6e22e>Status</span> {
+</span></span><span style=display:flex><span>    Unknown,
+</span></span><span style=display:flex><span>    Start,
+</span></span><span style=display:flex><span>    End,
+</span></span><span style=display:flex><span>    Pause
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>并通过以下语法来进行更新与初始化</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 实例化枚举类型
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>Status <span style=color:#66d9ef>public</span> status;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 更新枚举值
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>pause</span>() <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>    status <span style=color:#f92672>=</span> Status.Pause;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 初始化枚举值
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>reset</span>() <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>delete</span> status;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=数组>数组
+<a class=anchor href=#%e6%95%b0%e7%bb%84>#</a></h4><p>数组是一种存储同类元素的有序集合，通过 <code>uint[] public arr;</code> 来进行定义，在定义时可以预先指定数组大小，如 <code>uint[10] public myFixedSizeArr;</code>。</p><p>需要注意的是，我们可以在内存中创建数组（关于 <code>memory</code> 与 <code>storage</code> 等差异后续会详细讲解），但是必须固定大小，如 <code>uint[] memory a = new uint[](5);</code>。</p><p>数组类型有一些基本操作方法，如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// 定义数组类型
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>uint</span>[<span style=color:#ae81ff>7</span>] <span style=color:#66d9ef>public</span> arr;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 添加数据
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>arr.push(<span style=color:#ae81ff>7</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 删除最后一个数据
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>arr.pop();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 删除某个索引值数据
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>delete</span> arr[<span style=color:#ae81ff>1</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 获取数组长度
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>uint</span> len <span style=color:#f92672>=</span> arr.length;
+</span></span></code></pre></div><h4 id=mapping>mapping
+<a class=anchor href=#mapping>#</a></h4><p><code>mapping</code> 是一种映射类型，使用 <code>mapping(keyType => valueType)</code> 来定义，其中键需要是内置类型，如 <code>bytes</code>、<code>string</code>、<code>string</code> 或合约类型，而值可以是任何类型，如嵌套 <code>mapping</code> 类型。需要注意的是，<code>mapping</code> 类型是不能被迭代遍历的，需要遍历则需要自行实现对应索引。</p><p>下面说明一下各类操作：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// 定义嵌套 mapping 类型
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>mapping</span>(<span style=color:#66d9ef>string</span> <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>mapping</span>(<span style=color:#66d9ef>string</span> <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>string</span>)) nestedMap;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 设置值
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>nestedMap[id][key] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;0707&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 读取值
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>string</span> value <span style=color:#f92672>=</span> nestedMap[id][key];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 删除值
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>delete</span> nestedMap[id][key];
+</span></span></code></pre></div><h4 id=struct>Struct
+<a class=anchor href=#struct>#</a></h4><p><code>struct</code> 是结构类型，对于复杂业务，我们经常需要定义自己的结构，将关联的数据组合起来，可以在合约内进行定义</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>Struct</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Data</span> {
+</span></span><span style=display:flex><span>    	<span style=color:#66d9ef>string</span> id;
+</span></span><span style=display:flex><span>    	<span style=color:#66d9ef>string</span> hash;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    Data <span style=color:#66d9ef>public</span> data;
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 添加数据
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>create</span>(<span style=color:#66d9ef>string</span> calldata _id) <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>    	data <span style=color:#f92672>=</span> Data{id<span style=color:#f92672>:</span> _id, hash<span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;111222&#34;</span>};
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 更新数据
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>update</span>(<span style=color:#66d9ef>string</span> _id) <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>    	<span style=color:#75715e>// 查询数据
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    	<span style=color:#66d9ef>string</span> id <span style=color:#f92672>=</span> data.id;
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 更新
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        data.hash <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;222333&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>也可以单独文件定义所有需要的结构类型，由合约按需导入</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// &#39;StructDeclaration.sol&#39;
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Data</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>string</span> id;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>string</span> hash;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// &#39;Struct.sol&#39;
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;./StructDeclaration.sol&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>Struct</span> {
+</span></span><span style=display:flex><span>	Data <span style=color:#66d9ef>public</span> data;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=变量常量immutable>变量/常量/<code>Immutable</code>
+<a class=anchor href=#%e5%8f%98%e9%87%8f%e5%b8%b8%e9%87%8fimmutable>#</a></h3><p>变量是 Solidity 中可改变值的一种数据结构，分为以下三种：</p><ul><li><code>local</code> 变量</li><li><code>state</code> 变量</li><li><code>global</code> 变量</li></ul><p>其中， <code>local</code> 变量定义在方法中，而不会存储在链上，如 <code>string var = "Hello";</code>；而 <code>state</code> 变量在方法之外定义，会存储在链上，通过 <code>string public var;</code> 定义变量，写入值时会发送交易，而读取值则不会；<code>global</code> 变量则是提供了链信息的全局变量，如当前区块时间戳变量，<code>uint timestamp = block.timestamp;</code>，合约调用者地址变量，<code>address sender = msg.sender;</code> 等。</p><p>变量可以通过不同关键字进行声明，表示不同的存储位置。</p><ul><li><code>storage</code>，会存储在链上</li><li><code>memory</code>，在内存中，只有方法被调用的时候才存在</li><li><code>calldata</code>，作为调用方法传入参数时存在</li></ul><p>而常量是一种不可以改变值的变量，使用常量可以节约 gas 费用，我们可以通过 <code>string public constant MY_CONSTANT = "0707";</code> 来进行定义。<code>immutable</code> 则是一种特殊的类型，它的值可以在 <code>constructor</code> 中初始化，但不可以再次改变。灵活使用这几种类型可以有效节省 gas 费并保障数据安全。</p><h3 id=函数>函数
+<a class=anchor href=#%e5%87%bd%e6%95%b0>#</a></h3><p>在 Solidity 中，函数用来定义一些特定业务逻辑。</p><h4 id=权限声明>权限声明
+<a class=anchor href=#%e6%9d%83%e9%99%90%e5%a3%b0%e6%98%8e>#</a></h4><p>函数分为不同的可见性，用户不同的关键字进行声明：</p><ul><li><code>public</code>，任何合约都可调用</li><li><code>private</code>，只有定义了该方法的合约内部可调用</li><li><code>internal</code>，只有在继承合约可调用</li><li><code>external</code>，只有其他合约和账户可调用</li></ul><p>查询数据的合约函数也有不同的声明方式：</p><ul><li><code>view</code> 可以读取变量，但不能更改</li><li><code>pure</code> 不可以读也不可以修改</li></ul><h4 id=函数修饰符>函数修饰符
+<a class=anchor href=#%e5%87%bd%e6%95%b0%e4%bf%ae%e9%a5%b0%e7%ac%a6>#</a></h4><p><code>modifier</code> 函数修饰符可以在函数运行前/后被调用，主要用来进行权限控制、对输入参数进行校验以及防止重入攻击等。这三种功能修饰符可以通过以下语法定义：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>modifier</span> <span style=color:#a6e22e>onlyOwner</span>() {
+</span></span><span style=display:flex><span>	require(msg.sender <span style=color:#f92672>==</span> owner, <span style=color:#e6db74>&#34;Not owner&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>_</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>modifier</span> <span style=color:#a6e22e>validAddress</span>(<span style=color:#66d9ef>address</span> _addr) {
+</span></span><span style=display:flex><span>	require(_addr <span style=color:#f92672>!=</span> <span style=color:#66d9ef>address</span>(<span style=color:#ae81ff>0</span>), <span style=color:#e6db74>&#34;Not valid address&#34;</span>);
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>_</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>modifier</span> <span style=color:#a6e22e>noReentrancy</span>() {
+</span></span><span style=display:flex><span>	require(<span style=color:#f92672>!</span>locked, <span style=color:#e6db74>&#34;No reentrancy&#34;</span>);
+</span></span><span style=display:flex><span>	locked <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>_</span>;
+</span></span><span style=display:flex><span>	locked <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>使用函数修饰符则是需要在函数声明时添加对应修饰符，如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>changeOwner</span>(<span style=color:#66d9ef>address</span> _newOwner) <span style=color:#66d9ef>public</span> onlyOwner validAddress(_newOwner) {
+</span></span><span style=display:flex><span>	owner <span style=color:#f92672>=</span> _newOwner;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>decrement</span>(<span style=color:#66d9ef>uint</span> i) <span style=color:#66d9ef>public</span> noReentrancy {
+</span></span><span style=display:flex><span>	x <span style=color:#f92672>-=</span> i;
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> (i <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>1</span>) {
+</span></span><span style=display:flex><span>		decrement(i <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=函数选择器>函数选择器
+<a class=anchor href=#%e5%87%bd%e6%95%b0%e9%80%89%e6%8b%a9%e5%99%a8>#</a></h4><p>当函数被调用时，<code>calldata</code> 的前四个字节要指定以确认调用哪个函数，被称为函数选择器。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>addr.call(abi.encodeWithSignature(<span style=color:#e6db74>&#34;transfer(address,uint256)&#34;</span>, <span style=color:#ae81ff>0</span>xSomeAddress, <span style=color:#ae81ff>123</span>))
+</span></span></code></pre></div><p>上述代码 <code>abi.encodeWithSignature()</code> 返回值的前四个字节就是函数选择器。我们如果在执行前预先计算函数选择器的话可以节约一些 <code>gas</code> 费。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>FunctionSelector</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>getSelector</span>(<span style=color:#66d9ef>string</span> calldata _func) <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>bytes4</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>bytes4</span>(keccak256(<span style=color:#66d9ef>bytes</span>(_func)));
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=条件循环结构>条件/循环结构
+<a class=anchor href=#%e6%9d%a1%e4%bb%b6%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84>#</a></h3><h4 id=条件>条件
+<a class=anchor href=#%e6%9d%a1%e4%bb%b6>#</a></h4><p>Solidity 使用 <code>if</code>、<code>else if</code>、<code>else</code> 关键字来实现条件逻辑：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (x <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>) {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>} <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (x <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>20</span>) {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>} <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> <span style=color:#ae81ff>2</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>也可以使用简写形式：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>x <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>20</span> <span style=color:#f92672>?</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>;
+</span></span></code></pre></div><h4 id=循环>循环
+<a class=anchor href=#%e5%be%aa%e7%8e%af>#</a></h4><p>Solidity 使用 <code>for</code>、<code>while</code>、<code>do while</code> 关键字来实现循环逻辑，但是因为后两者容易达到 <code>gas limit</code> 边界值，所以基本上不用。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>uint</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>; i<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>	<span style=color:#75715e>// 业务逻辑
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>uint</span> j;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> (j <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>) {
+</span></span><span style=display:flex><span>	j<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=合约>合约
+<a class=anchor href=#%e5%90%88%e7%ba%a6>#</a></h3><h4 id=构造器>构造器
+<a class=anchor href=#%e6%9e%84%e9%80%a0%e5%99%a8>#</a></h4><p>Solidity 的 <code>constructor</code> 可以在创建合约的时候执行，主要用来初始化</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>constructor</span>(<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span> _name) {
+</span></span><span style=display:flex><span>	name <span style=color:#f92672>=</span> _name;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如果合约之间存在继承关系，<code>constructor</code> 也会按照继承顺序。</p><h4 id=接口>接口
+<a class=anchor href=#%e6%8e%a5%e5%8f%a3>#</a></h4><p><code>Interface</code>，通过声明接口来进行合约交互，有以下要求：</p><ul><li>不能实现任何方法</li><li>可以继承其他接口</li><li>的所有方法都必须声明为 <code>external</code></li><li>不能声明构造方法</li><li>不能声明状态变量</li></ul><p>接口用如下语法进行定义：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>Counter</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> <span style=color:#66d9ef>public</span> count;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>increment</span>() <span style=color:#66d9ef>external</span> {
+</span></span><span style=display:flex><span>		count <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>ICounter</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>count</span>() <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>view</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>uint</span>);
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>increment</span>() <span style=color:#66d9ef>external</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>调用则是通过</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>MyContract</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>incrementCounter</span>(<span style=color:#66d9ef>address</span> _counter) <span style=color:#66d9ef>external</span> {
+</span></span><span style=display:flex><span>		ICounter(_counter).increment();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>getCount</span>(<span style=color:#66d9ef>address</span> _counter) <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>view</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>uint</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> ICounter(_counter).count();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=继承>继承
+<a class=anchor href=#%e7%bb%a7%e6%89%bf>#</a></h4><p>Solidity 合约支持继承，且可以同时继承多个，使用 <code>is</code> 关键字。</p><p>函数可以进行重写，需要被继承的合约方法需要声明为 <code>virtual</code>，重写方法需要使用 <code>override</code> 关键字。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// 定义父合约 A
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>A</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>foo</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>virtual</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;A&#34;</span>;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// B 合约继承 A 合约并重写函数
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>B</span> <span style=color:#66d9ef>is</span> A {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>foo</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>virtual</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;B&#34;</span>;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// D 合约继承 B、C 合约并重写函数
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>D</span> <span style=color:#66d9ef>is</span> B, C {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>foo</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>override</span>(B, C) <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> super.foo();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>有几点需要注意的是，继承顺序会影响业务逻辑，<code>state</code> 状态变量是不可以被继承的。</p><p>如果子合约想调用父合约，除了直接调用外，还可以通过 <code>super</code> 关键字来调用，如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>B</span> <span style=color:#66d9ef>is</span> A {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>foo</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>virtual</span> <span style=color:#66d9ef>override</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 直接调用
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>		A.foo();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>bar</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>virtual</span> <span style=color:#66d9ef>override</span> {
+</span></span><span style=display:flex><span>    	<span style=color:#75715e>// 通过 super 关键字调用
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>		super.bar();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=合约创建>合约创建
+<a class=anchor href=#%e5%90%88%e7%ba%a6%e5%88%9b%e5%bb%ba>#</a></h4><p>Solidity 中可以从另一个合约中使用 <code>new</code> 关键字来创建另一个合约</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>create</span>(<span style=color:#66d9ef>address</span> _owner, <span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span> _model) <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>	Car car <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Car(_owner, _model);
+</span></span><span style=display:flex><span>	cars.push(car);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>而 <code>solidity 0.8.0</code> 后支持 <code>create2</code> 特性创建合约</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>create2</span>(<span style=color:#66d9ef>address</span> _owner, <span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span> _model, <span style=color:#66d9ef>bytes32</span> _salt) <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>	Car car <span style=color:#f92672>=</span> (<span style=color:#66d9ef>new</span> Car){salt<span style=color:#f92672>:</span> _salt}(_owner, _model);
+</span></span><span style=display:flex><span>	cars.push(car);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=导入合约外部库>导入合约/外部库
+<a class=anchor href=#%e5%af%bc%e5%85%a5%e5%90%88%e7%ba%a6%e5%a4%96%e9%83%a8%e5%ba%93>#</a></h4><p>复杂业务中，我们往往需要多个合约之间进行配合，这时候可以使用 <code>import</code> 关键字来导入合约，分为本地导入 <code>import "./Foo.sol";</code> 与外部导入 <code>import "https://github.com/owner/repo/blob/branch/path/to/Contract.sol";</code> 两种方式。</p><p>外部库和合约类似，但不能声明状态变量，也不能发送资产。如果库的所有方法都是 <code>internal</code> 的话会被嵌入合约，如果非 <code>internal</code>，需要提前部署库并且链接起来。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>library</span> SafeMath {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>add</span>(<span style=color:#66d9ef>uint</span> x, <span style=color:#66d9ef>uint</span> y) <span style=color:#66d9ef>internal</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>uint</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>uint</span> z <span style=color:#f92672>=</span> x <span style=color:#f92672>+</span> y;
+</span></span><span style=display:flex><span>		require(z <span style=color:#f92672>&gt;=</span> x, <span style=color:#e6db74>&#34;uint overflow&#34;</span>);
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> z;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>TestSafeMath</span> {
+</span></span><span style=display:flex><span>	<span style=color:#f92672>using</span> SafeMath <span style=color:#66d9ef>for</span> <span style=color:#66d9ef>uint</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=事件>事件
+<a class=anchor href=#%e4%ba%8b%e4%bb%b6>#</a></h4><p>事件机制是合约中非常重要的一个设计。事件允许将信息记录到区块链上，DApp 等应用可以通过监听事件数据来实现业务逻辑，存储成本很低。以下是一个简单的日志抛出机制：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// 定义事件
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>Log</span>(<span style=color:#66d9ef>address</span> <span style=color:#66d9ef>indexed</span> sender, <span style=color:#66d9ef>string</span> message);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>AnotherLog</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 抛出事件
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>emit Log(msg.sender, <span style=color:#e6db74>&#34;Hello World!&#34;</span>);
+</span></span><span style=display:flex><span>emit Log(msg.sender, <span style=color:#e6db74>&#34;Hello EVM!&#34;</span>);
+</span></span><span style=display:flex><span>emit AnotherLog();
+</span></span></code></pre></div><p>定义事件时可以传入 <code>indexed</code> 属性，但最多三个，加了后可以对这个属性的参数进行过滤，<code>var event = myContract.transfer({value: ["99","100","101"]});</code>。</p><h3 id=错误处理>错误处理
+<a class=anchor href=#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86>#</a></h3><p>链上错误处理也是合约编写的重要环节。Solidity 可以通过以下几种方式抛出错误。</p><p><code>require</code> 都是在执行前验证条件，不满足则抛出异常。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>testRequire</span>(<span style=color:#66d9ef>uint</span> _i) <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>pure</span> {
+</span></span><span style=display:flex><span>	require(_i <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>10</span>, <span style=color:#e6db74>&#34;Input must be greater than 10&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>revert</code> 用来标记错误与进行回滚。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>testRevert</span>(<span style=color:#66d9ef>uint</span> _i) <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>pure</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> (_i <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>10</span>) {
+</span></span><span style=display:flex><span>		revert(<span style=color:#e6db74>&#34;Input must be greater than 10&#34;</span>);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>assert</code> 要求一定要满足条件。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>testAssert</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>view</span> {
+</span></span><span style=display:flex><span>	assert(num <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>注意，在 Solidity 中，当出现错误时会回滚交易中发生的所有状态改变，包括所有的资产，账户，合约等。</p><p><code>try / catch</code> 也可以捕捉错误，但只能捕捉来自外部函数调用和合约创建的错误。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>Log</span>(<span style=color:#66d9ef>string</span> message);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>LogBytes</span>(<span style=color:#66d9ef>bytes</span> data);
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>tryCatchNewContract</span>(<span style=color:#66d9ef>address</span> _owner) <span style=color:#66d9ef>public</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>try</span> <span style=color:#66d9ef>new</span> Foo(_owner) <span style=color:#66d9ef>returns</span> (Foo foo) {
+</span></span><span style=display:flex><span>		emit Log(<span style=color:#e6db74>&#34;Foo created&#34;</span>);
+</span></span><span style=display:flex><span>	} <span style=color:#66d9ef>catch</span> Error(<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>memory</span> reason) {
+</span></span><span style=display:flex><span>		emit Log(reason);
+</span></span><span style=display:flex><span>	} <span style=color:#66d9ef>catch</span> (<span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> reason) {
+</span></span><span style=display:flex><span>		emit LogBytes(reason);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=payable-关键字><code>payable</code> 关键字
+<a class=anchor href=#payable-%e5%85%b3%e9%94%ae%e5%ad%97>#</a></h3><p>我们可以通过声明 <code>payable</code> 关键字设置方法可从合约中接收 <code>ether</code>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>// 地址类型可以声明 payable
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>address</span> <span style=color:#66d9ef>payable</span> <span style=color:#66d9ef>public</span> owner;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>constructor</span>() <span style=color:#66d9ef>payable</span> {
+</span></span><span style=display:flex><span>	owner <span style=color:#f92672>=</span> <span style=color:#66d9ef>payable</span>(msg.sender);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 方法声明 payable 来接收 Ether
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>deposit</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>payable</span> {}
+</span></span></code></pre></div><h3 id=与-ether-交互>与 <code>Ether</code> 交互
+<a class=anchor href=#%e4%b8%8e-ether-%e4%ba%a4%e4%ba%92>#</a></h3><p>与 <code>Ether</code> 交互是智能合约的重要应用场景，主要分为发送和接收两部分，分别有不同的方法实现。</p><h4 id=发送>发送
+<a class=anchor href=#%e5%8f%91%e9%80%81>#</a></h4><p>主要通过 <code>transfer</code>、<code>send</code> 与 <code>call</code> 方法实现，其中 <code>call</code> 优化了对重入攻击的防范，在实际应用场景中建议使用（但一般不用来调用其他函数）。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>SendEther</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>sendViaCall</span>(<span style=color:#66d9ef>address</span> <span style=color:#66d9ef>payable</span> _to) <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>payable</span> {
+</span></span><span style=display:flex><span>  	(<span style=color:#66d9ef>bool</span> sent, <span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> data) <span style=color:#f92672>=</span> _to.call{value<span style=color:#f92672>:</span> msg.value}(<span style=color:#e6db74>&#34;&#34;</span>);
+</span></span><span style=display:flex><span>  	require(sent, <span style=color:#e6db74>&#34;Failed to send Ether&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>而如果需要调用另一个函数，则一般使用 <code>delegatecall</code>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>B</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> <span style=color:#66d9ef>public</span> num;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>address</span> <span style=color:#66d9ef>public</span> sender;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> <span style=color:#66d9ef>public</span> value;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setVars</span>(<span style=color:#66d9ef>uint</span> _num) <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>payable</span> {
+</span></span><span style=display:flex><span>		num <span style=color:#f92672>=</span> _num;
+</span></span><span style=display:flex><span>		sender <span style=color:#f92672>=</span> msg.sender;
+</span></span><span style=display:flex><span>		value <span style=color:#f92672>=</span> msg.value;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>A</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> <span style=color:#66d9ef>public</span> num;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>address</span> <span style=color:#66d9ef>public</span> sender;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> <span style=color:#66d9ef>public</span> value;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setVars</span>(<span style=color:#66d9ef>address</span> _contract, <span style=color:#66d9ef>uint</span> _num) <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>payable</span> {
+</span></span><span style=display:flex><span>		(<span style=color:#66d9ef>bool</span> success, <span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> data) <span style=color:#f92672>=</span> _contract.delegatecall(
+</span></span><span style=display:flex><span>			abi.encodeWithSignature(<span style=color:#e6db74>&#34;setVars(uint256)&#34;</span>, _num)
+</span></span><span style=display:flex><span>		);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=接收>接收
+<a class=anchor href=#%e6%8e%a5%e6%94%b6>#</a></h4><p>接收 <code>Ether</code> 主要用 <code>receive() external payable</code> 与 <code>fallback() external payable</code> 两种。</p><p>当一个不接受任何参数也不返回任何参数的函数、当 <code>Ether</code> 被发送至某个合约但 <code>receive()</code> 方法未实现或 <code>msg.data</code> 非空时，会调用 <code>fallback()</code> 方法。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>contract</span> <span style=color:#a6e22e>ReceiveEther</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#75715e>// 当 msg.data 为空时
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	receive() <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>payable</span> {}
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 当 msg.data 非空时
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	fallback() <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>payable</span> {}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>getBalance</span>() <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>view</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>uint</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>address</span>(this).balance;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=gas-费>Gas 费
+<a class=anchor href=#gas-%e8%b4%b9>#</a></h3><p>在 EVM 中执行交易需要耗费 gas 费，<code>gas spent</code> 表示需要多少 gas 量，<code>gas price</code> 为 gas 的单位价格，<code>Ether</code> 和 <code>Wei</code> 是价格单位，1 ether == 1e18 wei。</p><p>合约会对 Gas 进行限制，<code>gas limit</code> 由发起交易的用户设置，最多花多少 gas，<code>block gas limit</code>，由区块链网络决定，这个区块中最多允许多少 gas。</p><p>我们在合约开发中要尤其考虑尽量节约 gas 费，有以下几个常用技巧：</p><ol><li>使用 <code>calldata</code> 来替换 <code>memory</code></li><li>将状态变量载入内存</li><li>使用 <code>i++</code> 而不是 <code>++i</code></li><li>缓存数组元素</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>sumIfEvenAndLessThan99</span>(<span style=color:#66d9ef>uint</span>[] calldata nums) <span style=color:#66d9ef>external</span> {
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> _total <span style=color:#f92672>=</span> total;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>uint</span> len <span style=color:#f92672>=</span> nums.length;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>uint</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> len; <span style=color:#f92672>++</span>i) {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>uint</span> num <span style=color:#f92672>=</span> nums[i];
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> (num <span style=color:#f92672>%</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>&amp;&amp;</span> num <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>99</span>) {
+</span></span><span style=display:flex><span>			_total <span style=color:#f92672>+=</span> num;
+</span></span><span style=display:flex><span>		}
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	total <span style=color:#f92672>=</span> _total;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=总结>总结
+<a class=anchor href=#%e6%80%bb%e7%bb%93>#</a></h2><p>以上就是我们系列第一篇，Solidity 基础知识，后续文章会对其常见应用和实用编码技巧进行学习总结，欢迎大家持续关注。</p><h2 id=参考资料>参考资料
+<a class=anchor href=#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99>#</a></h2><blockquote><ol><li><a href=https://solidity-by-example.org>Solidity by Example</a></li><li><a href=http://gasolin.idv.tw/learndapp/>Ethereum 區塊鏈！智能合約(Smart Contract)與分散式網頁應用(dApp)入門</a></li><li><a href=https://www.pseudoyu.com/blockchain-guide/>区块链入门指南</a></li><li><a href=https://github.com/pseudoyu/uright>Uright - 区块链音乐版权管理ÐApp</a></li></ol></blockquote></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#智能合约-与-solidity-语言>智能合约 与 Solidity 语言</a></li><li><a href=#开发调试工具>开发/调试工具</a></li><li><a href=#合约编译部署>合约编译/部署</a></li><li><a href=#核心语法>核心语法</a><ul><li><a href=#数据类型>数据类型</a></li><li><a href=#变量常量immutable>变量/常量/<code>Immutable</code></a></li><li><a href=#函数>函数</a></li><li><a href=#条件循环结构>条件/循环结构</a></li><li><a href=#合约>合约</a></li><li><a href=#错误处理>错误处理</a></li><li><a href=#payable-关键字><code>payable</code> 关键字</a></li><li><a href=#与-ether-交互>与 <code>Ether</code> 交互</a></li><li><a href=#gas-费>Gas 费</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></aside></main></body></html>

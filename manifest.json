@@ -1,0 +1,15 @@
+{
+  "name": "区块链入门指南",
+  "short_name": "区块链入门指南",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512"
+    }
+  ]
+}
