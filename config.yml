@@ -1,6 +1,6 @@
 # hugo server --themesDir ...
 
-baseURL: https://www.pseudoyu.com/blockchain-guide
+baseURL: https://guide.pseudoyu.com
 title: 区块链入门指南
 theme: hugo-book
 
