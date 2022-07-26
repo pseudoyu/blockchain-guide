@@ -56,11 +56,11 @@ IPFS 想把全世界所有部署了相同文件系统的计算设备链接在一
 
 这就关系到上文所提到的 IPFS 索引结构是`DHT`（分布式哈希表），通过对`DHT`进行访问可以很快访问得到数据。
 
-![ipfs_dht](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/ipfs_dht.png)
+![ipfs_dht](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_dht.png)
 
 > 那如果想要查找一个本地没有的数据呢？
 
-![ipfs_get](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/ipfs_get.gif)
+![ipfs_get](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_get.gif)
 
 在 IPFS 系统中，所有和当前节点连接的节点会构成一个 swarm 网络，当节点发送一个文件请求(即`get`)时，首先会在本地的 blockstore 里查找请求的数据，如果没找到的话，就会向 swarm 网络发出一个请求，通过网络中的`DHT Routing`找到拥有该数据的节点。
 
@@ -72,7 +72,7 @@ IPFS 想把全世界所有部署了相同文件系统的计算设备链接在一
 
 > 在项目中，上传的文件可以通过`ipfs.io`网关直接获取到文件，类似于`https://ipfs.io/ipfs/Qm.....`这样的网站地址，这个是什么原理呢？
 
-![ipfs_io_get](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/ipfs_io_get.gif)
+![ipfs_io_get](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_io_get.gif)
 
 `ipfs.io`网关实际上就是一个 IPFS 节点，当我们打开上述这个网络链接的时候，实际上就是向这个节点发送了一次请求，因此`ipfs.io`网关会帮我们去向拥有这个数据的节点请求这个 block（如果这个文件是自己刚在本地节点通过`add`命令添加的话就会通过这种方式被上传到 IPFS 网络上），在`swarm`网络中通过`DHT Routing`获取到数据后，网关会自己先缓存一份，然后将数据通过 HTTP 协议发给我们，因此，就可以在浏览器直接看到这个文件啦！
 

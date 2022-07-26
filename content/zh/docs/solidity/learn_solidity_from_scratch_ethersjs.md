@@ -28,7 +28,7 @@ ethers.js 是 Javascript 的一个开源库，可以与以太坊网络进行交�
 yarn add ethers
 ```
 
-![yarn_add_ethers](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/yarn_add_ethers.png)
+![yarn_add_ethers](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add_ethers.png)
 
 ### 使用
 
@@ -129,15 +129,15 @@ const binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf-8")
 
 首先我们访问 [Alchemy 官网](https://dashboard.alchemyapi.io)，注册并登录，会看到其 Dashboard，会展示所有已创建的应用。
 
-![alchemy_dashboard](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/alchemy_dashboard.png)
+![alchemy_dashboard](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/alchemy_dashboard.png)
 
 安装完成后选择 Create App 即可快速创建一个 Rinkeby 测试网络节点。
 
-![alchemy_create_app](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/alchemy_create_app.png)
+![alchemy_create_app](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/alchemy_create_app.png)
 
 创建完成后，点击 View Details，可以看到我们刚创建的 App 详细信息，点击右上角 View Key，可以查询我们的节点信息，我们需要记录下 HTTP URL，供后续连接使用。
 
-![alchemy_app_detail](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/alchemy_app_detail.png)
+![alchemy_app_detail](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/alchemy_app_detail.png)
 
 ## 创建 Rinkeby 测试账户（MetaMask）
 
@@ -145,7 +145,7 @@ const binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf-8")
 
 完成了 Rinkeby 测试网络环境的创建，我们需要通过 MetaMask 创建账户，获取一些测试 Token，并且将账户私钥记录下来，以便后续使用。
 
-![metamask_private_key](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/metamask_private_key.png)
+![metamask_private_key](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/metamask_private_key.png)
 
 ### 获取测试 Token
 

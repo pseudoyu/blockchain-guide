@@ -45,7 +45,7 @@ Solidity 是一门面向合约的、为实现智能合约而创建的高级编�
 
 Solidity 合约是以 `.sol` 为后缀的文件，无法直接执行，需要编译为 EVM（Ethereum Virtual Machine）可识别的字节码才能在链上运行。
 
-![compile_solidity](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/compile_solidity.png)
+![compile_solidity](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/compile_solidity.png)
 
 编译完成后，由合约账户进行部署到链上，其他账户可通过钱包与合约进行交互，实现链上业务逻辑。
 

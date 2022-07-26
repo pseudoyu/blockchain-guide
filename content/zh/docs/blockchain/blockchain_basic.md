@@ -110,7 +110,7 @@ aliases:
 
 P2P 网络是用于不同用户之间共享信息和资源的一种分布式网络，是一种分布式网络，网络中的每个人都能够得到一份信息备份，而且都有访问权限；而中心化网络是所有人都连接至一个（或一组）中心化网络；去中心化网络是有多个这样的中心网络，但没有一个单点网络可以拥有所有的信息。下图很好地解释了它们之间的区别：
 
-![blockchain_network](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/blockchain_network.png)
+![blockchain_network](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/blockchain_network.png)
 
 ### 共识机制
 

@@ -13,7 +13,7 @@ aliases:
 ## Fabric 事件
 
 ### 事件类型
-![hyperledger_fabric_application_interact](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/hyperledger_fabric_application_interact.png)
+![hyperledger_fabric_application_interact](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hyperledger_fabric_application_interact.png)
 
 事件是客户端与 Fabric 网络进行交互的一种方式，如上图所示，事件主要由 Ledger 和存有链码合约的容器触发。Fabric 共支持四种事件形式：
 

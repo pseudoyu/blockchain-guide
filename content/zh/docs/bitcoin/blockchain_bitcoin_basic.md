@@ -16,7 +16,7 @@ aliases:
 
 作为一个去中心化的区块链系统，所有人都可以访问，也可以在本地维护一个节点参与到比特币网络中，下文也会应用`Bitcoin Core`客户端在本地维护一个节点。
 
-![bitcoin_network_nodes](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/bitcoin_network_nodes.png)
+![bitcoin_network_nodes](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/bitcoin_network_nodes.png)
 
 节点分为全节点和轻节点两种，早期所有的节点都是全节点，但随着数据量越来越大，运行在手机或平板等设备上的比特币客户端不需要存储整个区块链的信息，称为`Simplified Payment Verification(SPV)`节点，也叫轻节点。
 
@@ -42,15 +42,15 @@ aliases:
 
 `Merkle Tree`默克尔树是区块链中很重要的一个数据结构，主要通过哈希算法来验证较大数据集（也是通过双重哈希的方式`SHA256(SHA256(Block Header))`），结构如下图所示：
 
-![merkle_tree_example](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/merkle_tree_example.png)
+![merkle_tree_example](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/merkle_tree_example.png)
 
 通过`Merkle Tree`的方式可以很快地验证一个交易存在于某个区块中（算法复杂度为`LogN`），例如，如果要验证一个交易 K 存在于区块中，只需要访问很少的节点
 
-![merkle_proof_example](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/merkle_proof_example.png)
+![merkle_proof_example](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/merkle_proof_example.png)
 
 因为比特币网络中存在大量交易，这种方式能够极大提高效率，如下图所示：
 
-![merkle_proof_efficiency](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/merkle_proof_efficiency.png)
+![merkle_proof_efficiency](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/merkle_proof_efficiency.png)
 
 因为轻节点（例如手机上的比特币钱包）不保存整个区块链数据，通过`Merkle Tree`结构可以很方便地查找交易，轻节点会构造一个`Bloom filter`布隆过滤器来得到与自身相关的交易：
 1. 首先，初始化布隆过滤器为空值，获取钱包中的所有地址，创建一个检索模式来匹配与这个交易输出相关的地址，将检索模式加入布隆过滤器；
@@ -103,7 +103,7 @@ A 和 B 都拥有一个比特币钱包地址（可以用 Bitcoin Client 生成�
 
 下图很好地阐释了多笔交易的流向和`UTXO`的相关概念
 
-![btc_utxo_example](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/btc_utxo_example.png)
+![btc_utxo_example](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/btc_utxo_example.png)
 
 此外，`UTXO`有一个很重要的特性，不可分割，假如 A 有 20 个 BTC，他想转账 5 个 BTC 给 B，那交易会先将 20 个 BTC 作为输入，然后产生两个输出，一个向 B 转账 5 个 BTC，一个返还给 A 剩下的 15 个 BTC，因此，A 又拥有了一笔价值为 15 BTC 的 `UTXO`；如果单个`UTXO`不够支付，则可以组合多个形成输入，但总额一定要大于交易额。
 
@@ -115,7 +115,7 @@ A 和 B 都拥有一个比特币钱包地址（可以用 Bitcoin Client 生成�
 
 > 上文讲了一个交易是怎么发生的，那比特币交易由哪些部分组成呢？
 
-![blockchain_bitcoin_script_detail](https://cdn.jsdelivr.net/gh/pseudoyu/image-hosting@master/images/blockchain_bitcoin_script_detail.png)
+![blockchain_bitcoin_script_detail](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/blockchain_bitcoin_script_detail.png)
 
 如图，最开始的部分是`Version`，表示版本。
 
