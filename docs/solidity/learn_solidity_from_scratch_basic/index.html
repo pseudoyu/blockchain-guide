@@ -24,7 +24,7 @@ Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具
 <a class=anchor href=#%e5%89%8d%e8%a8%80>#</a></h2><p>去年读研的时候上的 HKU 的 <code>&lt;COMP7408 Distributed Ledger and Blockchain Technology></code>，课程中学习了以太坊智能合约的开发，做了一个简单的图书管理 ÐApp，然后毕业设计也选择了基于 Ethereum 做了一个音乐版权应用，详见 <a href=https://github.com/pseudoyu/uright>Uright - 区块链音乐版权管理ÐApp</a>，对 Solidity 开发有一些基础了解。</p><p>后来工作后主要做联盟链和业务开发这一块，很久没有碰过合约，对于语法和底层一些概念都已经一知半解，正好最近做的项目是基于 EVM 的一条链，涉及了一些基本的存证、回检和迁移相关合约的开发，调试起来有些吃力，于是打算系统学习一下，梳理一下笔记成文章，敦促自己好好思考总结。</p><p>这系列文章也会收录在我的个人知识库项目 《<a href=https://www.pseudoyu.com/blockchain-guide/>区块链入门指南</a>》中，希望在学习过程中不断完善。有兴趣的朋友也可以访问<a href=https://github.com/pseudoyu/blockchain-guide>项目仓库</a>参与贡献或提出建议。</p><p>本文为系列第一篇，主要涉及 Solidity 基础知识。</p><h2 id=智能合约-与-solidity-语言>智能合约 与 Solidity 语言
 <a class=anchor href=#%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6-%e4%b8%8e-solidity-%e8%af%ad%e8%a8%80>#</a></h2><p>智能合约是运行在链上的程序，合约开发者可以通过智能合约实现与链上资产/数据进行交互，用户可以通过自己的链上账户来调用合约，访问资产与数据。因为区块链保留区块历史记录的链式结构、去中心化、不可篡改等特征，智能合约相比传统应用来说能更公正、透明。</p><p>然而，因为智能合约需要与链进行交互，部署、数据写入等操作都会消耗一定费用，数据存储与变更成本也比较高，因此在设计合约时需要着重考虑资源的消耗。此外，常规智能合约一经部署就无法进行修改，因此，合约设计时也需要多考虑其安全性、可升级性与拓展性。</p><p>Solidity 是一门面向合约的、为实现智能合约而创建的高级编程语言，在 EVM 虚拟机上运行，语法整体类似于 Javascript，是目前最流行的智能合约语言，也是入门区块链与 Web3 所必须掌握的语言。针对上述的一些合约编写的问题，Solidity 也都有相对完善的解决方案支持，后续会详细讲解。</p><h2 id=开发调试工具>开发/调试工具
 <a class=anchor href=#%e5%bc%80%e5%8f%91%e8%b0%83%e8%af%95%e5%b7%a5%e5%85%b7>#</a></h2><p>与常规编程语言不同，Solidity 智能合约的开发往往无法直接通过一个 IDE 或本地环境进行方便的调试，而是需要与一个链上节点进行交互。开发调试往往也不会直接与主网（即真实资产、数据与业务所在的链）进行交互，否则需要承担高额手续费。目前开发调试主要有以下几种方式与框架：</p><ol><li><a href=https://remix.ethereum.org>Remix IDE</a>。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具进行调试，Remix 会提供完整的 IDE、编译工具、部署调试的测试节点环境、账户等，可以很方便地进行测试，这是我学习使用时用的最多的工具。Remix 还可以通过 MetaMask 插件与测试网、主网进行直接交互，部分生产环境也会使用它进行编译部署。</li><li><a href=https://github.com/trufflesuite/truffle>Truffle</a>。Truffle 是一个非常流行的 Javascript 的 Solidity 合约开发框架，提供了完整的开发、测试、调试工具链，可以与本地或远程网络进行交互。</li><li><a href=https://github.com/eth-brownie/brownie>Brownie</a>。Brownie 是一个基于 Python 的 Solidity 合约开发框架，以简洁的 Python 语法为调试和测试提供了便捷的工具链。</li><li><a href=https://github.com/NomicFoundation/hardhat>Hardhat</a>。Hardhat 是另一个基于 Javascript 的开发框架，提供了非常丰富的插件系统，适合开发复杂的合约项目。</li></ol><p>除了开发框架外，更好地进行 Solidity 还需要熟悉一些工具：</p><ol><li>Remix IDE 对于语法提示等并不完善，因此，可以使用 <a href=https://code.visualstudio.com>Visual Studio Code</a> 配合 <a href="https://marketplace.visualstudio.com/items?itemName=juanblanco.solidity">Solidity</a> 进行编写，有更好的体验。</li><li><a href=https://metamask.io>MetaMask</a>。一个常用的钱包应用，开发过程中可以通过浏览器插件与测试网、主网进行交互，方便开发者进行调试。</li><li><a href=https://trufflesuite.com/ganache/>Ganache</a>。Ganache 是一个开源的虚拟本地节点，提供了一个虚拟链网络，可以通过各类 Web3.js、Remix 或一些框架工具与之交互，适合有一定规模的项目进行本地调试与测试。</li><li><a href=https://infura.io>Infura</a>。Infura 是一个 IaaS（Infrastructure as a Service）产品，我们可以申请自己的 Ethereum 节点，通过 Infura 提供的 API 进行交互，可以很方便地进行调试，也更接近生产环境。</li><li><a href=https://www.openzeppelin.com>OpenZeppelin</a>。OpenZeppelin 提供了非常多的合约开发库与应用，能兼顾安全、稳定的同时给予开发者更好的开发体验，降低合约开发成本。</li></ol><h2 id=合约编译部署>合约编译/部署
-<a class=anchor href=#%e5%90%88%e7%ba%a6%e7%bc%96%e8%af%91%e9%83%a8%e7%bd%b2>#</a></h2><p>Solidity 合约是以 <code>.sol</code> 为后缀的文件，无法直接执行，需要编译为 EVM（Ethereum Virtual Machine）可识别的字节码才能在链上运行。</p><p><img src=https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/compile_solidity.png alt=compile_solidity></p><p>编译完成后，由合约账户进行部署到链上，其他账户可通过钱包与合约进行交互，实现链上业务逻辑。</p><h2 id=核心语法>核心语法
+<a class=anchor href=#%e5%90%88%e7%ba%a6%e7%bc%96%e8%af%91%e9%83%a8%e7%bd%b2>#</a></h2><p>Solidity 合约是以 <code>.sol</code> 为后缀的文件，无法直接执行，需要编译为 EVM（Ethereum Virtual Machine）可识别的字节码才能在链上运行。</p><p><img src=https://image.pseudoyu.com/images/compile_solidity.png alt=compile_solidity></p><p>编译完成后，由合约账户进行部署到链上，其他账户可通过钱包与合约进行交互，实现链上业务逻辑。</p><h2 id=核心语法>核心语法
 <a class=anchor href=#%e6%a0%b8%e5%bf%83%e8%af%ad%e6%b3%95>#</a></h2><p>经过上文，我们对 Solidity 的开发、调试与部署有了一定了解。接下来我们就具体学习一下 Solidity 的核心语法。</p><h3 id=数据类型>数据类型
 <a class=anchor href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b>#</a></h3><p>与我们常见的编程语言类似，Solidity 有一些内置数据类型。</p><h4 id=基本数据类型>基本数据类型
 <a class=anchor href=#%e5%9f%ba%e6%9c%ac%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b>#</a></h4><ul><li><code>boolean</code>，布尔类型有 <code>true</code> 和 <code>false</code> 两种类型，可以通过 <code>bool public boo = true;</code> 来定义，默认值为 <code>false</code></li><li><code>int</code>，整数类型，可以指定 <code>int8</code> 到 <code>int256</code>，默认为 <code>int256</code>，通过 <code>int public int = 0;</code> 来定义，默认值为 <code>0</code>，还可以通过 <code>type(int).min</code> 和 <code>type(int).max</code> 来查看类型最小和最大值</li><li><code>uint</code>，非负整数类型，可以指定 <code>uint8</code>、<code>uint16</code>、<code>uint256</code>，默认为 <code>uint256</code>，通过 <code>uint8 public u8 = 1;</code> 来定义，默认值为 <code>0</code></li><li><code>address</code>，地址类型，可以通过 <code>address public addr = 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c;</code> 来定义，默认值为 <code>0x0000000000000000000000000000000000000000</code></li><li><code>bytes</code>，<code>byte[]</code> 的缩写，分为固定大小数组和可变数组，通过 <code>bytes1 a = 0xb5;</code> 来定义</li></ul><p>还有一些相对复杂的数据类型，我们单独进行讲解。</p><h4 id=enum>Enum
@@ -80,19 +80,19 @@ Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具
 </span></span><span style=display:flex><span>    	<span style=color:#66d9ef>string</span> id;
 </span></span><span style=display:flex><span>    	<span style=color:#66d9ef>string</span> hash;
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    Data <span style=color:#66d9ef>public</span> data;
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#75715e>// 添加数据
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>create</span>(<span style=color:#66d9ef>string</span> calldata _id) <span style=color:#66d9ef>public</span> {
 </span></span><span style=display:flex><span>    	data <span style=color:#f92672>=</span> Data{id<span style=color:#f92672>:</span> _id, hash<span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;111222&#34;</span>};
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#75715e>// 更新数据
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>update</span>(<span style=color:#66d9ef>string</span> _id) <span style=color:#66d9ef>public</span> {
 </span></span><span style=display:flex><span>    	<span style=color:#75715e>// 查询数据
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>    	<span style=color:#66d9ef>string</span> id <span style=color:#f92672>=</span> data.id;
-</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#75715e>// 更新
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>        data.hash <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;222333&#34;</span>
 </span></span><span style=display:flex><span>    }
@@ -136,7 +136,7 @@ Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>decrement</span>(<span style=color:#66d9ef>uint</span> i) <span style=color:#66d9ef>public</span> noReentrancy {
 </span></span><span style=display:flex><span>	x <span style=color:#f92672>-=</span> i;
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> (i <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>1</span>) {
 </span></span><span style=display:flex><span>		decrement(i <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>);
 </span></span><span style=display:flex><span>	}
@@ -268,7 +268,7 @@ Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p>注意，在 Solidity 中，当出现错误时会回滚交易中发生的所有状态改变，包括所有的资产，账户，合约等。</p><p><code>try / catch</code> 也可以捕捉错误，但只能捕捉来自外部函数调用和合约创建的错误。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>Log</span>(<span style=color:#66d9ef>string</span> message);
 </span></span><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>LogBytes</span>(<span style=color:#66d9ef>bytes</span> data);
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>tryCatchNewContract</span>(<span style=color:#66d9ef>address</span> _owner) <span style=color:#66d9ef>public</span> {
 </span></span><span style=display:flex><span>	<span style=color:#66d9ef>try</span> <span style=color:#66d9ef>new</span> Foo(_owner) <span style=color:#66d9ef>returns</span> (Foo foo) {
 </span></span><span style=display:flex><span>		emit Log(<span style=color:#e6db74>&#34;Foo created&#34;</span>);
@@ -324,7 +324,7 @@ Remix IDE。通过 Ethereum 官方提供的基于浏览器的 Remix 开发工具
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>	<span style=color:#75715e>// 当 msg.data 为空时
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>	receive() <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>payable</span> {}
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#75715e>// 当 msg.data 非空时
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>	fallback() <span style=color:#66d9ef>external</span> <span style=color:#66d9ef>payable</span> {}
 </span></span><span style=display:flex><span>

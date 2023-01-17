@@ -44,8 +44,8 @@
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e># 压缩并下载文件</span>
 </span></span><span style=display:flex><span>ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -Cao ipfsTest.png
-</span></span></code></pre></div><p><img src=https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_init_readme.png alt=ipfs_init_readme></p><h3 id=开启加入服务>开启/加入服务
-<a class=anchor href=#%e5%bc%80%e5%90%af%e5%8a%a0%e5%85%a5%e6%9c%8d%e5%8a%a1>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 查看当前节点信息 </span>
+</span></span></code></pre></div><p><img src=https://image.pseudoyu.com/images/ipfs_init_readme.png alt=ipfs_init_readme></p><h3 id=开启加入服务>开启/加入服务
+<a class=anchor href=#%e5%bc%80%e5%90%af%e5%8a%a0%e5%85%a5%e6%9c%8d%e5%8a%a1>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 查看当前节点信息</span>
 </span></span><span style=display:flex><span>ipfs id
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e># 查看IPFS配置信息</span>
@@ -53,7 +53,7 @@
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e># 开启节点服务器</span>
 </span></span><span style=display:flex><span>ipfs daemon
-</span></span></code></pre></div><p>API 服务，默认在 5001 端口，可以通过 http://localhost:5001/webui 进行访问</p><p><img src=https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_webui.png alt=ipfs_webui></p><p>网关服务，默认在 8080 端口，在浏览器里访问文件需要借助于 IPFS 提供的网关服务，由浏览器先访问到网关，网关去获取 IPFS 网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到 IPFS 的文件</p><h3 id=文件操作>文件操作
+</span></span></code></pre></div><p>API 服务，默认在 5001 端口，可以通过 http://localhost:5001/webui 进行访问</p><p><img src=https://image.pseudoyu.com/images/ipfs_webui.png alt=ipfs_webui></p><p>网关服务，默认在 8080 端口，在浏览器里访问文件需要借助于 IPFS 提供的网关服务，由浏览器先访问到网关，网关去获取 IPFS 网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到 IPFS 的文件</p><h3 id=文件操作>文件操作
 <a class=anchor href=#%e6%96%87%e4%bb%b6%e6%93%8d%e4%bd%9c>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 列出文件</span>
 </span></span><span style=display:flex><span>ipfs files ls
 </span></span><span style=display:flex><span>
@@ -83,7 +83,7 @@
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e># 有多个站点需要更新，可以新产生一个秘钥对，使用新的key发布</span>
 </span></span><span style=display:flex><span>ipfs key gen --type<span style=color:#f92672>=</span>rsa --size<span style=color:#f92672>=</span><span style=color:#ae81ff>2048</span> mykey
-</span></span><span style=display:flex><span>ipfs name publish --key<span style=color:#f92672>=</span>mykey  <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span> 
+</span></span><span style=display:flex><span>ipfs name publish --key<span style=color:#f92672>=</span>mykey  <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
 </span></span></code></pre></div><h3 id=pinning>Pinning
 <a class=anchor href=#pinning>#</a></h3><p>当我们向 IPFS 网络请求文件时，IPFS 会把内容先同步的本地提供服务，使用 Cache 机制处理文件以防止存储空间不断增长，如果文件一段时间未被使用则会被“回收”，Pining 的作用就是确保文件在本地不被“回收”。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># pin一个文件</span>
 </span></span><span style=display:flex><span>ipfs pin add <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
