@@ -13,7 +13,7 @@ aliases:
 ## Fabric 事件
 
 ### 事件类型
-![hyperledger_fabric_application_interact](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hyperledger_fabric_application_interact.png)
+![hyperledger_fabric_application_interact](https://image.pseudoyu.com/images/hyperledger_fabric_application_interact.png)
 
 事件是客户端与 Fabric 网络进行交互的一种方式，如上图所示，事件主要由 Ledger 和存有链码合约的容器触发。Fabric 共支持四种事件形式：
 
@@ -56,7 +56,7 @@ func (s *SmartContract) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
     if err != nil {
         return shim.Error(fmt.Sprintf("unable put state (%s), error: %v", key, err))
     }
-    
+
     // Payload 需要转换为字节格式
     eventPayload := "Event Information"
     payloadAsBytes := []byte(eventPayload)
@@ -84,7 +84,7 @@ if err != nil {
     return
 }
 
-// 取消注册并移除事件通道 
+// 取消注册并移除事件通道
 defer eventClient.Unregister(reg)
 ```
 

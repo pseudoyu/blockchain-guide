@@ -56,12 +56,12 @@ ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -o ipfsTest.png
 ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -Cao ipfsTest.png
 ```
 
-![ipfs_init_readme](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_init_readme.png)
+![ipfs_init_readme](https://image.pseudoyu.com/images/ipfs_init_readme.png)
 
 ### 开启/加入服务
 
 ```sh
-# 查看当前节点信息 
+# 查看当前节点信息
 ipfs id
 
 # 查看IPFS配置信息
@@ -73,7 +73,7 @@ ipfs daemon
 
 API 服务，默认在 5001 端口，可以通过 http://localhost:5001/webui 进行访问
 
-![ipfs_webui](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ipfs_webui.png)
+![ipfs_webui](https://image.pseudoyu.com/images/ipfs_webui.png)
 
 网关服务，默认在 8080 端口，在浏览器里访问文件需要借助于 IPFS 提供的网关服务，由浏览器先访问到网关，网关去获取 IPFS 网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到 IPFS 的文件
 
@@ -113,7 +113,7 @@ ipfs name resolve
 
 # 有多个站点需要更新，可以新产生一个秘钥对，使用新的key发布
 ipfs key gen --type=rsa --size=2048 mykey
-ipfs name publish --key=mykey  [File Hash] 
+ipfs name publish --key=mykey  [File Hash]
 ```
 
 ### Pinning

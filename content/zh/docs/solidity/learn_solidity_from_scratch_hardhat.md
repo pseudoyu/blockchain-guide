@@ -22,7 +22,7 @@ aliases:
 
 ## Hardhat 介绍
 
-![hardhat_homepage](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_homepage.png)
+![hardhat_homepage](https://image.pseudoyu.com/images/hardhat_homepage.png)
 
 Hardhat 是一个基于 JavaScript 的智能合约开发环境，可以用于灵活地编译、部署、测试和调试基于 EVM 的智能合约，并且提供了一系列工具链来整合代码与外部工具，还提供了丰富的插件生态，提升开发效率。此外，它还提供了模拟以太坊的本地 Hardhat 网络节点，提供强大的本地调试功能。
 
@@ -41,13 +41,13 @@ yarn init
 yarn add --dev hardhat
 ```
 
-![yarn_add](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add.png)
+![yarn_add](https://image.pseudoyu.com/images/yarn_add.png)
 
 ### 初始化 Hardhat
 
 然后需要运行 `yarn hardhat`，通过交互式命令来进行初始化，根据项目需要进行配置，我们的测试 Demo 选择默认值。
 
-![hardhat_project_init](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_project_init.png)
+![hardhat_project_init](https://image.pseudoyu.com/images/hardhat_project_init.png)
 
 ### 优化代码格式化
 
@@ -76,7 +76,7 @@ yarn add --dev hardhat
 yarn add --dev prettier prettier-plugin-solidity
 ```
 
-![yarn_add_prettier_plugin](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add_prettier_plugin.png)
+![yarn_add_prettier_plugin](https://image.pseudoyu.com/images/yarn_add_prettier_plugin.png)
 
 添加依赖后，可以在项目目录增加 `.prettierrc` 与 `.prettierignore` 配置文件来进行格式化统一：
 
@@ -110,7 +110,7 @@ coverage.json
 
 无需像 `ethers.js` 一样自定义 `compile` 命令，HardHat 预置了 `compile` 命令，可以将合约放在 `contracts` 目录下，然后通过 `yarn hardhat compile` 命令来编译合约：
 
-![hardhat_compile_contract](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_compile_contract.png)
+![hardhat_compile_contract](https://image.pseudoyu.com/images/hardhat_compile_contract.png)
 
 ### 添加 `dotenv` 支持
 
@@ -122,7 +122,7 @@ coverage.json
 yarn add --dev dotenv
 ```
 
-![yarn_add_dotenv](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add_dotenv.png)
+![yarn_add_dotenv](https://image.pseudoyu.com/images/yarn_add_dotenv.png)
 
 #### 设置环境变量
 
@@ -155,7 +155,7 @@ const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || "key"
 
 我们可以直接运行脚本来启动一个 Hardhat 自带的网络，但该网络仅仅存活于脚本运行期间，想要启动一个本地可持续的网络，需要运行 `yarn hardhat node` 命令：
 
-![hardhat_localhost_node](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_localhost_node.png)
+![hardhat_localhost_node](https://image.pseudoyu.com/images/hardhat_localhost_node.png)
 
 执行完成后，就生成了测试网络与测试账户，供后续开发调试使用。
 
@@ -249,7 +249,7 @@ main()
 yarn hardhat run scripts/deploy.js --network rinkeby
 ```
 
-![hardhat_deploy_rinkeby](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_deploy_rinkeby.png)
+![hardhat_deploy_rinkeby](https://image.pseudoyu.com/images/hardhat_deploy_rinkeby.png)
 
 ### 增加 etherscan 合约验证支持
 
@@ -259,7 +259,7 @@ yarn hardhat run scripts/deploy.js --network rinkeby
 
 我们通过 `yarn add --dev @nomiclabs/hardhat-etherscan` 命令安装插件。
 
-![yarn_add_etherscan_verify_support](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add_etherscan_verify_support.png)
+![yarn_add_etherscan_verify_support](https://image.pseudoyu.com/images/yarn_add_etherscan_verify_support.png)
 
 #### 启用 etherscan 合约验证支持
 
@@ -310,7 +310,7 @@ async function verify(contractAddress, args) {
 ```javascript
 async function main() {
     //...
-  
+
     if (network.config.chainId === 4 && process.env.ETHERSCAN_API_KEY) {
         await simpleStorage.deployTransaction.wait(6)
         await verify(simpleStorage.address, [])
@@ -328,13 +328,13 @@ async function main() {
 
 执行效果如下：
 
-![hardhat_verify_contract_etherscan](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_verify_contract_etherscan.png)
+![hardhat_verify_contract_etherscan](https://image.pseudoyu.com/images/hardhat_verify_contract_etherscan.png)
 
-![verified_contract_on_etherscan](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/verified_contract_on_etherscan.png)
+![verified_contract_on_etherscan](https://image.pseudoyu.com/images/verified_contract_on_etherscan.png)
 
 我们通过 Etherscan 验证后访问后可以直接查看合约源码并进行交互。
 
-![interact_with_contract_on_etherscan](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/interact_with_contract_on_etherscan.png)
+![interact_with_contract_on_etherscan](https://image.pseudoyu.com/images/interact_with_contract_on_etherscan.png)
 
 ### 合约测试
 
@@ -391,7 +391,7 @@ describe("SimpleStorage", () => {
 
 我们通过 `yarn hardhat test` 运行测试，且可以通过 `yarn hardhat test --grep store` 来指定测试方法。
 
-![hardhat_run_tests](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_run_tests.png)
+![hardhat_run_tests](https://image.pseudoyu.com/images/hardhat_run_tests.png)
 
 ### 添加 `gas-reporter` 支持
 
@@ -401,7 +401,7 @@ describe("SimpleStorage", () => {
 
 我们通过 `yarn add --dev hardhat-gas-reporter` 命令来安装插件：
 
-![yarn_add_gas_reporter](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add_gas_reporter.png)
+![yarn_add_gas_reporter](https://image.pseudoyu.com/images/yarn_add_gas_reporter.png)
 
 #### 启用 `gas-reporter` 支持
 
@@ -429,7 +429,7 @@ module.exports = {
 
 按照以上配置，运行 `yarn hardhat test` 输出效果如下：
 
-![hardhat_add_gas_reporter_support_and_export](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_add_gas_reporter_support_and_export.png)
+![hardhat_add_gas_reporter_support_and_export](https://image.pseudoyu.com/images/hardhat_add_gas_reporter_support_and_export.png)
 
 ### 添加 `solidity-coverage` 支持
 
@@ -439,7 +439,7 @@ module.exports = {
 
 我们通过 `yarn add --dev solidity-coverage` 命令来安装插件：
 
-![yarn_add_coverage_support](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/yarn_add_coverage_support.png)
+![yarn_add_coverage_support](https://image.pseudoyu.com/images/yarn_add_coverage_support.png)
 
 #### 启用 `solidity-coverage` 支持
 
@@ -453,7 +453,7 @@ require("solidity-coverage")
 
 通过 `yarn hardhat coverage` 即可运行覆盖率测试：
 
-![hardhat_coverage](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_coverage.png)
+![hardhat_coverage](https://image.pseudoyu.com/images/hardhat_coverage.png)
 
 ### Task
 
@@ -484,13 +484,13 @@ Task 通过 `task()` 方法来创建，并通过 `setAction()` 方法来设置�
 yarn hardhat block-number --network rinkeby
 ```
 
-![hardhat_run_tasks](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_run_tasks.png)
+![hardhat_run_tasks](https://image.pseudoyu.com/images/hardhat_run_tasks.png)
 
 ### Hardhat Console
 
 最后，除了通过代码与链/合约进行交互外，我们还可以通过 `Hardhat Console` 来调试项目，查看链状态，合约的输入、输出等。我们可以通过 `yarn hardhat console` 命令来打开 Hardhat Console，并进行交互。
 
-![hardhat_console](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hardhat_console.png)
+![hardhat_console](https://image.pseudoyu.com/images/hardhat_console.png)
 
 ## 总结
 

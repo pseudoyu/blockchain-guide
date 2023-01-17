@@ -45,7 +45,7 @@ Solidity 是一门面向合约的、为实现智能合约而创建的高级编�
 
 Solidity 合约是以 `.sol` 为后缀的文件，无法直接执行，需要编译为 EVM（Ethereum Virtual Machine）可识别的字节码才能在链上运行。
 
-![compile_solidity](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/compile_solidity.png)
+![compile_solidity](https://image.pseudoyu.com/images/compile_solidity.png)
 
 编译完成后，由合约账户进行部署到链上，其他账户可通过钱包与合约进行交互，实现链上业务逻辑。
 
@@ -153,19 +153,19 @@ contract Struct {
     	string id;
     	string hash;
     }
-    
+
     Data public data;
-    
+
     // 添加数据
     function create(string calldata _id) public {
     	data = Data{id: _id, hash: "111222"};
     }
-    
+
     // 更新数据
     function update(string _id) public {
     	// 查询数据
     	string id = data.id;
-        
+
         // 更新
         data.hash = "222333"
     }
@@ -261,7 +261,7 @@ function changeOwner(address _newOwner) public onlyOwner validAddress(_newOwner)
 
 function decrement(uint i) public noReentrancy {
 	x -= i;
-    
+
 	if (i > 1) {
 		decrement(i - 1);
 	}
@@ -523,7 +523,7 @@ function testAssert() public view {
 ```solidity
 event Log(string message);
 event LogBytes(bytes data);
-    
+
 function tryCatchNewContract(address _owner) public {
 	try new Foo(_owner) returns (Foo foo) {
 		emit Log("Foo created");
@@ -607,7 +607,7 @@ contract ReceiveEther {
 
 	// 当 msg.data 为空时
 	receive() external payable {}
-    
+
     // 当 msg.data 非空时
 	fallback() external payable {}
 

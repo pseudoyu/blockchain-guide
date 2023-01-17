@@ -26,7 +26,7 @@ Web3.py 是 Python 的一个开源库，它提供了一个简单的 API，可以
 pip3 install web3
 ```
 
-![pip_install_web3](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/pip_install_web3.png)
+![pip_install_web3](https://image.pseudoyu.com/images/pip_install_web3.png)
 
 ### 使用
 
@@ -103,7 +103,7 @@ with open("./SimpleStorage.sol", "r") as file:
 pip3 install py-solc-x
 ```
 
-![pip_install_solcx](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/pip_install_solcx.png)
+![pip_install_solcx](https://image.pseudoyu.com/images/pip_install_solcx.png)
 
 #### 导入 `solcx`
 
@@ -166,11 +166,11 @@ abi = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["abi"]
 
 在自己的本地环境，如 Mac/Windows 等系统，我们可以选择带图形界面的 Ganache 客户端，安装与使用都十分便捷，在 [Ganache 官网](https://trufflesuite.com/ganache/)选择对应版本即可。
 
-![ganache_download](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ganache_download.png)
+![ganache_download](https://image.pseudoyu.com/images/ganache_download.png)
 
 安装完成后选择 Quick Start 即可快速启动一条本地运行的区块链网络，并初始化了十个拥有 100 ETH 的账户，开发调试过程中可使用。
 
-![ganache_account](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ganache_account.png)
+![ganache_account](https://image.pseudoyu.com/images/ganache_account.png)
 
 ### Ganache CLI 安装
 
@@ -181,11 +181,11 @@ npm install --global yarn
 yarn global add ganache-cli
 ```
 
-![ganache_cli_install](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ganache_cli_install.png)
+![ganache_cli_install](https://image.pseudoyu.com/images/ganache_cli_install.png)
 
 等待其安装完成后即可启动本地测试网络，与 Ganache GUI 一致，也包含初始化账户与余额。
 
-![ganache_cli_start](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/ganache_cli_start.png)
+![ganache_cli_start](https://image.pseudoyu.com/images/ganache_cli_start.png)
 
 ### 通过 web3 连接本地 Ganache 环境
 

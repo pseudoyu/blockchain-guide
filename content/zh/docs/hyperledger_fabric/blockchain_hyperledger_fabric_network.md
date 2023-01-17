@@ -40,7 +40,7 @@ aliases:
 
 `R4`作为网络启动者，需要先配置网络并设立`O4`排序节点！网络创建后，添加`R1`作为网络管理员，因此，`R1`和`R4`可以对网络进行配置（`NC4`）。
 
-![fabric_network_example_1](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/fabric_network_example_1.png)
+![fabric_network_example_1](https://image.pseudoyu.com/images/fabric_network_example_1.png)
 
 > 定义联盟并创建通道
 
@@ -48,7 +48,7 @@ aliases:
 
 接着为这个联盟创建通道`C1`（连接至排序服务`O4`）。
 
-![fabric_network_example_2](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/fabric_network_example_2.png)
+![fabric_network_example_2](https://image.pseudoyu.com/images/fabric_network_example_2.png)
 
 > 加入节点、部署智能合约与应用
 
@@ -60,23 +60,23 @@ aliases:
 
 通道中的每一个节点都是提交节点，可以接收新区块（来自排序节点）进行验证，并提交至账本；而部署了链码的一些节点则可以成为背书节点。
 
-![fabric_network_example_4](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/fabric_network_example_4.png)
+![fabric_network_example_4](https://image.pseudoyu.com/images/fabric_network_example_4.png)
 
 > 定义新联盟、创建新通道
 
 在网络中定义新联盟并加入`C2`通道。
 
-![fabric_network_example_5](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/fabric_network_example_5.png)
+![fabric_network_example_5](https://image.pseudoyu.com/images/fabric_network_example_5.png)
 
 > 加入新节点并部署智能合约与应用
 
 值得注意的是，有些节点会同时加入多个通道，在不同的业务中扮演不同的角色，其他流程同上。
 
-![fabric_network_example_6](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/fabric_network_example_6.png)
+![fabric_network_example_6](https://image.pseudoyu.com/images/fabric_network_example_6.png)
 
 > 网络搭建完成
 
-![hyperledger_fabric_network_example](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hyperledger_fabric_network_example.png)
+![hyperledger_fabric_network_example](https://image.pseudoyu.com/images/hyperledger_fabric_network_example.png)
 
 `Fabric`采用权限管理、通道等机制，并通过对不同节点功能分工，提升了系统的运行效率，并保障了复杂业务场景中的安全和隐私；强大的链码和可自定义的背书策略等也保障了系统的拓展性，可以处理复杂的业务逻辑。
 
@@ -114,7 +114,7 @@ aliases:
 
 `Fabric`提供了一种存储私有数据的方式，使通道中的节点可以选择特定的数据分享对象（节点）。
 
-![fabric_security_private_data](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/fabric_security_private_data.png)
+![fabric_security_private_data](https://image.pseudoyu.com/images/fabric_security_private_data.png)
 
 在这种机制下，真实的数据会通过`gossip`协议发送到指定的节点，数据存放私有数据库中，只有授权节点可以通过链码进行访问，因为这个过程并没有涉及到排序服务，所以排序节点也无法获取。
 

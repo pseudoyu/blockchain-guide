@@ -16,7 +16,7 @@ aliases:
 
 红黑树是一种近似平衡的二叉查找树，含有红黑结点，能够确保任何一个结点的左右子树高度差小于两倍。
 
-![red_black_tree_2](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/red_black_tree_2.png)
+![red_black_tree_2](https://image.pseudoyu.com/images/red_black_tree_2.png)
 #### 性质
 
 必须满足以下五个性质：
@@ -56,7 +56,7 @@ Trie 被称为字典树，又称单词查找树或键树，常用于统计和排
 
 它能够最大限度减少无谓的字符串比较，查询效率较高。
 
-![trie_structure](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/trie_structure.png)
+![trie_structure](https://image.pseudoyu.com/images/trie_structure.png)
 #### 性质
 
 1. 结点不存完整单词
@@ -67,7 +67,7 @@ Trie 被称为字典树，又称单词查找树或键树，常用于统计和排
 
 #### 结点内部实现
 
-![trie_nodes](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/trie_nodes.png)
+![trie_nodes](https://image.pseudoyu.com/images/trie_nodes.png)
 
 字典树的高度较低，但占用的存储空间较大，核心思想是空间换时间。
 
@@ -84,7 +84,7 @@ class Trie {
         children = new Trie[26];
         isEnd = false;
     }
-    
+
     public void insert(String word) {
         Trie node = this;
         for (int i = 0; i < word.length(); i++) {
@@ -97,12 +97,12 @@ class Trie {
         }
         node.isEnd = true;
     }
-    
+
     public boolean search(String word) {
         Trie node = searchPrefix(word);
         return node != null && node.isEnd;
     }
-    
+
     public boolean startsWith(String prefix) {
         return searchPrefix(prefix) != null;
     }
@@ -141,13 +141,13 @@ class Trie {
 
 因此，需要对 Trie 结构进行路径压缩，也就是 Pactricia Trie，经过压缩后，树的高度明显减少，空间和效率都得到提升。
 
-![pactricia_trie](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/pactricia_trie.png)
+![pactricia_trie](https://image.pseudoyu.com/images/pactricia_trie.png)
 
 #### Modified MPT 结构
 
 而以太坊真正采用的是 Modified MPT 结构，其结构如下
 
-![modified_merkle_pactricia_trie](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/modified_merkle_pactricia_trie.png)
+![modified_merkle_pactricia_trie](https://image.pseudoyu.com/images/modified_merkle_pactricia_trie.png)
 
 每次发布新的区块时，状态树中的新节点的值会发生变化，并不是更改原值，而是新建一些分支，保留原来的状态（因此可以实现回滚）。
 
@@ -167,6 +167,6 @@ class Trie {
 
 > 1. [30 张图带你彻底理解红黑树](https://www.jianshu.com/p/e136ec79235c)
 > 2. [LeetCode 实现 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/shi-xian-trie-qian-zhui-shu-by-leetcode-ti500/)
-> 3. [pseudoyu/Red_Black_Tree_Java](https://github.com/pseudoyu/Red_Black_Tree_Java) 
+> 3. [pseudoyu/Red_Black_Tree_Java](https://github.com/pseudoyu/Red_Black_Tree_Java)
 > 4. [以太坊源码分析 -- MPT 树](https://segmentfault.com/a/1190000016050921)
 > 5. [ethereum/ethereumj](https://github.com/ethereum/ethereumj/tree/develop/ethereumj-core/src/main/java/org/ethereum/trie)

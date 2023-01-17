@@ -20,13 +20,13 @@ aliases:
 
 通过 BaaS 平台，开发者可以快速进行区块链业务的研发，综合成本大大降低，且有助于系统稳定性、安全性和易用性等的提升。
 
-![baas_framework](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/baas_framework.svg)
+![baas_framework](https://image.pseudoyu.com/images/baas_framework.png)
 
 ## 平台架构
 
 BaaS 平台作为一个一站式应用服务，自下而上主要分为以下几层：
 
-1. 资源层 
+1. 资源层
 2. 监控运维层
 3. 区块链底层
 4. 区块链服务层
@@ -36,13 +36,13 @@ BaaS 平台作为一个一站式应用服务，自下而上主要分为以下几
 
 ### Hyperledger Cello
 
-![hyperledger_cello_overview](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hyperledger_cello_overview.png)
+![hyperledger_cello_overview](https://image.pseudoyu.com/images/hyperledger_cello_overview.png)
 
 [Hyperledger Cello](https://github.com/hyperledger/cello) 作为 IBM Hyperledger 的顶级项目之一，是一个开源区块链管理平台，支持部署、运行时管理和数据分析等功能。
 
 Cello 目前支持 Hyperledger Fabric 区块链，可以有效管理 Fabric 链的生命周期，主要包含以下模块：
 
-![hyperledger_cello_architecture](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hyperledger_cello_architecture.png)
+![hyperledger_cello_architecture](https://image.pseudoyu.com/images/hyperledger_cello_architecture.png)
 
 除了高效地创建部署网络外，Cello 提供了一些对于区块链的管理功能：
 
@@ -56,7 +56,7 @@ Cello 目前支持 Hyperledger Fabric 区块链，可以有效管理 Fabric 链�
 
 根据官网介绍，BlocFace 是由趣链科技为企业及开发者全新推出的区块链服务平台，为用户提供一键部署联盟链、可视化监控运维和智能合约研发等一站式研发服务，其平台架构如下：
 
-![hyperchain_baas](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/hyperchain_baas.png)
+![hyperchain_baas](https://image.pseudoyu.com/images/hyperchain_baas.png)
 
 ## 总结
 

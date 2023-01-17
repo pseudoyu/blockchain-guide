@@ -52,7 +52,7 @@ aliases:
 
 目前在做一个 BaaS 平台的跨链功能，其基础架构如下：
 
-![cross_chain_framework](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/cross_chain_framework.svg)
+![cross_chain_framework](https://image.pseudoyu.com/images/cross_chain_framework.png)
 
 子链主要是实现各类业务和应用的链，当子链要与其他链进行跨链业务交互时，它需要执行跨链合约，而我们提供了一个跨链网关来对这些跨链合约进行监听。针对异构区块链。如 Hyperledger Fabric、Ethereum，我们将提供不同的适配器来实现跨链 SDK 与跨链网关之间的交互，适配器提供跨链合约信息查询功能。当另一条业务链的 SDK 接收到跨链合约方法时，如果是合约互调用或数据传递，则直接调用对应的合约方法。
 
@@ -66,7 +66,7 @@ aliases:
 
 目前趣链科技的 [BitXHub 跨链平台](https://meshplus.github.io/bitxhub/bitxhub/introduction/summary/)是业界实现得比较完善的开源跨链解决方案，其架构如下：
 
-![bitxhub_structure](https://pseudoyu.oss-cn-hangzhou.aliyuncs.com/images/bitxhub_structure.png)
+![bitxhub_structure](https://image.pseudoyu.com/images/bitxhub_structure.png)
 
 主要通过中继链、网关和插件机制对跨链流程中的功能、安全性和灵活性等进行了优化，并且设计了 IBTP 链间通用传输协议配合“网关+中继链”的架构来解决跨链交易中的验证、路由等问题。
 
