@@ -1,0 +1,100 @@
+<!doctype html><html lang=zh dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="IPFS 本地节点搭建（命令行） # 前言 # 上一篇《IPFS 分布式文件存储原理》对于 IPFS 系统的设计理念、功能、工作原理及 IPNS 做了详细的介绍，那么，如何在本地搭建一个 IPFS 节点呢？
+本文在macOS 11.2.3系统上搭建了一个 IPFS 节点（命令行版本），并对文件上传、下载、网络同步、pin、GC、IPNS等进行了实际操作，以加深对 IPFS 工作原理的理解。
+代码实践 # 安装 # wget https://dist.ipfs.io/go-ipfs/v0.8.0/go-ipfs_v0.8.0_darwin-amd64.tar.gz tar -xvzf go-ipfs_v0.8.0_darwin-amd64.tar.gz cd go-ipfs ./install.sh ipfs --version 启动 # # 启动节点 ipfs init # 上传文件 ipfs add ipfs_init_readme.png # 上传文件并且只输出哈希值 ipfs add -q ipfs_init_readme.png # 上传目录 ipfs add -r [Dir] # 查看文件 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/quick-start # 查看自己上传的文件 ipfs cat QmaP3QS6ZfBoEaUJZ3ZfRKoBm3GGuhQSnUWtkVCNc8ZLTj # 查看图片并输出到文件 ipfs cat QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH > ipfsTest."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="IPFS 本地节点搭建（命令行）"><meta property="og:description" content="IPFS 本地节点搭建（命令行） # 前言 # 上一篇《IPFS 分布式文件存储原理》对于 IPFS 系统的设计理念、功能、工作原理及 IPNS 做了详细的介绍，那么，如何在本地搭建一个 IPFS 节点呢？
+本文在macOS 11.2.3系统上搭建了一个 IPFS 节点（命令行版本），并对文件上传、下载、网络同步、pin、GC、IPNS等进行了实际操作，以加深对 IPFS 工作原理的理解。
+代码实践 # 安装 # wget https://dist.ipfs.io/go-ipfs/v0.8.0/go-ipfs_v0.8.0_darwin-amd64.tar.gz tar -xvzf go-ipfs_v0.8.0_darwin-amd64.tar.gz cd go-ipfs ./install.sh ipfs --version 启动 # # 启动节点 ipfs init # 上传文件 ipfs add ipfs_init_readme.png # 上传文件并且只输出哈希值 ipfs add -q ipfs_init_readme.png # 上传目录 ipfs add -r [Dir] # 查看文件 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/quick-start # 查看自己上传的文件 ipfs cat QmaP3QS6ZfBoEaUJZ3ZfRKoBm3GGuhQSnUWtkVCNc8ZLTj # 查看图片并输出到文件 ipfs cat QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH > ipfsTest."><meta property="og:type" content="article"><meta property="og:url" content="https://guide.pseudoyu.com/zh/docs/ipfs/blockchain_ipfs_practice/"><meta property="article:section" content="docs"><title>IPFS 本地节点搭建（命令行） | 区块链入门指南</title>
+<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css integrity="sha256-gsXb0jRHzuC0wqo+0Izglh+qQOH6Nw7uT4yfAuDUa18=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/zh.search.min.2814898812b926ff0f28a94581e4d5e5662830bfbbbac0fd534361d2206e3547.js integrity="sha256-KBSJiBK5Jv8PKKlFgeTV5WYoML+7usD9U0Nh0iBuNUc=" crossorigin=anonymous></script><script data-goatcounter=https://stats-guide.pseudoyu.com/count async src=//stats-guide.pseudoyu.com/count.js></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/zh/><span>区块链入门指南</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=搜索 aria-label=搜索 maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><p><strong>开始学习</strong></p><ul><li><a href=/zh/docs/study_path/>学习路径</a></li></ul></li><li><p><strong>基础知识</strong></p><ul><li><a href=/zh/docs/blockchain/blockchain_basic/>区块链基础知识与关键技术</a></li><li><a href=/zh/docs/bitcoin/blockchain_bitcoin_basic/>比特币核心技术解读</a></li><li><a href=/zh/docs/ethereum/blockchain_ethereum_basic/>Ethereum 核心技术解读</a></li><li><a href=/zh/docs/ethereum/blockchain_ethereum_mpt/>Ethereum MPT 详解</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_basic/>Solidity 智能合约开发 - 基础</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_web3py/>Solidity 智能合约开发 - 玩转 Web3.py</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_ethersjs/>Solidity 智能合约开发 - 玩转 ethers.js</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_hardhat/>Solidity 智能合约开发 - Hardhat 框架使用</a></li><li><a href=/zh/docs/solidity/two_phase_commit_contract_practice_in_solidity/>通过状态锁在 Solidity 智能合约中实现两阶段提交</a></li><li><a href=/zh/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure/>Fabric 系统架构详解</a></li><li><a href=/zh/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network/>Fabric 网络与安全体系浅析</a></li><li><a href=/zh/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event/>Fabric Go SDK 事件分析</a></li></ul></li><li><p><strong>热门技术</strong></p><ul><li><a href=/zh/docs/ipfs/blockchain_ipfs_structure/>IPFS 技术分析与思考</a></li><li><a href=/zh/docs/ipfs/blockchain_ipfs_practice/ class=active>IPFS 本地节点搭建</a></li><li><a href=/zh/docs/crosschain/blockchain_crosschain/>跨链技术原理与实战</a></li><li><a href=/zh/docs/baas/blockchain_baas_platform/>区块链服务平台 (BaaS) 简介</a></li></ul></li><li><p><strong>开发实战</strong></p></li><li><p><strong>附录：资源</strong></p></li><li><p><a href=https://github.com/pseudoyu/blockchain-guide><strong>Fork on Github</strong></a></p></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu>
+</label><strong>IPFS 本地节点搭建（命令行）</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#代码实践>代码实践</a><ul><li><a href=#安装>安装</a></li><li><a href=#启动>启动</a></li><li><a href=#开启加入服务>开启/加入服务</a></li><li><a href=#文件操作>文件操作</a></li><li><a href=#使用-ipns-来解决文件更新问题>使用 IPNS 来解决文件更新问题</a></li><li><a href=#pinning>Pinning</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></aside></header><article class=markdown><h1 id=ipfs-本地节点搭建命令行>IPFS 本地节点搭建（命令行）
+<a class=anchor href=#ipfs-%e6%9c%ac%e5%9c%b0%e8%8a%82%e7%82%b9%e6%90%ad%e5%bb%ba%e5%91%bd%e4%bb%a4%e8%a1%8c>#</a></h1><h2 id=前言>前言
+<a class=anchor href=#%e5%89%8d%e8%a8%80>#</a></h2><p>上一篇《<a href=https://www.pseudoyu.com/zh/2021/03/25/blockchain_ipfs_structure/>IPFS 分布式文件存储原理</a>》对于 IPFS 系统的设计理念、功能、工作原理及 IPNS 做了详细的介绍，那么，如何在本地搭建一个 IPFS 节点呢？</p><p>本文在<code>macOS 11.2.3</code>系统上搭建了一个 IPFS 节点（命令行版本），并对文件上传、下载、网络同步、<code>pin</code>、<code>GC</code>、<code>IPNS</code>等进行了实际操作，以加深对 IPFS 工作原理的理解。</p><h2 id=代码实践>代码实践
+<a class=anchor href=#%e4%bb%a3%e7%a0%81%e5%ae%9e%e8%b7%b5>#</a></h2><h3 id=安装>安装
+<a class=anchor href=#%e5%ae%89%e8%a3%85>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>wget https://dist.ipfs.io/go-ipfs/v0.8.0/go-ipfs_v0.8.0_darwin-amd64.tar.gz
+</span></span><span style=display:flex><span>tar -xvzf go-ipfs_v0.8.0_darwin-amd64.tar.gz
+</span></span><span style=display:flex><span>cd go-ipfs
+</span></span><span style=display:flex><span>./install.sh
+</span></span><span style=display:flex><span>ipfs --version
+</span></span></code></pre></div><h3 id=启动>启动
+<a class=anchor href=#%e5%90%af%e5%8a%a8>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 启动节点</span>
+</span></span><span style=display:flex><span>ipfs init
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 上传文件</span>
+</span></span><span style=display:flex><span>ipfs add ipfs_init_readme.png
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 上传文件并且只输出哈希值</span>
+</span></span><span style=display:flex><span>ipfs add -q ipfs_init_readme.png
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 上传目录</span>
+</span></span><span style=display:flex><span>ipfs add -r <span style=color:#f92672>[</span>Dir<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查看文件</span>
+</span></span><span style=display:flex><span>ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
+</span></span><span style=display:flex><span>ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/quick-start
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查看自己上传的文件</span>
+</span></span><span style=display:flex><span>ipfs cat QmaP3QS6ZfBoEaUJZ3ZfRKoBm3GGuhQSnUWtkVCNc8ZLTj
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查看图片并输出到文件</span>
+</span></span><span style=display:flex><span>ipfs cat QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH &gt; ipfsTest.png
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 下载文件</span>
+</span></span><span style=display:flex><span>ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -o ipfsTest.png
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 压缩并下载文件</span>
+</span></span><span style=display:flex><span>ipfs get QmfViXYw7GA296brLwid255ivDp1kmTiXJw1kmZVsg7DFH -Cao ipfsTest.png
+</span></span></code></pre></div><p><img src=https://image.pseudoyu.com/images/ipfs_init_readme.png alt=ipfs_init_readme></p><h3 id=开启加入服务>开启/加入服务
+<a class=anchor href=#%e5%bc%80%e5%90%af%e5%8a%a0%e5%85%a5%e6%9c%8d%e5%8a%a1>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 查看当前节点信息</span>
+</span></span><span style=display:flex><span>ipfs id
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查看IPFS配置信息</span>
+</span></span><span style=display:flex><span>ipfs config show
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 开启节点服务器</span>
+</span></span><span style=display:flex><span>ipfs daemon
+</span></span></code></pre></div><p>API 服务，默认在 5001 端口，可以通过 http://localhost:5001/webui 进行访问</p><p><img src=https://image.pseudoyu.com/images/ipfs_webui.png alt=ipfs_webui></p><p>网关服务，默认在 8080 端口，在浏览器里访问文件需要借助于 IPFS 提供的网关服务，由浏览器先访问到网关，网关去获取 IPFS 网络杀过了的文件。通过 http://localhost:8080/ipfs/[File Hash] 来访问上传到 IPFS 的文件</p><h3 id=文件操作>文件操作
+<a class=anchor href=#%e6%96%87%e4%bb%b6%e6%93%8d%e4%bd%9c>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 列出文件</span>
+</span></span><span style=display:flex><span>ipfs files ls
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 创建目录</span>
+</span></span><span style=display:flex><span>ipfs files mkdir
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 删除文件</span>
+</span></span><span style=display:flex><span>ipfs files rm
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 拷贝文件</span>
+</span></span><span style=display:flex><span>ipfs files cp <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span> /<span style=color:#f92672>[</span>Dest Dir<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 移动文件</span>
+</span></span><span style=display:flex><span>ipfs files mv <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span> /<span style=color:#f92672>[</span>Dest Dir<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 状态</span>
+</span></span><span style=display:flex><span>ipfs files stat
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 读取</span>
+</span></span><span style=display:flex><span>ipfs files read
+</span></span></code></pre></div><h3 id=使用-ipns-来解决文件更新问题>使用 IPNS 来解决文件更新问题
+<a class=anchor href=#%e4%bd%bf%e7%94%a8-ipns-%e6%9d%a5%e8%a7%a3%e5%86%b3%e6%96%87%e4%bb%b6%e6%9b%b4%e6%96%b0%e9%97%ae%e9%a2%98>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># 使用IPNS发布内容以自动更新</span>
+</span></span><span style=display:flex><span>ipfs name publish <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查询节点id指向的Hash</span>
+</span></span><span style=display:flex><span>ipfs name resolve
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 有多个站点需要更新，可以新产生一个秘钥对，使用新的key发布</span>
+</span></span><span style=display:flex><span>ipfs key gen --type<span style=color:#f92672>=</span>rsa --size<span style=color:#f92672>=</span><span style=color:#ae81ff>2048</span> mykey
+</span></span><span style=display:flex><span>ipfs name publish --key<span style=color:#f92672>=</span>mykey  <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
+</span></span></code></pre></div><h3 id=pinning>Pinning
+<a class=anchor href=#pinning>#</a></h3><p>当我们向 IPFS 网络请求文件时，IPFS 会把内容先同步的本地提供服务，使用 Cache 机制处理文件以防止存储空间不断增长，如果文件一段时间未被使用则会被“回收”，Pining 的作用就是确保文件在本地不被“回收”。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e># pin一个文件</span>
+</span></span><span style=display:flex><span>ipfs pin add <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查询某一个Hash是否被pin</span>
+</span></span><span style=display:flex><span>ipfs pin ls <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 删除pin的状态</span>
+</span></span><span style=display:flex><span>ipfs pin rm -r <span style=color:#f92672>[</span>File Hash<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># GC操作</span>
+</span></span><span style=display:flex><span>ipfs repo gc
+</span></span></code></pre></div><h2 id=总结>总结
+<a class=anchor href=#%e6%80%bb%e7%bb%93>#</a></h2><p>本文主要在本地部署了 IPFS 文件系统并对基本操作进行了尝试，基于<code>macOS 11.2.3</code>和<code>go-ipfs_v0.8.0_darwin-amd64</code>版本，不同系统操作可能会因版本或依赖问题不一样，如有错漏，欢迎交流指正。</p><h2 id=参考资料>参考资料
+<a class=anchor href=#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99>#</a></h2><blockquote><ol><li><a href=https://ipfs.io>IPFS 官网</a></li></ol></blockquote></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#代码实践>代码实践</a><ul><li><a href=#安装>安装</a></li><li><a href=#启动>启动</a></li><li><a href=#开启加入服务>开启/加入服务</a></li><li><a href=#文件操作>文件操作</a></li><li><a href=#使用-ipns-来解决文件更新问题>使用 IPNS 来解决文件更新问题</a></li><li><a href=#pinning>Pinning</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></aside></main></body></html>

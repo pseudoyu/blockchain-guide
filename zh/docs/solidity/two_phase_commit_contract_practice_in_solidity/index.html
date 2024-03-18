@@ -1,0 +1,131 @@
+<!doctype html><html lang=zh dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="通过状态锁在 Solidity 智能合约中实现两阶段提交 # 前言 # 在一些牵扯到多个系统或合约交互的智能合约应用场景中，尤其是一些资产/数据准确性较为敏感的业务中，我们需要保证在整个业务流程中数据的原子性。因此，我们需要在合约层面实现类似多阶段提交的机制，即将合约中的状态更改过程分解为预提交和正式提交两个阶段。
+本文通过状态锁的机制实现了一个最小化的两阶段提交模型，完整合约代码参见 TwoPhaseCommit.sol，下文将对本合约核心逻辑进行讲解，并尽量遵循风格指南与最佳实践。
+注：本合约因初始场景主要考虑的是联盟链中的业务用途，未对 Gas fee 等进行特定优化，仅供学习参考。
+合约逻辑 # 合约结构 # 两阶段提交场景包含以下方法：
+set: 两阶段 - 预提交 commit: 两阶段 - 正式提交 rollback: 两阶段 - 回滚 因 Solidity 语言对于字符串长度判断/比较等有一些限制，为了提升合约代码的可读性，本合约提供了部分辅助方法，主要包含以下方法：
+isValidKey: 检查 key 是否合法 isValidValue: 检查 value 是否合法 isEqualString: 比较两个字符串是否相等 两阶段提交核心逻辑 # 在两阶段提交场景中，本合约提供了一套简易的 set, commit, rollback 方法实现，实现了将合约调用传入的 key-value 键值对存储到链上。我们通过状态锁的机制来实现跨链交易的原子性。我们定义了如下数据结构：
+enum State { UNLOCKED, LOCKED } struct Payload { State state; string value; string lockValue; } 其中，State 为枚举类型，记录了链上 key 值的锁定状态，而 Payload 结构则会对锁定状态、当前值与正在锁定的值进行存储，并通过如下 mapping 结构与 key 进行绑定："><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content="Solidity 智能合约开发 - 玩转 Web3.py"><meta property="og:description" content="通过状态锁在 Solidity 智能合约中实现两阶段提交 # 前言 # 在一些牵扯到多个系统或合约交互的智能合约应用场景中，尤其是一些资产/数据准确性较为敏感的业务中，我们需要保证在整个业务流程中数据的原子性。因此，我们需要在合约层面实现类似多阶段提交的机制，即将合约中的状态更改过程分解为预提交和正式提交两个阶段。
+本文通过状态锁的机制实现了一个最小化的两阶段提交模型，完整合约代码参见 TwoPhaseCommit.sol，下文将对本合约核心逻辑进行讲解，并尽量遵循风格指南与最佳实践。
+注：本合约因初始场景主要考虑的是联盟链中的业务用途，未对 Gas fee 等进行特定优化，仅供学习参考。
+合约逻辑 # 合约结构 # 两阶段提交场景包含以下方法：
+set: 两阶段 - 预提交 commit: 两阶段 - 正式提交 rollback: 两阶段 - 回滚 因 Solidity 语言对于字符串长度判断/比较等有一些限制，为了提升合约代码的可读性，本合约提供了部分辅助方法，主要包含以下方法：
+isValidKey: 检查 key 是否合法 isValidValue: 检查 value 是否合法 isEqualString: 比较两个字符串是否相等 两阶段提交核心逻辑 # 在两阶段提交场景中，本合约提供了一套简易的 set, commit, rollback 方法实现，实现了将合约调用传入的 key-value 键值对存储到链上。我们通过状态锁的机制来实现跨链交易的原子性。我们定义了如下数据结构：
+enum State { UNLOCKED, LOCKED } struct Payload { State state; string value; string lockValue; } 其中，State 为枚举类型，记录了链上 key 值的锁定状态，而 Payload 结构则会对锁定状态、当前值与正在锁定的值进行存储，并通过如下 mapping 结构与 key 进行绑定："><meta property="og:type" content="article"><meta property="og:url" content="https://guide.pseudoyu.com/zh/docs/solidity/two_phase_commit_contract_practice_in_solidity/"><meta property="article:section" content="docs"><title>Solidity 智能合约开发 - 玩转 Web3.py | 区块链入门指南</title>
+<link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.82c5dbd23447cee0b4c2aa3ed08ce0961faa40e1fa370eee4f8c9f02e0d46b5f.css integrity="sha256-gsXb0jRHzuC0wqo+0Izglh+qQOH6Nw7uT4yfAuDUa18=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script><script defer src=/zh.search.min.2814898812b926ff0f28a94581e4d5e5662830bfbbbac0fd534361d2206e3547.js integrity="sha256-KBSJiBK5Jv8PKKlFgeTV5WYoML+7usD9U0Nh0iBuNUc=" crossorigin=anonymous></script><script data-goatcounter=https://stats-guide.pseudoyu.com/count async src=//stats-guide.pseudoyu.com/count.js></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/zh/><span>区块链入门指南</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=搜索 aria-label=搜索 maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><p><strong>开始学习</strong></p><ul><li><a href=/zh/docs/study_path/>学习路径</a></li></ul></li><li><p><strong>基础知识</strong></p><ul><li><a href=/zh/docs/blockchain/blockchain_basic/>区块链基础知识与关键技术</a></li><li><a href=/zh/docs/bitcoin/blockchain_bitcoin_basic/>比特币核心技术解读</a></li><li><a href=/zh/docs/ethereum/blockchain_ethereum_basic/>Ethereum 核心技术解读</a></li><li><a href=/zh/docs/ethereum/blockchain_ethereum_mpt/>Ethereum MPT 详解</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_basic/>Solidity 智能合约开发 - 基础</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_web3py/>Solidity 智能合约开发 - 玩转 Web3.py</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_ethersjs/>Solidity 智能合约开发 - 玩转 ethers.js</a></li><li><a href=/zh/docs/solidity/learn_solidity_from_scratch_hardhat/>Solidity 智能合约开发 - Hardhat 框架使用</a></li><li><a href=/zh/docs/solidity/two_phase_commit_contract_practice_in_solidity/ class=active>通过状态锁在 Solidity 智能合约中实现两阶段提交</a></li><li><a href=/zh/docs/hyperledger_fabric/blockchain_hyperledger_fabric_structure/>Fabric 系统架构详解</a></li><li><a href=/zh/docs/hyperledger_fabric/blockchain_hyperledger_fabric_network/>Fabric 网络与安全体系浅析</a></li><li><a href=/zh/docs/hyperledger_fabric/blockchain_hyperledger_fabric_gosdk_event/>Fabric Go SDK 事件分析</a></li></ul></li><li><p><strong>热门技术</strong></p><ul><li><a href=/zh/docs/ipfs/blockchain_ipfs_structure/>IPFS 技术分析与思考</a></li><li><a href=/zh/docs/ipfs/blockchain_ipfs_practice/>IPFS 本地节点搭建</a></li><li><a href=/zh/docs/crosschain/blockchain_crosschain/>跨链技术原理与实战</a></li><li><a href=/zh/docs/baas/blockchain_baas_platform/>区块链服务平台 (BaaS) 简介</a></li></ul></li><li><p><strong>开发实战</strong></p></li><li><p><strong>附录：资源</strong></p></li><li><p><a href=https://github.com/pseudoyu/blockchain-guide><strong>Fork on Github</strong></a></p></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu>
+</label><strong>Solidity 智能合约开发 - 玩转 Web3.py</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#合约逻辑>合约逻辑</a><ul><li><a href=#合约结构>合约结构</a></li><li><a href=#两阶段提交核心逻辑>两阶段提交核心逻辑</a></li><li><a href=#错误处理逻辑>错误处理逻辑</a></li><li><a href=#通用参数校验>通用参数校验</a></li><li><a href=#事件机制>事件机制</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></aside></header><article class=markdown><h1 id=通过状态锁在-solidity-智能合约中实现两阶段提交>通过状态锁在 Solidity 智能合约中实现两阶段提交
+<a class=anchor href=#%e9%80%9a%e8%bf%87%e7%8a%b6%e6%80%81%e9%94%81%e5%9c%a8-solidity-%e6%99%ba%e8%83%bd%e5%90%88%e7%ba%a6%e4%b8%ad%e5%ae%9e%e7%8e%b0%e4%b8%a4%e9%98%b6%e6%ae%b5%e6%8f%90%e4%ba%a4>#</a></h1><h2 id=前言>前言
+<a class=anchor href=#%e5%89%8d%e8%a8%80>#</a></h2><p>在一些牵扯到多个系统或合约交互的智能合约应用场景中，尤其是一些资产/数据准确性较为敏感的业务中，我们需要保证在整个业务流程中数据的原子性。因此，我们需要在合约层面实现类似多阶段提交的机制，即将合约中的状态更改过程分解为预提交和正式提交两个阶段。</p><p>本文通过状态锁的机制实现了一个最小化的两阶段提交模型，完整合约代码参见 <a href=https://github.com/pseudoyu/learn-solidity/blob/master/practice/two_phase_commit/TwoPhaseCommit.sol>TwoPhaseCommit.sol</a>，下文将对本合约核心逻辑进行讲解，并尽量遵循风格指南与最佳实践。</p><blockquote><p>注：本合约因初始场景主要考虑的是联盟链中的业务用途，未对 Gas fee 等进行特定优化，仅供学习参考。</p></blockquote><h2 id=合约逻辑>合约逻辑
+<a class=anchor href=#%e5%90%88%e7%ba%a6%e9%80%bb%e8%be%91>#</a></h2><h3 id=合约结构>合约结构
+<a class=anchor href=#%e5%90%88%e7%ba%a6%e7%bb%93%e6%9e%84>#</a></h3><p>两阶段提交场景包含以下方法：</p><ol><li>set: 两阶段 - 预提交</li><li>commit: 两阶段 - 正式提交</li><li>rollback: 两阶段 - 回滚</li></ol><p>因 Solidity 语言对于字符串长度判断/比较等有一些限制，为了提升合约代码的可读性，本合约提供了部分辅助方法，主要包含以下方法：</p><ol><li>isValidKey: 检查 key 是否合法</li><li>isValidValue: 检查 value 是否合法</li><li>isEqualString: 比较两个字符串是否相等</li></ol><h3 id=两阶段提交核心逻辑>两阶段提交核心逻辑
+<a class=anchor href=#%e4%b8%a4%e9%98%b6%e6%ae%b5%e6%8f%90%e4%ba%a4%e6%a0%b8%e5%bf%83%e9%80%bb%e8%be%91>#</a></h3><p>在两阶段提交场景中，本合约提供了一套简易的 <code>set</code>, <code>commit</code>, <code>rollback</code> 方法实现，实现了将合约调用传入的 key-value 键值对存储到链上。我们通过状态锁的机制来实现跨链交易的原子性。我们定义了如下数据结构：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>enum</span> <span style=color:#a6e22e>State</span> {
+</span></span><span style=display:flex><span>    UNLOCKED,
+</span></span><span style=display:flex><span>    LOCKED
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Payload</span> {
+</span></span><span style=display:flex><span>    State state;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>string</span> value;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>string</span> lockValue;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>其中，<code>State</code> 为枚举类型，记录了链上 key 值的锁定状态，而 <code>Payload</code> 结构则会对锁定状态、当前值与正在锁定的值进行存储，并通过如下 <code>mapping</code> 结构与 key 进行绑定：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>mapping</span> (<span style=color:#66d9ef>string</span> <span style=color:#f92672>=&gt;</span> Payload) keyToPayload;
+</span></span></code></pre></div><p>因此，我们可以根据 <code>keyToPaylaod</code> 对合约调用中的每一个 key 进行状态跟踪，并在下述 <code>cc_set</code>, <code>cc_commit</code>, <code>cc_rollback</code> 方法中对 key 的状态进行检查，进行一些异常处理。</p><h4 id=cc_set>cc_set()
+<a class=anchor href=#cc_set>#</a></h4><p>在 <code>cc_set()</code> 方法中，我们会检查 key 的状态，如为 <code>State.LOCKED</code>，则不会进行存储并抛出异常：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (keyToPayload[_key].state <span style=color:#f92672>==</span> State.LOCKED) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsLocked();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如为 <code>State.UNLOCKED</code>，则会将合约调用传入的值存储至 lockValue 中，并将其状态设置为 <code>LOCKED</code>，等待后续 <code>cc_commit</code> 或 <code>cc_rollback</code> 进行解锁。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>keyToPayload[_key].state <span style=color:#f92672>=</span> State.LOCKED;
+</span></span><span style=display:flex><span>keyToPayload[_key].lockValue <span style=color:#f92672>=</span> _value;
+</span></span></code></pre></div><h4 id=cc_commit>cc_commit()
+<a class=anchor href=#cc_commit>#</a></h4><p>在 <code>cc_commit()</code> 方法中，我们会检查 key 的状态，如为 <code>State.UNLOCKED</code>，则不会对该 key 进行操作，并抛出异常：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (keyToPayload[_key].state <span style=color:#f92672>==</span> State.UNLOCKED) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsNotLocked();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如为 <code>State.LOCKED</code>，我们检查合约调用传入的值是否与 lockValue 相等，如不相等，则抛出异常：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isEqualString(keyToPayload[_key].lockValue, _value)) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsInconsistent();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如值相等，则会将该 key 所对应的 value 存储上链，将 key 的状态设置为 <code>UNLOCKED</code>，更新当前值 <code>value</code>，同时将 <code>lockValue</code> 置空：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>store[_key] <span style=color:#f92672>=</span> _value;
+</span></span><span style=display:flex><span>keyToPayload[_key].state <span style=color:#f92672>=</span> State.UNLOCKED;
+</span></span><span style=display:flex><span>keyToPayload[_key].value <span style=color:#f92672>=</span> _value;
+</span></span><span style=display:flex><span>keyToPayload[_key].lockValue <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>;
+</span></span></code></pre></div><h4 id=cc_rollback>cc_rollback()
+<a class=anchor href=#cc_rollback>#</a></h4><p>在 <code>cc_rollback()</code> 方法中，我们会检查 key 的状态，如为 <code>State.UNLOCKED</code>，则不会对该 key 进行操作，并抛出异常：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (keyToPayload[_key].state <span style=color:#f92672>==</span> State.UNLOCKED) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsNotLocked();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如为 <code>State.LOCKED</code>，我们检查合约调用传入的值是否与 lockValue 相等，如不相等，则抛出异常：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isEqualString(keyToPayload[_key].lockValue, _value)) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsInconsistent();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>如值相等，则会将该 key 所对应的 value 存储上链，将 key 的状态设置为 <code>UNLOCKED</code>，并将 <code>lockValue</code> 置空：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>keyToPayload[_key].state <span style=color:#f92672>=</span> State.UNLOCKED;
+</span></span><span style=display:flex><span>keyToPayload[_key].lockValue <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>;
+</span></span></code></pre></div><h3 id=错误处理逻辑>错误处理逻辑
+<a class=anchor href=#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86%e9%80%bb%e8%be%91>#</a></h3><p>在合约执行异常场景中，我们会抛出错误并进行回滚。为了更好地提升错误消息的可读性并方便上层应用人员进行错误捕获与处理，我们采用了错误类型定义的方式，定义了各类异常场景，因为我在错误命名中已经包含了大部分信息，所以未定义错误类型额外参数值，可以根据需求自行定制。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>error TwoPhaseCommit__DataKeyIsNull();
+</span></span><span style=display:flex><span>error TwoPhaseCommit__DataValueIsNull();
+</span></span><span style=display:flex><span>error TwoPhaseCommit__DataIsNotExist();
+</span></span><span style=display:flex><span>error TwoPhaseCommit__DataIsLocked();
+</span></span><span style=display:flex><span>error TwoPhaseCommit__DataIsNotLocked();
+</span></span><span style=display:flex><span>error TwoPhaseCommit__DataIsInconsistent();
+</span></span></code></pre></div><p>在具体合约逻辑中，我们通过 <code>revert</code> 方法抛出异常，如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isValidKey(<span style=color:#66d9ef>bytes</span>(_key))) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataKeyIsNull();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isValidValue(<span style=color:#66d9ef>bytes</span>(_value))) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataValueIsNull();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> (keyToPayload[_key].state <span style=color:#f92672>==</span> State.UNLOCKED) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsNotLocked();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isEqualString(keyToPayload[_key].lockValue, _value)) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsInconsistent();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=通用参数校验>通用参数校验
+<a class=anchor href=#%e9%80%9a%e7%94%a8%e5%8f%82%e6%95%b0%e6%a0%a1%e9%aa%8c>#</a></h3><p>我们会对传入参数进行一些合法性校验，为了提供拓展性，我们通过 <code>isValidKey()</code> 与 <code>isValidValue()</code> 方法对 key 与 value 进行独立校验：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e> * @notice 数据键格式校验
+</span></span></span><span style=display:flex><span><span style=color:#75715e> * @param _key 数据 - 键
+</span></span></span><span style=display:flex><span><span style=color:#75715e> */</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>isValidKey</span>(<span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> _key) <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>bool</span>) 
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> key <span style=color:#f92672>=</span> _key;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (key.length <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e> * @notice 数据值格式校验
+</span></span></span><span style=display:flex><span><span style=color:#75715e> * @param _value 数据 - 值
+</span></span></span><span style=display:flex><span><span style=color:#75715e> */</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>isValidValue</span>(<span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> _value) <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>pure</span> <span style=color:#66d9ef>returns</span> (<span style=color:#66d9ef>bool</span>) 
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>bytes</span> <span style=color:#66d9ef>memory</span> value <span style=color:#f92672>=</span> _value;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (value.length <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>本合约只进行了非空校验，可根据业务需要自行定制业务逻辑，在需要校验的地方调用即可，如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isValidKey(<span style=color:#66d9ef>bytes</span>(_key))) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataKeyIsNull();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isValidValue(<span style=color:#66d9ef>bytes</span>(_value))) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataValueIsNull();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isValidValue(<span style=color:#66d9ef>bytes</span>(store[_key]))) {
+</span></span><span style=display:flex><span>    revert TwoPhaseCommit__DataIsNotExist();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=事件机制>事件机制
+<a class=anchor href=#%e4%ba%8b%e4%bb%b6%e6%9c%ba%e5%88%b6>#</a></h3><p>此外，我们定义了核心方法对应的 event，并为事件设置了 indexed 以方便上层应用进行监听和处理。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>setEvent</span>(<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> key, <span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> value);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>getEvent</span>(<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> key, <span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> value);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>commitEvent</span>(<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> key, <span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> value);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>event</span> <span style=color:#a6e22e>rollbackEvent</span>(<span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> key, <span style=color:#66d9ef>string</span> <span style=color:#66d9ef>indexed</span> value);
+</span></span></code></pre></div><p>在合约方法中通过 <code>emit()</code> 方法抛出 event，如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-solidity data-lang=solidity><span style=display:flex><span>emit setEvent(_key, _value);
+</span></span><span style=display:flex><span>emit getEvent(_key, _value);
+</span></span><span style=display:flex><span>emit commitEvent(_key, _value);
+</span></span><span style=display:flex><span>emit rollbackEvent(_key, _value);
+</span></span></code></pre></div><h2 id=总结>总结
+<a class=anchor href=#%e6%80%bb%e7%bb%93>#</a></h2><p>以上就是我两阶段提交合约的一个最佳实践，关于 Solidity 基础语法可参看『<a href=https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/>Solidity 智能合约开发 - 基础</a>』，后续我还会对更多合约场景进行实践与讲解，敬请关注。</p><h2 id=参考资料>参考资料
+<a class=anchor href=#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99>#</a></h2><blockquote><ol><li><a href=https://github.com/pseudoyu/learn-solidity/blob/master/practice/two_phase_commit/TwoPhaseCommit.sol>TwoPhaseCommit.sol 合约源码</a></li><li><a href=https://www.pseudoyu.com/zh/2022/05/25/learn_solidity_from_scratch_basic/>Solidity 智能合约开发 - 基础</a></li><li><a href=https://docs.soliditylang.org/en/v0.8.15/>Solidity 官方文档</a></li></ol></blockquote></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#合约逻辑>合约逻辑</a><ul><li><a href=#合约结构>合约结构</a></li><li><a href=#两阶段提交核心逻辑>两阶段提交核心逻辑</a></li><li><a href=#错误处理逻辑>错误处理逻辑</a></li><li><a href=#通用参数校验>通用参数校验</a></li><li><a href=#事件机制>事件机制</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></aside></main></body></html>
