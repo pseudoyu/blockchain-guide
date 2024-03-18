@@ -6,7 +6,7 @@
 
 [📖 在线阅读地址](https://www.pseudoyu.com/blockchain-guide/)
 
-[#️⃣ 阅读数据分析](https://data.pseudoyu.com/share/KRyiGeuT/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97)
+[#️⃣ 阅读数据分析](https://stats-guide.pseudoyu.com?access-token=2m1u5i2k413q0733h2a3332w3m1t6r634g1m6n)
 
 ## 参与
 
