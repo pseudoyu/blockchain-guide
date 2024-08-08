@@ -39,6 +39,13 @@ The articles in 《区块链入门指南》 are licensed under a [Creative Commo
             <br />
             <sub><b>Yu Zhang</b></sub>
         </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/deemoxuchao">
+            <img src="https://avatars.githubusercontent.com/u/13073679?v=4" width="100;" alt="deemoxuchao"/>
+            <br />
+            <sub><b>Hsurich</b></sub>
+        </a>
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
