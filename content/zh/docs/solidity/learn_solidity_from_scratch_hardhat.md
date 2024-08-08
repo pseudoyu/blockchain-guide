@@ -476,6 +476,11 @@ task("block-number", "Prints the current block number").setAction(
 
 Task 通过 `task()` 方法来创建，并通过 `setAction()` 方法来设置任务的执行函数。其中，`taskArgs` 是一个包含所有参数的对象，`hre` 是一个 `HardhatRuntimeEnvironment` 对象，可以用来获取其他的资源。
 
+在 `hardhat.config.js` 中导入task文件：
+```javascript
+require("./tasks/block-number")
+```
+
 #### 运行 Task
 
 定义完成后，在项目命令的 `AVAILABLE TASKS` 中就有了我们刚定义好的 `block-number` 任务，可以通过 `yarn hardhat block-number` 命令来运行任务，同样的，我们可以指定特定网络运行：
