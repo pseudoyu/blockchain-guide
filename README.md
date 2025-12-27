@@ -41,8 +41,8 @@ The articles in 《区块链入门指南》 are licensed under a [Creative Commo
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/deemoxuchao">
-            <img src="https://avatars.githubusercontent.com/u/13073679?v=4" width="100;" alt="deemoxuchao"/>
+        <a href="https://github.com/HsuQ">
+            <img src="https://avatars.githubusercontent.com/u/13073679?v=4" width="100;" alt="HsuQ"/>
             <br />
             <sub><b>Hsurich</b></sub>
         </a>
