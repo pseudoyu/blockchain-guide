@@ -15,7 +15,7 @@
     <input type="checkbox" id="languages" class="toggle" />
     <label for="languages" class="flex justify-between">
       <a role="button" class="flex align-center">
-        <img src="{{ "svg/translate.svg" | relURL }}" class="book-icon" alt="Languages" />
+        <img src="{{ partial "docs/icon" "translate" }}" class="book-icon" alt="{{ partial "docs/text/i18n" "Languages" }}" />
         {{ $.Site.Language.LanguageName }}
       </a>
     </label>
